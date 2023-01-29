@@ -104,13 +104,13 @@ return [
         /*
          * Select default language
          */
-        'default' => 'en',
+        'default' => 'es',
 
         /*
          * Select languages that are supported.
          */
         'locales' => [
-            'en',
+            'es',
             //'pt',
         ],
     ],
@@ -144,7 +144,7 @@ return [
         ],
 
         'widgets' => [
-
+            'TCG\\Voyager\\Widgets\\UserDimmer'
         ],
 
     ],
@@ -181,7 +181,7 @@ return [
     |
     */
 
-    'primary_color' => '#22A7F0',
+    'primary_color' => '#0000bb',
 
     'show_dev_tips' => true, // Show development tip "How To Use:" in Menu and Settings
 

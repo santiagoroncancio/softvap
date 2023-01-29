@@ -93,7 +93,7 @@
                             if (isset($dataTypeContent->locale)) {
                                 $selected_locale = $dataTypeContent->locale;
                             } else {
-                                $selected_locale = config('app.locale', 'en');
+                                $selected_locale = config('app.locale', 'es');
                             }
 
                             @endphp
