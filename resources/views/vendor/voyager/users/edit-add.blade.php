@@ -41,7 +41,7 @@
                         <div class="panel-body">
                         <div class="form-group">
                                 <label for="identification">Identificación</label>
-                                <input type="text" class="form-control" id="identification" name="identification" placeholder="{{ __('voyager::generic.identification') }}"
+                                <input type="text" class="form-control" id="identification" name="identification" placeholder="Identificación"
                                        value="{{ old('identification', $dataTypeContent->identification ?? '') }}">
                             </div>
                             <div class="form-group">
@@ -51,7 +51,7 @@
                             </div>
                             <div class="form-group">
                                 <label for="surname">Apellido</label>
-                                <input type="text" class="form-control" id="surname" name="surname" placeholder="{{ __('voyager::generic.surname') }}"
+                                <input type="text" class="form-control" id="surname" name="surname" placeholder="Apellido"
                                        value="{{ old('surname', $dataTypeContent->surname ?? '') }}">
                             </div>
                             <div class="form-group">
@@ -71,41 +71,15 @@
 
                             @can('editRoles', $dataTypeContent)
                                 <div class="form-group">
-                                    <label for="default_role">{{ __('voyager::profile.role_default') }}</label>
+                                    <label for="additional_roles">{{ __('voyager::profile.roles') }}</label>
                                     @php
                                         $dataTypeRows = $dataType->{(isset($dataTypeContent->id) ? 'editRows' : 'addRows' )};
-
-                                        $row     = $dataTypeRows->where('field', 'user_belongsto_role_relationship')->first();
-                                        $options = $row->details;
-                                    @endphp
-                                    @include('voyager::formfields.relationship')
-                                </div>
-                                <div class="form-group">
-                                    <label for="additional_roles">{{ __('voyager::profile.roles_additional') }}</label>
-                                    @php
                                         $row     = $dataTypeRows->where('field', 'user_belongstomany_role_relationship')->first();
                                         $options = $row->details;
                                     @endphp
                                     @include('voyager::formfields.relationship')
                                 </div>
                             @endcan
-                            @php
-                            if (isset($dataTypeContent->locale)) {
-                                $selected_locale = $dataTypeContent->locale;
-                            } else {
-                                $selected_locale = config('app.locale', 'es');
-                            }
-
-                            @endphp
-                            <!-- <div class="form-group">
-                                <label for="locale">{{ __('voyager::generic.locale') }}</label>
-                                <select class="form-control select2" id="locale" name="locale">
-                                    @foreach (Voyager::getLocales() as $locale)
-                                    <option value="{{ $locale }}"
-                                    {{ ($locale == $selected_locale ? 'selected' : '') }}>{{ $locale }}</option>
-                                    @endforeach
-                                </select>
-                            </div> -->
                         </div>
                     </div>
                 </div>
