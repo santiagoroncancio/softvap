@@ -39,6 +39,17 @@
                         @endif
 
                         <div class="panel-body">
+
+                        <div class="form-group">
+                            <label for="tipo_documento">Tipo Documento</label>
+                            @php
+                                $dataTypeRows = $dataType->{(isset($dataTypeContent->id) ? 'editRows' : 'addRows' )};
+                                $row     = $dataTypeRows->where('field', 'user_belongsto_tipo_documento_relationship')->first();
+                                $options = $row->details;
+                            @endphp
+                            @include('voyager::formfields.relationship')
+                        </div>
+
                         <div class="form-group">
                                 <label for="identification">Identificación</label>
                                 <input type="text" class="form-control" id="identification" name="identification" placeholder="Identificación"
