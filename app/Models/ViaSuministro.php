@@ -6,10 +6,10 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 
-class TipoDocumento extends Model
+class ViaSuministro extends Model
 {
     use HasFactory;
     
-    protected $table = "tipo_documentos";
+    protected $table = "via_suministros";
     protected $primaryKey = 'id'; // or null
 }
