@@ -5,10 +5,10 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Medicamento extends Model
+class MensajeSimulacion extends Model
 {
     use HasFactory;
     
-    protected $table = "medicamentos";
+    protected $table = "mensajes_simulaciones";
     protected $primaryKey = 'id'; // or null
 }
