@@ -188,11 +188,13 @@ return [
     // Here you can specify additional assets you would like to be included in the master.blade
     'additional_css' => [
         'css/custom.css',
-        'fa/css/font-awesome.min.css'
+        'fa/css/font-awesome.min.css',
+        'bootstrap/css/bootstrap.min.css'
     ],
 
     'additional_js' => [
         //'js/custom.js',
+        'bootstrap/js/bootstrap.min.js'
     ],
 
     'googlemaps' => [
