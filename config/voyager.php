@@ -189,12 +189,13 @@ return [
     'additional_css' => [
         'css/custom.css',
         'fa/css/font-awesome.min.css',
-        'bootstrap/css/bootstrap.min.css'
+        'css/bootstrap.css',
+        // 'bootstrap/css/bootstrap.min.css'
     ],
 
     'additional_js' => [
         //'js/custom.js',
-        'bootstrap/js/bootstrap.min.js'
+        // 'bootstrap/js/bootstrap.min.js'
     ],
 
     'googlemaps' => [

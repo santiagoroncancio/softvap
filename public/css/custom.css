@@ -5,3 +5,14 @@
 .form-control, .table {
     color: #0f0f0f;
 }
+
+.bs-space {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+/* .space-button {
+    display: flex;
+    justify-content: space-around;
+    align-items: end;
+} */
