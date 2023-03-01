@@ -14,11 +14,11 @@ use TCG\Voyager\Facades\Voyager;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+// Route::get('/', function () {
+//     return view('welcome');
+// });
 
 
-Route::group(['prefix' => 'admin'], function () {
+Route::group(['prefix' => '/'], function () {
     Voyager::routes();
 });
