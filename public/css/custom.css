@@ -11,8 +11,11 @@
     flex-wrap: wrap;
 }
 
-/* .space-button {
-    display: flex;
-    justify-content: space-around;
-    align-items: end;
-} */
+.nav-bt {
+    background-color: white;
+}
+
+.ck-box {
+    position: absolute;
+    margin-left: 10px;
+}
