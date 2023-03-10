@@ -181,7 +181,7 @@ return [
     |
     */
 
-    'primary_color' => '#0000bb',
+    'primary_color' => '#0075f2', //Blue crayola
 
     'show_dev_tips' => true, // Show development tip "How To Use:" in Menu and Settings
 
