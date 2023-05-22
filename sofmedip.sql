@@ -2,10 +2,10 @@
 -- version 5.2.0
 -- https://www.phpmyadmin.net/
 --
--- Servidor: localhost
--- Tiempo de generación: 17-02-2023 a las 15:40:21
+-- Servidor: 127.0.0.1
+-- Tiempo de generación: 22-05-2023 a las 18:55:38
 -- Versión del servidor: 10.4.27-MariaDB
--- Versión de PHP: 8.1.12
+-- Versión de PHP: 8.2.0
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -24,39 +24,68 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `calificaciones`
+--
+
+CREATE TABLE `calificaciones` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `porcentaje` int(11) DEFAULT NULL,
+  `tiempo` int(11) DEFAULT NULL,
+  `nota` int(11) DEFAULT NULL,
+  `pregunta_id` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `categorias`
+--
+
+CREATE TABLE `categorias` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `nombre` varchar(255) NOT NULL,
+  `descripcion` text DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Volcado de datos para la tabla `categorias`
+--
+
+INSERT INTO `categorias` (`id`, `nombre`, `descripcion`) VALUES
+(1, 'Pediatría', NULL);
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `componentes`
 --
 
 CREATE TABLE `componentes` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `nombre` varchar(255) NOT NULL,
-  `descripcion` text DEFAULT NULL,
-  `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
+  `descripcion` text DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Volcado de datos para la tabla `componentes`
 --
 
-INSERT INTO `componentes` (`id`, `nombre`, `descripcion`, `created_at`, `updated_at`) VALUES
-(1, 'Sodio', 'El sodio es un elemento químico de símbolo Na', '2023-01-31 22:13:33', '2023-01-31 22:13:33'),
-(2, 'Cloro', 'El cloro es un elemento químico', '2023-01-31 22:15:14', '2023-01-31 22:15:14'),
-(3, 'Hierro', 'El hierro es un elemento químico', '2023-01-31 22:16:04', '2023-01-31 22:16:04');
+INSERT INTO `componentes` (`id`, `nombre`, `descripcion`) VALUES
+(1, 'Sodio', 'El sodio es un elemento químico de símbolo Na'),
+(2, 'Cloro', 'El cloro es un elemento químico'),
+(3, 'Hierro', 'El hierro es un elemento químico');
 
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `Componentes_medicamentos`
+-- Estructura de tabla para la tabla `componentes_medicamentos`
 --
 
-CREATE TABLE `Componentes_medicamentos` (
+CREATE TABLE `componentes_medicamentos` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `cantidad` int(11) DEFAULT NULL,
   `unidad_medida_id` bigint(20) NOT NULL,
-  `componente_id` bigint(20) NOT NULL,
-  `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
+  `componente_id` bigint(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
@@ -150,8 +179,6 @@ INSERT INTO `data_rows` (`id`, `data_type_id`, `field`, `type`, `display_name`, 
 (125, 23, 'presentacion', 'text', 'Presentación', 0, 1, 1, 1, 1, 1, '{}', 2),
 (126, 23, 'nombre', 'text', 'Nombre', 1, 1, 1, 1, 1, 1, '{\"validation\":{\"rule\":\"required\",\"messages\":{\"required\":\"El campo nombre es requerido\"}}}', 3),
 (127, 23, 'fabricante', 'text', 'Fabricante', 0, 1, 1, 1, 1, 1, '{}', 4),
-(128, 23, 'created_at', 'timestamp', 'Creado', 0, 0, 1, 0, 0, 0, '{}', 5),
-(129, 23, 'updated_at', 'timestamp', 'Actualizado', 0, 0, 1, 0, 0, 0, '{}', 6),
 (130, 24, 'id', 'text', 'Id', 1, 0, 0, 0, 0, 0, '{}', 1),
 (131, 24, 'nombre', 'text', 'Nombre', 1, 1, 1, 1, 1, 1, '{\"validation\":{\"rule\":\"required|unique:via_suministros\",\"messages\":{\"required\":\"El campo Nombre es requerido\",\"unique\":\"El campo Nombre debe ser unico\"}}}', 2),
 (132, 24, 'descripcion', 'text_area', 'Descripción', 0, 1, 1, 1, 1, 1, '{}', 3),
@@ -167,7 +194,7 @@ INSERT INTO `data_rows` (`id`, `data_type_id`, `field`, `type`, `display_name`, 
 (142, 8, 'updated_at', 'timestamp', 'Actualizado', 0, 0, 1, 0, 0, 0, '{}', 5),
 (143, 22, 'id', 'text', 'Id', 1, 0, 0, 0, 0, 0, '{}', 1),
 (144, 22, 'nombre', 'text', 'Nombre', 1, 1, 1, 1, 1, 1, '{\"validation\":{\"rule\":\"required|unique:unidades_medidas\",\"messages\":{\"required\":\"El campo Nombre es requerido\",\"unique\":\"El campo Nombre debe ser unico\"}}}', 2),
-(145, 22, 'descripcion', 'text_area', 'Descripcion', 0, 1, 1, 1, 1, 1, '{}', 3),
+(145, 22, 'descripcion', 'text_area', 'Descripción', 0, 1, 1, 1, 1, 1, '{}', 3),
 (146, 22, 'created_at', 'timestamp', 'Creado', 0, 0, 1, 0, 0, 0, '{}', 4),
 (147, 22, 'updated_at', 'timestamp', 'Actualizado', 0, 0, 1, 0, 0, 0, '{}', 5),
 (148, 27, 'id', 'text', 'Id', 1, 0, 0, 0, 0, 0, '{}', 1),
@@ -202,7 +229,6 @@ INSERT INTO `data_rows` (`id`, `data_type_id`, `field`, `type`, `display_name`, 
 (178, 32, 'updated_at', 'timestamp', 'Updated At', 0, 0, 0, 0, 0, 0, '{}', 6),
 (179, 32, 'componentes_medicamento_belongsto_unidades_medida_relationship', 'relationship', 'unidades_medidas', 1, 1, 1, 1, 1, 1, '{\"model\":\"\\\\App\\\\Models\\\\UnidadMedida\",\"table\":\"unidades_medidas\",\"type\":\"belongsTo\",\"column\":\"unidad_medida_id\",\"key\":\"id\",\"label\":\"nombre\",\"pivot_table\":\"Componentes_medicamentos\",\"pivot\":\"0\",\"taggable\":\"0\"}', 7),
 (180, 32, 'componentes_medicamento_belongsto_componente_relationship', 'relationship', 'componentes', 1, 1, 1, 1, 1, 1, '{\"model\":\"\\\\App\\\\Models\\\\Componente\",\"table\":\"componentes\",\"type\":\"belongsTo\",\"column\":\"componente_id\",\"key\":\"id\",\"label\":\"nombre\",\"pivot_table\":\"Componentes_medicamentos\",\"pivot\":\"0\",\"taggable\":\"0\"}', 8),
-(181, 23, 'medicamento_belongstomany_componentes_medicamento_relationship', 'relationship', 'Componentes_medicamentos', 0, 1, 1, 1, 1, 1, '{\"model\":\"\\\\App\\\\Models\\\\ComponenteMedicamento\",\"table\":\"Componentes_medicamentos\",\"type\":\"belongsToMany\",\"column\":\"id\",\"key\":\"id\",\"label\":\"id\",\"pivot_table\":\"conect_meds_comps\",\"pivot\":\"1\",\"taggable\":\"0\"}', 7),
 (182, 33, 'id', 'text', 'Id', 1, 0, 0, 0, 0, 0, '{}', 1),
 (183, 33, 'pregunta', 'text', 'Pregunta', 1, 1, 1, 1, 1, 1, '{\"validation\":{\"rule\":\"required|unique:preguntas_simulaciones\",\"messages\":{\"required\":\"El campo Pregunta es requerido\",\"unique\":\"El campo Pregunta debe ser unico\"}}}', 2),
 (184, 33, 'respuesta_medida', 'text', 'Respuesta Medida', 1, 1, 1, 1, 1, 1, '{\"validation\":{\"rule\":\"required\",\"messages\":{\"required\":\"El campo Respuesta es requerido\"}}}', 3),
@@ -212,23 +238,59 @@ INSERT INTO `data_rows` (`id`, `data_type_id`, `field`, `type`, `display_name`, 
 (188, 33, 'escenario_id', 'text', 'Escenario Id', 1, 1, 1, 1, 1, 1, '{\"validation\":{\"rule\":\"required\",\"messages\":{\"required\":\"El campo Escenario es requerido\"}}}', 9),
 (189, 34, 'id', 'text', 'Id', 1, 0, 0, 0, 0, 0, '{}', 1),
 (190, 34, 'nombre', 'text', 'Nombre', 1, 1, 1, 1, 1, 1, '{\"validation\":{\"rule\":\"required\",\"messages\":{\"required\":\"El campo nombre es requerido\"}}}', 2),
-(191, 34, 'descripcion', 'text_area', 'Descripcion', 0, 1, 1, 1, 1, 1, '{}', 3),
+(191, 34, 'descripcion', 'text_area', 'Descripción', 0, 1, 1, 1, 1, 1, '{}', 3),
 (192, 34, 'imagen', 'image', 'Imagen', 1, 1, 1, 1, 1, 1, '{\"validation\":{\"rule\":\"required|image|mimes:jpg,jpeg,png\",\"messages\":{\"required\":\"El campo Nombre es requerido\",\"mimes\":\"La imagen tiene formato incorrecto\"}}}', 4),
 (193, 34, 'created_at', 'timestamp', 'Creado', 0, 0, 1, 0, 0, 0, '{}', 5),
 (194, 34, 'updated_at', 'timestamp', 'Actualizado', 0, 0, 1, 0, 0, 0, '{}', 6),
 (195, 35, 'id', 'text', 'Id', 1, 0, 0, 0, 0, 0, '{}', 1),
-(196, 35, 'mensaje', 'text', 'Mensaje', 1, 1, 1, 1, 1, 1, '{\"validation\":{\"rule\":\"required\",\"messages\":{\"required\":\"El campo Mensaje es requerido\"}}}', 3),
-(197, 35, 'descripcion', 'text_area', 'Descripción', 0, 1, 1, 1, 1, 1, '{}', 4),
-(198, 35, 'posx', 'number', 'Posición Horizontal', 0, 1, 1, 1, 1, 1, '{\"validation\":{\"rule\":\"required|numeric\",\"messages\":{\"required\":\"El campo Posici\\u00f3n Horizontal es requerido\",\"numeric\":\"El campo Posici\\u00f3n Horizontal es numerico\"}}}', 5),
-(199, 35, 'posy', 'number', 'Posición Vertical', 0, 1, 1, 1, 1, 1, '{\"validation\":{\"rule\":\"required|numeric\",\"messages\":{\"required\":\"El campo Posici\\u00f3n Vertical es requerido\",\"numeric\":\"El campo Posici\\u00f3n Vertical es numerico\"}}}', 6),
-(200, 35, 'created_at', 'timestamp', 'Creado', 0, 0, 1, 0, 0, 0, '{}', 7),
-(201, 35, 'updated_at', 'timestamp', 'Actualizado', 0, 0, 1, 0, 0, 0, '{}', 8),
-(202, 35, 'escenario_id', 'text', 'Escenario Id', 1, 1, 1, 1, 1, 1, '{\"validation\":{\"rule\":\"required\",\"messages\":{\"required\":\"El campo Escenario es requerido\"}}}', 9),
-(203, 33, 'preguntas_simulacione_belongsto_escenarios_simulacione_relationship', 'relationship', 'escenarios_simulaciones', 1, 1, 1, 1, 1, 1, '{\"model\":\"\\\\App\\\\Models\\\\EscenarioSimulacion\",\"table\":\"escenarios_simulaciones\",\"type\":\"belongsTo\",\"column\":\"escenario_id\",\"key\":\"id\",\"label\":\"nombre\",\"pivot_table\":\"Componentes_medicamentos\",\"pivot\":\"0\",\"taggable\":\"0\"}', 8),
-(204, 35, 'mensajes_simulacione_belongsto_escenarios_simulacione_relationship', 'relationship', 'Escenario de Simulación', 1, 1, 1, 1, 1, 1, '{\"model\":\"\\\\App\\\\Models\\\\EscenarioSimulacion\",\"table\":\"escenarios_simulaciones\",\"type\":\"belongsTo\",\"column\":\"escenario_id\",\"key\":\"id\",\"label\":\"nombre\",\"pivot_table\":\"Componentes_medicamentos\",\"pivot\":\"0\",\"taggable\":\"0\"}', 2),
-(205, 34, 'escenarios_simulacione_hasmany_mensajes_simulacione_relationship', 'relationship', 'mensajes_simulaciones', 0, 0, 1, 0, 0, 0, '{\"model\":\"\\\\App\\\\Models\\\\MensajeSimulacion\",\"table\":\"mensajes_simulaciones\",\"type\":\"hasMany\",\"column\":\"escenario_id\",\"key\":\"id\",\"label\":\"mensaje\",\"pivot_table\":\"Componentes_medicamentos\",\"pivot\":\"0\",\"taggable\":\"0\"}', 7),
-(206, 34, 'escenarios_simulacione_hasmany_preguntas_simulacione_relationship', 'relationship', 'preguntas_simulaciones', 0, 0, 1, 0, 0, 0, '{\"model\":\"\\\\App\\\\Models\\\\PreguntaSimulacion\",\"table\":\"preguntas_simulaciones\",\"type\":\"hasMany\",\"column\":\"escenario_id\",\"key\":\"id\",\"label\":\"pregunta\",\"pivot_table\":\"Componentes_medicamentos\",\"pivot\":\"0\",\"taggable\":\"0\"}', 8),
-(207, 33, 'preguntas_simulacione_belongsto_unidades_medida_relationship', 'relationship', 'unidades_medidas', 0, 1, 1, 1, 1, 1, '{\"model\":\"\\\\App\\\\Models\\\\UnidadMedida\",\"table\":\"unidades_medidas\",\"type\":\"belongsTo\",\"column\":\"respuesta_unidad\",\"key\":\"id\",\"label\":\"nombre\",\"pivot_table\":\"Componentes_medicamentos\",\"pivot\":\"0\",\"taggable\":\"0\"}', 4);
+(196, 35, 'mensaje', 'text', 'Mensaje', 1, 1, 1, 1, 1, 1, '{\"validation\":{\"rule\":\"required\",\"messages\":{\"required\":\"El campo Mensaje es requerido\"}}}', 4),
+(197, 35, 'descripcion', 'text_area', 'Descripción', 0, 1, 1, 1, 1, 1, '{}', 7),
+(200, 35, 'created_at', 'timestamp', 'Creado', 0, 0, 1, 0, 0, 0, '{}', 8),
+(201, 35, 'updated_at', 'timestamp', 'Actualizado', 0, 0, 1, 0, 0, 0, '{}', 9),
+(202, 35, 'escenario_id', 'text', 'Escenario Id', 1, 1, 1, 1, 1, 1, '{\"validation\":{\"rule\":\"required\",\"messages\":{\"required\":\"El campo Escenario es requerido\"}}}', 3),
+(203, 33, 'preguntas_simulacione_belongsto_escenarios_simulacione_relationship', 'relationship', 'Escenario de Simulación', 0, 1, 1, 1, 1, 1, '{\"model\":\"\\\\App\\\\Models\\\\EscenarioSimulacion\",\"table\":\"escenarios_simulaciones\",\"type\":\"belongsTo\",\"column\":\"escenario_id\",\"key\":\"id\",\"label\":\"nombre\",\"pivot_table\":\"categorias\",\"pivot\":\"0\",\"taggable\":\"0\"}', 8),
+(204, 35, 'mensajes_simulacione_belongsto_escenarios_simulacione_relationship', 'relationship', 'Escenario de Simulación', 1, 1, 1, 1, 1, 1, '{\"model\":\"\\\\App\\\\Models\\\\EscenarioSimulacion\",\"table\":\"escenarios_simulaciones\",\"type\":\"belongsTo\",\"column\":\"escenario_id\",\"key\":\"id\",\"label\":\"nombre\",\"pivot_table\":\"componentes\",\"pivot\":\"0\",\"taggable\":\"0\"}', 2),
+(205, 34, 'escenarios_simulacione_hasmany_mensajes_simulacione_relationship', 'relationship', 'mensajes_simulaciones', 0, 0, 1, 0, 0, 0, '{\"model\":\"\\\\App\\\\Models\\\\MensajeSimulacion\",\"table\":\"mensajes_simulaciones\",\"type\":\"hasMany\",\"column\":\"escenario_id\",\"key\":\"id\",\"label\":\"mensaje\",\"pivot_table\":\"componentes\",\"pivot\":\"0\",\"taggable\":\"0\"}', 7),
+(206, 34, 'escenarios_simulacione_hasmany_preguntas_simulacione_relationship', 'relationship', 'preguntas_simulaciones', 0, 0, 1, 0, 0, 0, '{\"model\":\"\\\\App\\\\Models\\\\PreguntaSimulacion\",\"table\":\"preguntas_simulaciones\",\"type\":\"hasMany\",\"column\":\"escenario_id\",\"key\":\"id\",\"label\":\"pregunta\",\"pivot_table\":\"componentes\",\"pivot\":\"0\",\"taggable\":\"0\"}', 8),
+(207, 33, 'preguntas_simulacione_belongsto_unidades_medida_relationship', 'relationship', 'Unidad de Medida', 0, 1, 1, 1, 1, 1, '{\"model\":\"\\\\App\\\\Models\\\\UnidadMedida\",\"table\":\"unidades_medidas\",\"type\":\"belongsTo\",\"column\":\"respuesta_unidad\",\"key\":\"id\",\"label\":\"nombre\",\"pivot_table\":\"categorias\",\"pivot\":\"0\",\"taggable\":\"0\"}', 4),
+(208, 36, 'id', 'text', 'Id', 1, 0, 0, 0, 0, 0, '{}', 1),
+(209, 36, 'nombre', 'text', 'Nombre', 1, 1, 1, 1, 1, 1, '{\"validation\":{\"rule\":\"required|unique:niveles\",\"messages\":{\"required\":\"El campo Nombre es requerido\",\"unique\":\"El campo Nombre debe ser unico\"}}}', 2),
+(210, 36, 'descripcion', 'text_area', 'Descripcion', 0, 1, 1, 1, 1, 1, '{}', 3),
+(211, 37, 'id', 'text', 'Id', 1, 0, 0, 0, 0, 0, '{}', 1),
+(212, 37, 'nombre', 'text', 'Nombre', 1, 1, 1, 1, 1, 1, '{\"validation\":{\"rule\":\"required|unique:categorias\",\"messages\":{\"required\":\"El campo Nombre es requerido\",\"unique\":\"El campo Nombre debe ser unico\"}}}', 2),
+(213, 37, 'descripcion', 'text_area', 'Descripción', 0, 1, 1, 1, 1, 1, '{}', 3),
+(214, 33, 'preguntas_simulacione_hasone_nivele_relationship', 'relationship', 'Nivel', 1, 1, 1, 1, 1, 1, '{\"model\":\"App\\\\Models\\\\Nivel\",\"table\":\"niveles\",\"type\":\"belongsTo\",\"column\":\"nivel_id\",\"key\":\"id\",\"label\":\"nombre\",\"pivot_table\":\"categorias\",\"pivot\":\"0\",\"taggable\":\"0\"}', 10),
+(215, 33, 'preguntas_simulacione_hasone_categoria_relationship', 'relationship', 'Categoria', 1, 1, 1, 1, 1, 1, '{\"model\":\"App\\\\Models\\\\Categoria\",\"table\":\"categorias\",\"type\":\"belongsTo\",\"column\":\"categoria_id\",\"key\":\"id\",\"label\":\"nombre\",\"pivot_table\":\"categorias\",\"pivot\":\"0\",\"taggable\":\"0\"}', 12),
+(216, 33, 'nivel_id', 'text', 'Nivel Id', 1, 1, 1, 1, 1, 1, '{\"validation\":{\"rule\":\"required\",\"messages\":{\"required\":\"El campo Nivel es requerido\"}}}', 11),
+(217, 33, 'categoria_id', 'text', 'Categoria Id', 1, 1, 1, 1, 1, 1, '{\"validation\":{\"rule\":\"required\",\"messages\":{\"required\":\"El campo Categoria es requerido\"}}}', 13),
+(218, 23, 'medicamento_hasmany_componentes_medicamento_relationship', 'relationship', 'componentes_medicamentos', 0, 1, 1, 1, 1, 1, '{\"model\":\"\\\\App\\\\Models\\\\ComponenteMedicamento\",\"table\":\"componentes_medicamentos\",\"type\":\"hasMany\",\"column\":\"componente_id\",\"key\":\"id\",\"label\":\"id\",\"pivot_table\":\"categorias\",\"pivot\":\"0\",\"taggable\":\"0\"}', 7),
+(219, 39, 'id', 'text', 'Id', 1, 0, 0, 0, 0, 0, '{}', 1),
+(220, 39, 'porcentaje', 'number', 'Porcentaje', 0, 1, 1, 1, 1, 1, '{\"validation\":{\"rule\":\"required|numeric|min:0|max:100\",\"messages\":{\"required\":\"El campo Porcentaje es requerido\",\"numeric\":\"El campo Porcentaje debe ser un numero\",\"min\":\"El campo Porcentaje es minimo :min\",\"max\":\"El campo Porcentaje es maximo :max\"}}}', 2),
+(221, 39, 'tiempo', 'number', 'Tiempo (s)', 0, 1, 1, 1, 1, 1, '{\"validation\":{\"rule\":\"required|numeric|min:0\",\"messages\":{\"required\":\"El campo Tiempo es requerido\",\"numeric\":\"El campo Tiempo debe ser un numero\",\"min\":\"El campo tiempo es minimo :min\"}}}', 3),
+(222, 39, 'nota', 'number', 'Nota', 0, 1, 1, 1, 1, 1, '{\"validation\":{\"rule\":\"required|numeric|min:0|max:100\",\"messages\":{\"required\":\"El campo Nota es requerido\",\"numeric\":\"El campo Nota debe ser un numero\",\"min\":\"El campo Nota es minimo :min\",\"max\":\"El campo Nota es maximo :max\"}}}', 4),
+(223, 35, 'posicion_horizontal', 'text', 'Posicion Horizontal', 1, 1, 1, 1, 1, 1, '{\"validation\":{\"rule\":\"required|numeric|min:0|max:100\",\"messages\":{\"required\":\"El campo Posici\\u00f3n Horizontal es requerido\",\"numeric\":\"El campo Posici\\u00f3n Horizontal debe ser un numero\",\"min\":\"El campo Posici\\u00f3n Horizontal es minimo :min\",\"max\":\"El campo Posici\\u00f3n Horizontal es maximo :max\"}}}', 5),
+(224, 35, 'posicion_vertical', 'text', 'Posicion Vertical', 1, 1, 1, 1, 1, 1, '{\"validation\":{\"rule\":\"required|numeric|min:0|max:100\",\"messages\":{\"required\":\"El campo Posici\\u00f3n Vertical es requerido\",\"numeric\":\"El campo Posici\\u00f3n Vertical debe ser un numero\",\"min\":\"El campo Posici\\u00f3n Vertical es minimo :min\",\"max\":\"El campo Posici\\u00f3n Vertical es maximo :max\"}}}', 6),
+(225, 39, 'calificacione_belongsto_calificacione_relationship', 'relationship', 'calificaciones', 0, 1, 1, 1, 1, 1, '{\"model\":\"\\\\App\\\\Models\\\\PreguntaSimulacion\",\"table\":\"calificaciones\",\"type\":\"belongsTo\",\"column\":\"pregunta_id\",\"key\":\"id\",\"label\":\"nota\",\"pivot_table\":\"calificaciones\",\"pivot\":\"0\",\"taggable\":\"0\"}', 5),
+(226, 39, 'pregunta_id', 'text', 'Pregunta Id', 0, 1, 1, 1, 1, 1, '{}', 5),
+(227, 33, 'preguntas_simulacione_hasmany_calificacione_relationship', 'relationship', 'calificaciones', 0, 1, 1, 1, 1, 1, '{\"model\":\"\\\\App\\\\Models\\\\Calificacion\",\"table\":\"calificaciones\",\"type\":\"hasMany\",\"column\":\"pregunta_id\",\"key\":\"id\",\"label\":\"nota\",\"pivot_table\":\"calificaciones\",\"pivot\":\"0\",\"taggable\":\"0\"}', 14),
+(228, 41, 'id', 'text', 'Id', 1, 0, 0, 0, 0, 0, '{}', 1),
+(229, 41, 'nombre', 'text', 'Nombre', 0, 1, 1, 1, 1, 1, '{\"validation\":{\"rule\":\"required|unique:pruebas\",\"messages\":{\"required\":\"El campo Nombre es requerido\",\"unique\":\"El campo Nombre debe ser unico\"}}}', 2),
+(230, 41, 'descripcion', 'text_area', 'Descripción', 0, 1, 1, 1, 1, 1, '{}', 3),
+(231, 45, 'id', 'text', 'Id', 1, 0, 0, 0, 0, 0, '{}', 1),
+(232, 45, 'respuesta_medida', 'text', 'Respuesta Medida', 0, 1, 1, 1, 1, 1, '{}', 2),
+(233, 45, 'respuesta_unidad', 'text', 'Respuesta Unidad', 0, 1, 1, 1, 1, 1, '{}', 3),
+(234, 45, 'nota', 'number', 'Nota', 0, 1, 1, 1, 1, 1, '{\"validation\":{\"rule\":\"required|numeric|min:0|max:100\",\"messages\":{\"required\":\"El campo Nota es requerido\",\"numeric\":\"El campo Nota debe ser un numero\",\"min\":\"El campo Nota es minimo :min\",\"max\":\"El campo Nota es maximo :max\"}}}', 4),
+(235, 45, 'pregunta_id', 'text', 'Pregunta Id', 0, 1, 1, 1, 1, 1, '{}', 6),
+(236, 45, 'estudiante_id', 'text', 'Estudiante Id', 0, 1, 1, 1, 1, 1, '{}', 8),
+(237, 45, 'profesor_id', 'text', 'Profesor Id', 0, 1, 1, 1, 1, 1, '{}', 10),
+(238, 45, 'prueba_id', 'text', 'Prueba Id', 0, 1, 1, 1, 1, 1, '{}', 12),
+(239, 45, 'created_at', 'timestamp', 'Creado', 0, 1, 1, 1, 0, 1, '{}', 13),
+(240, 45, 'updated_at', 'timestamp', 'Actualizado', 0, 0, 0, 0, 0, 0, '{}', 14),
+(241, 45, 'simulacione_belongsto_preguntas_simulacione_relationship', 'relationship', 'Preguntas', 0, 1, 1, 1, 1, 1, '{\"model\":\"\\\\App\\\\Models\\\\PreguntaSimulacion\",\"table\":\"preguntas_simulaciones\",\"type\":\"belongsTo\",\"column\":\"pregunta_id\",\"key\":\"id\",\"label\":\"pregunta\",\"pivot_table\":\"calificaciones\",\"pivot\":\"0\",\"taggable\":\"0\"}', 5),
+(242, 45, 'simulacione_belongsto_estudiante_relationship', 'relationship', 'Estudiantes', 0, 1, 1, 1, 1, 1, '{\"model\":\"\\\\App\\\\Models\\\\Estudiante\",\"table\":\"estudiantes\",\"type\":\"belongsTo\",\"column\":\"estudiante_id\",\"key\":\"id\",\"label\":\"codigo_estudiante\",\"pivot_table\":\"calificaciones\",\"pivot\":\"0\",\"taggable\":\"0\"}', 7),
+(243, 45, 'simulacione_belongsto_profesor_relationship', 'relationship', 'Profesor', 0, 1, 1, 1, 1, 1, '{\"model\":\"\\\\App\\\\Models\\\\Profesor\",\"table\":\"profesor\",\"type\":\"belongsTo\",\"column\":\"profesor_id\",\"key\":\"id\",\"label\":\"id\",\"pivot_table\":\"calificaciones\",\"pivot\":\"0\",\"taggable\":\"0\"}', 9),
+(244, 45, 'simulacione_belongsto_prueba_relationship', 'relationship', 'Pruebas', 0, 1, 1, 1, 1, 1, '{\"model\":\"\\\\App\\\\Models\\\\Prueba\",\"table\":\"pruebas\",\"type\":\"belongsTo\",\"column\":\"prueba_id\",\"key\":\"id\",\"label\":\"nombre\",\"pivot_table\":\"calificaciones\",\"pivot\":\"0\",\"taggable\":\"0\"}', 11),
+(245, 33, 'preguntas_simulacione_hasmany_simulacione_relationship', 'relationship', 'simulaciones', 0, 1, 1, 1, 1, 1, '{\"model\":\"\\\\App\\\\Models\\\\Simulacion\",\"table\":\"simulaciones\",\"type\":\"hasMany\",\"column\":\"id\",\"key\":\"id\",\"label\":\"nota\",\"pivot_table\":\"calificaciones\",\"pivot\":\"0\",\"taggable\":\"0\"}', 15);
 
 -- --------------------------------------------------------
 
@@ -268,16 +330,22 @@ INSERT INTO `data_types` (`id`, `name`, `slug`, `display_name_singular`, `displa
 (11, 'pacientes', 'pacientes', 'Paciente', 'Pacientes', NULL, 'App\\Models\\Paciente', NULL, NULL, NULL, 1, 0, '{\"order_column\":null,\"order_display_column\":null,\"order_direction\":\"asc\",\"default_search_key\":null,\"scope\":null}', '2023-01-31 16:42:40', '2023-01-31 17:14:54'),
 (18, 'componentes', 'componentes', 'Componente', 'Componentes', 'voyager-puzzle', 'App\\Models\\Componente', NULL, NULL, NULL, 1, 0, '{\"order_column\":\"nombre\",\"order_display_column\":null,\"order_direction\":\"asc\",\"default_search_key\":null,\"scope\":null}', '2023-01-31 21:12:38', '2023-01-31 23:26:55'),
 (19, 'enfermedades', 'enfermedades', 'Enfermedad', 'Enfermedades', 'voyager-droplet', 'App\\Models\\Enfermedad', NULL, NULL, NULL, 1, 0, '{\"order_column\":\"nombre\",\"order_display_column\":null,\"order_direction\":\"asc\",\"default_search_key\":null,\"scope\":null}', '2023-01-31 21:13:33', '2023-01-31 23:27:14'),
-(22, 'unidades_medidas', 'unidades-medidas', 'Unidad Medida', 'Unidades Medidas', 'fa fa-adjust', 'App\\Models\\UnidadMedida', NULL, NULL, NULL, 1, 0, '{\"order_column\":\"nombre\",\"order_display_column\":null,\"order_direction\":\"asc\",\"default_search_key\":null,\"scope\":null}', '2023-01-31 21:17:10', '2023-01-31 23:38:18'),
-(23, 'medicamentos', 'medicamentos', 'Medicamento', 'Medicamentos', 'voyager-lab', 'App\\Models\\Medicamento', NULL, NULL, NULL, 1, 0, '{\"order_column\":\"nombre\",\"order_display_column\":null,\"order_direction\":\"asc\",\"default_search_key\":null,\"scope\":null}', '2023-01-31 21:19:27', '2023-02-02 18:59:20'),
+(22, 'unidades_medidas', 'unidades-medidas', 'Unidad Medida', 'Unidades Medidas', 'fa fa-adjust', 'App\\Models\\UnidadMedida', NULL, NULL, NULL, 1, 0, '{\"order_column\":\"nombre\",\"order_display_column\":null,\"order_direction\":\"asc\",\"default_search_key\":null,\"scope\":null}', '2023-01-31 21:17:10', '2023-04-12 13:10:04'),
+(23, 'medicamentos', 'medicamentos', 'Medicamento', 'Medicamentos', 'voyager-lab', 'App\\Models\\Medicamento', NULL, NULL, NULL, 1, 0, '{\"order_column\":\"nombre\",\"order_display_column\":null,\"order_direction\":\"asc\",\"default_search_key\":null,\"scope\":null}', '2023-01-31 21:19:27', '2023-05-19 12:49:42'),
 (24, 'via_suministros', 'via-suministros', 'Via Suministro', 'Via Suministros', 'voyager-flashlight', 'App\\Models\\ViaSuministro', NULL, NULL, NULL, 1, 0, '{\"order_column\":\"nombre\",\"order_display_column\":null,\"order_direction\":\"asc\",\"default_search_key\":null,\"scope\":null}', '2023-01-31 21:57:33', '2023-01-31 23:42:29'),
 (26, 'dispositivos_medicos', 'dispositivos-medicos', 'Dispositivos Medico', 'Dispositivos Medicos', 'voyager-plug', 'App\\Models\\DispositivoMedico', NULL, NULL, NULL, 1, 0, '{\"order_column\":\"nombre\",\"order_display_column\":null,\"order_direction\":\"asc\",\"default_search_key\":null,\"scope\":null}', '2023-01-31 21:59:34', '2023-01-31 23:27:03'),
 (27, 'historias_clinicas', 'historias-clinicas', 'Historia Clínica', 'Historias Clínicas', 'voyager-documentation', 'App\\Models\\HistoriaClinica', NULL, NULL, NULL, 1, 0, '{\"order_column\":\"fecha\",\"order_display_column\":null,\"order_direction\":\"asc\",\"default_search_key\":null,\"scope\":null}', '2023-02-01 00:05:45', '2023-02-01 00:46:06'),
 (31, 'prescripciones_medicas', 'prescripciones-medicas', 'Prescripciones Medica', 'Prescripciones Medicas', 'voyager-pen', 'App\\Models\\PrescripcionMedica', NULL, NULL, NULL, 1, 0, '{\"order_column\":null,\"order_display_column\":null,\"order_direction\":\"asc\",\"default_search_key\":null,\"scope\":null}', '2023-02-01 01:01:51', '2023-02-02 18:09:35'),
 (32, 'Componentes_medicamentos', 'componentes-medicamentos', 'Componente Medicamento', 'Componentes Medicamentos', 'voyager-rum-1', 'App\\Models\\ComponenteMedicamento', NULL, NULL, NULL, 1, 0, '{\"order_column\":null,\"order_display_column\":null,\"order_direction\":\"asc\",\"default_search_key\":null,\"scope\":null}', '2023-02-02 18:56:21', '2023-02-02 18:58:08'),
-(33, 'preguntas_simulaciones', 'preguntas-simulaciones', 'Preguntas Simulacione', 'Preguntas Simulaciones', 'voyager-bulb', 'App\\Models\\PreguntaSimulacion', NULL, NULL, NULL, 1, 0, '{\"order_column\":null,\"order_display_column\":null,\"order_direction\":\"asc\",\"default_search_key\":null,\"scope\":null}', '2023-02-02 23:44:24', '2023-02-03 17:47:43'),
-(34, 'escenarios_simulaciones', 'escenarios-simulaciones', 'Escenarios Simulación', 'Escenarios Simulaciones', 'voyager-tv', 'App\\Models\\EscenarioSimulacion', NULL, '\\App\\Http\\Controllers\\EscenarioSimulacionController', NULL, 1, 0, '{\"order_column\":null,\"order_display_column\":null,\"order_direction\":\"asc\",\"default_search_key\":null,\"scope\":null}', '2023-02-02 23:46:49', '2023-02-10 12:53:09'),
-(35, 'mensajes_simulaciones', 'mensajes-simulaciones', 'Mensajes Simulación', 'Mensajes Simulaciones', 'voyager-receipt', 'App\\Models\\MensajeSimulacion', NULL, NULL, NULL, 1, 0, '{\"order_column\":null,\"order_display_column\":null,\"order_direction\":\"asc\",\"default_search_key\":null,\"scope\":null}', '2023-02-02 23:50:46', '2023-02-10 13:26:31');
+(33, 'preguntas_simulaciones', 'preguntas-simulaciones', 'Pregunta de Simulación', 'Preguntas de Simulaciones', 'voyager-bulb', 'App\\Models\\PreguntaSimulacion', NULL, NULL, NULL, 1, 0, '{\"order_column\":null,\"order_display_column\":null,\"order_direction\":\"asc\",\"default_search_key\":null,\"scope\":null}', '2023-02-02 23:44:24', '2023-05-22 16:37:21'),
+(34, 'escenarios_simulaciones', 'escenarios-simulaciones', 'Escenario de Simulación', 'Escenarios de Simulaciones', 'voyager-tv', 'App\\Models\\EscenarioSimulacion', NULL, '\\App\\Http\\Controllers\\EscenarioSimulacionController', NULL, 1, 0, '{\"order_column\":null,\"order_display_column\":null,\"order_direction\":\"asc\",\"default_search_key\":null,\"scope\":null}', '2023-02-02 23:46:49', '2023-05-22 16:38:05'),
+(35, 'mensajes_simulaciones', 'mensajes-simulaciones', 'Mensaje Simulación', 'Mensajes Simulaciones', 'voyager-receipt', 'App\\Models\\MensajeSimulacion', NULL, NULL, NULL, 1, 0, '{\"order_column\":null,\"order_display_column\":null,\"order_direction\":\"asc\",\"default_search_key\":null,\"scope\":null}', '2023-02-02 23:50:46', '2023-05-20 14:27:30'),
+(36, 'niveles', 'niveles', 'Nivel', 'Niveles', 'voyager-paint-bucket', 'App\\Models\\Nivel', NULL, NULL, NULL, 1, 0, '{\"order_column\":null,\"order_display_column\":null,\"order_direction\":\"asc\",\"default_search_key\":null}', '2023-04-12 03:09:15', '2023-04-12 03:09:15'),
+(37, 'categorias', 'categorias', 'Categoria', 'Categorias', 'voyager-categories', 'App\\Models\\Categoria', NULL, NULL, NULL, 1, 0, '{\"order_column\":null,\"order_display_column\":null,\"order_direction\":\"asc\",\"default_search_key\":null,\"scope\":null}', '2023-04-12 03:18:14', '2023-04-12 14:18:41'),
+(39, 'calificaciones', 'calificaciones', 'Calificacione', 'Calificaciones', 'voyager-certificate', 'App\\Models\\Calificacion', NULL, NULL, NULL, 1, 0, '{\"order_column\":null,\"order_display_column\":null,\"order_direction\":\"asc\",\"default_search_key\":null,\"scope\":null}', '2023-05-20 14:19:20', '2023-05-22 15:28:48'),
+(41, 'pruebas', 'pruebas', 'Prueba', 'Pruebas', 'voyager-list-add', 'App\\Models\\Prueba', NULL, NULL, NULL, 1, 0, '{\"order_column\":null,\"order_display_column\":null,\"order_direction\":\"asc\",\"default_search_key\":null}', '2023-05-22 15:54:14', '2023-05-22 15:54:14'),
+(43, 'profesor', 'profesor', 'Profesor', 'Profesores', NULL, 'App\\Models\\Profesor', NULL, NULL, NULL, 1, 0, '{\"order_column\":null,\"order_display_column\":null,\"order_direction\":\"asc\",\"default_search_key\":null}', '2023-05-22 16:04:29', '2023-05-22 16:04:29'),
+(45, 'simulaciones', 'simulaciones', 'Simulacion', 'Simulaciones', NULL, 'App\\Models\\Simulacion', NULL, NULL, NULL, 1, 0, '{\"order_column\":null,\"order_display_column\":null,\"order_direction\":\"asc\",\"default_search_key\":null,\"scope\":null}', '2023-05-22 16:16:11', '2023-05-22 16:36:17');
 
 -- --------------------------------------------------------
 
@@ -289,18 +357,16 @@ CREATE TABLE `dispositivos_medicos` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `nombre` varchar(255) NOT NULL,
   `descripcion` text DEFAULT NULL,
-  `imagen` varchar(255) DEFAULT NULL,
-  `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
+  `imagen` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Volcado de datos para la tabla `dispositivos_medicos`
 --
 
-INSERT INTO `dispositivos_medicos` (`id`, `nombre`, `descripcion`, `imagen`, `created_at`, `updated_at`) VALUES
-(1, 'Jeringa', 'Una jeringa consiste en un émbolo insertado en un tubo que tiene una pequeña apertura en uno de sus extremos.', 'dispositivos-medicos/January2023/L8b5hDKsHphtTdsBn7DK.png', '2023-01-31 22:31:15', '2023-01-31 22:31:15'),
-(2, 'Bomba de infusión', 'La bomba de infusión es un sistema para administrar fármacos directamente a la sangre del paciente', 'dispositivos-medicos/January2023/OXYCXTHkWpikHrCNh8Xk.jpg', '2023-01-31 22:36:58', '2023-01-31 22:36:58');
+INSERT INTO `dispositivos_medicos` (`id`, `nombre`, `descripcion`, `imagen`) VALUES
+(1, 'Jeringa', 'Una jeringa consiste en un émbolo insertado en un tubo que tiene una pequeña apertura en uno de sus extremos.', 'dispositivos-medicos/January2023/L8b5hDKsHphtTdsBn7DK.png'),
+(2, 'Bomba de infusión', 'La bomba de infusión es un sistema para administrar fármacos directamente a la sangre del paciente', 'dispositivos-medicos/January2023/OXYCXTHkWpikHrCNh8Xk.jpg');
 
 -- --------------------------------------------------------
 
@@ -348,25 +414,9 @@ CREATE TABLE `escenarios_simulaciones` (
 --
 
 INSERT INTO `escenarios_simulaciones` (`id`, `nombre`, `descripcion`, `imagen`, `created_at`, `updated_at`) VALUES
-(1, 'Caso 1', 'Diagnóstico de Enfermedad Diarreica Aguda. Tiene catéter venoso central por inserción periférica (PICC). En las últimas 4 horas ha eliminado  70 cc de orina. El pediatra indica pasar bolo de SSN 0,9% a 10 cc/kg en 10 minutos, luego iniciar líquidos al 120%.  El reporte de potasio sérico es 2meq/L, por lo tanto ordenan pasar un bolo de potasio en SSN 0.9% a 0,5 meq/kg a una velocidad de 0.5 meq/kg/hora. Recuerde que por vía central se pasa a 80meq/litro (presentación ampolla por 10 miliequivalentes 1ml=2 miliequivalentes)', 'escenarios-simulaciones/February2023/MuWtb8wfc5j6ND5j8Yvj.jpeg', '2023-02-03 12:01:38', '2023-02-03 12:01:38'),
-(2, 'Caso 2', 'Se encuentra en su segundo día de hospitalización en pos operatorio de apendicectomía más drenaje de peritonitis. El pediatra prescribe Ampicilina Sulbactam 150 mg/Kg/día repartido en cuatro dosis. (Presentación polvo estéril para reconstituir por 1.5g) y pasar bolo de Lactato de Ringer a 20 cc/kg en veinte minutos.', 'escenarios-simulaciones/February2023/yIgILATXLoZgfmV4DBOP.jpeg', '2023-02-03 12:02:32', '2023-02-03 12:02:32'),
-(3, 'Caso 3', 'El diagnóstico es Síndrome hemorrágico y dislipidemia. El pediatra de turno prescribe Colestiramina (Presentación sobre granulado de 4gr diluir en 50 ml de agua) 800mg VO c/4h, también ordena iniciar Inmunoglobulina humana (Presentación frasco por 50ml al 10%). Dosis: 2gr/kg. Iniciar la infusión a una velocidad de 0,5 ml/kg en 30 minutos y si es bien tolerada, continuar a 6 ml/Kg/hora.', 'escenarios-simulaciones/February2023/5bdKMTQfRxYXNsLKoLfl.jpeg', '2023-02-03 12:02:51', '2023-02-03 12:02:51'),
-(4, 'Caso 4', 'presenta sospecha de meningitis. Prescriben iniciar Vancomicina IV (Presentación polvo estéril para reconstituir por 500mg) a razón de 40 mg Kg/día repartidos en cuatro dosis.', 'escenarios-simulaciones/February2023/DZGLicZOEyn5ZOhABv6D.jpeg', '2023-02-03 12:03:24', '2023-02-03 12:03:24'),
-(5, 'Caso 5', 'Hoy es su décimo día de hospitalización con un Dx médico de POP Inmediato de colocación de derivación Ventriculo-peritoneal, Hidrocefalia congénita  y Epilepsia. El tratamiento instaurado es Fenobarbital 2 mg/kg vía oral al día (Presentación frasco al 0,4%).', 'escenarios-simulaciones/February2023/zXCsWyojXvIjhz2X19R5.jpeg', '2023-02-03 12:04:00', '2023-02-03 12:04:00'),
-(6, 'Caso 6', 'Presenta diagnóstico de epilepsia, le ordenan administrar Acido Valproico a 30mg/kg/día repartido en dos dosis. (Presentación frasco al 5%).', 'escenarios-simulaciones/February2023/nMMx124YRqpK0X0OCZ75.jpeg', '2023-02-03 12:04:32', '2023-02-03 12:04:32'),
-(7, 'Caso 7', 'Ingresa al servicio de pediatría con diagnóstico de Neumonía. Pediatra de turno prescribe Claritromicina (Presentación: polvo estéril para reconstituir por 500 mg) a razón de 7.5 mg Kg/día repartido en dos dosis.', 'escenarios-simulaciones/February2023/xZ8z7smaKHgRKNTnSvzk.jpeg', '2023-02-03 12:04:58', '2023-02-03 12:04:58'),
-(8, 'Prueba 1', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque vel facilisis nisi. Maecenas id est sit amet est mattis facilisis. Mauris a est lobortis odio elementum mollis nec et mauris. Nam elementum interdum urna sed faucibus. Ut rhoncus lorem nec hendrerit suscipit. Sed dignissim ante vitae scelerisque sollicitudin. Quisque a pharetra dui, vitae sollicitudin turpis. Nam malesuada sollicitudin nibh, vel laoreet nunc tristique pharetra.\r\n\r\nUt nec elit eu massa eleifend pulvinar ac at metus. Aliquam tristique accumsan ligula at cursus. Suspendisse vel purus consectetur, blandit nisi eu, accumsan mi. Praesent lorem lorem, facilisis eget tortor sit amet, molestie malesuada turpis. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Nullam consequat fringilla est pretium tristique. Pellentesque vel elit nibh. Ut vestibulum lobortis sapien, at tincidunt est pharetra quis. Donec vitae pellentesque risus. Nam vitae nibh ultrices mauris gravida mattis. Phasellus tincidunt varius aliquam. Proin non lectus nisl. Curabitur egestas pharetra enim, non mollis quam pretium sagittis. Pellentesque scelerisque justo quam, et porta elit porttitor quis. Integer mattis pulvinar ipsum, sed tristique est eleifend sit amet.', 'escenarios-simulaciones/February2023/QqXmjwhSaAv3J7Ym8GHH.jpeg', '2023-02-03 17:27:22', '2023-02-03 17:27:30'),
-(9, 'Prueba 2', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras cursus gravida pulvinar. Nam vitae tincidunt lectus. Sed nulla turpis, blandit vitae ligula ac, dapibus lacinia lacus. Sed ultrices suscipit est. Curabitur dolor enim, facilisis eleifend arcu id, laoreet tincidunt turpis. Praesent finibus urna a malesuada sollicitudin. Praesent iaculis mi tellus, tincidunt rhoncus orci mattis eget. Ut mollis malesuada congue.', 'escenarios-simulaciones/February2023/WMeEDm2SkVEpiXYUiPzN.jpeg', '2023-02-10 12:18:52', '2023-02-10 12:19:50'),
-(10, 'Prueba 3', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras cursus gravida pulvinar. Nam vitae tincidunt lectus. Sed nulla turpis, blandit vitae ligula ac, dapibus lacinia lacus. Sed ultrices suscipit est. Curabitur dolor enim, facilisis eleifend arcu id, laoreet tincidunt turpis. Praesent finibus urna a malesuada sollicitudin. Praesent iaculis mi tellus, tincidunt rhoncus orci mattis eget. Ut mollis malesuada congue.', 'escenarios-simulaciones/February2023/Vn357Yhl73NfROTRhxGe.jpeg', '2023-02-10 12:20:00', '2023-02-10 12:20:00'),
-(11, 'Prueba 4', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras cursus gravida pulvinar. Nam vitae tincidunt lectus. Sed nulla turpis, blandit vitae ligula ac, dapibus lacinia lacus. Sed ultrices suscipit est. Curabitur dolor enim, facilisis eleifend arcu id, laoreet tincidunt turpis. Praesent finibus urna a malesuada sollicitudin. Praesent iaculis mi tellus, tincidunt rhoncus orci mattis eget. Ut mollis malesuada congue.', 'escenarios-simulaciones/February2023/4LSgFvk7TKYkYySG5n7L.jpeg', '2023-02-10 12:20:10', '2023-02-10 12:20:10'),
-(12, 'Prueba 5', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras cursus gravida pulvinar. Nam vitae tincidunt lectus. Sed nulla turpis, blandit vitae ligula ac, dapibus lacinia lacus. Sed ultrices suscipit est. Curabitur dolor enim, facilisis eleifend arcu id, laoreet tincidunt turpis. Praesent finibus urna a malesuada sollicitudin. Praesent iaculis mi tellus, tincidunt rhoncus orci mattis eget. Ut mollis malesuada congue.', 'escenarios-simulaciones/February2023/8kNIGQ9AN5ZJiQFjS7ex.jpeg', '2023-02-10 12:20:22', '2023-02-10 12:20:22'),
-(13, 'Prueba 6', 'Donec eleifend sagittis luctus. Fusce sit amet urna non eros eleifend imperdiet. Ut ultrices, felis sed sagittis mattis, ex sem placerat felis, auctor bibendum nibh nisl et odio. In bibendum consequat lacus finibus tempor. In hac habitasse platea dictumst. Pellentesque nulla diam, fermentum sed eros ornare, condimentum fringilla odio. Proin aliquam semper sodales. Suspendisse placerat elit sed mi consectetur, at viverra arcu luctus. Nulla eu facilisis justo.', 'escenarios-simulaciones/February2023/HNYVhp9UYk6JigjI9HqJ.jpeg', '2023-02-10 12:33:16', '2023-02-10 12:33:16'),
-(14, 'Prueba 7', 'Donec eleifend sagittis luctus. Fusce sit amet urna non eros eleifend imperdiet. Ut ultrices, felis sed sagittis mattis, ex sem placerat felis, auctor bibendum nibh nisl et odio. In bibendum consequat lacus finibus tempor. In hac habitasse platea dictumst. Pellentesque nulla diam, fermentum sed eros ornare, condimentum fringilla odio. Proin aliquam semper sodales. Suspendisse placerat elit sed mi consectetur, at viverra arcu luctus. Nulla eu facilisis justo.', 'escenarios-simulaciones/February2023/ma9gDNaNhSBpf049XPlP.jpeg', '2023-02-10 12:33:27', '2023-02-10 12:33:27'),
-(15, 'Prueba 8', 'Donec eleifend sagittis luctus. Fusce sit amet urna non eros eleifend imperdiet. Ut ultrices, felis sed sagittis mattis, ex sem placerat felis, auctor bibendum nibh nisl et odio. In bibendum consequat lacus finibus tempor. In hac habitasse platea dictumst. Pellentesque nulla diam, fermentum sed eros ornare, condimentum fringilla odio. Proin aliquam semper sodales. Suspendisse placerat elit sed mi consectetur, at viverra arcu luctus. Nulla eu facilisis justo.', 'escenarios-simulaciones/February2023/5HdjCW01CCpQ60SLbPpU.jpeg', '2023-02-10 12:33:37', '2023-02-10 12:33:37'),
-(16, 'Prueba 9', 'Donec eleifend sagittis luctus. Fusce sit amet urna non eros eleifend imperdiet. Ut ultrices, felis sed sagittis mattis, ex sem placerat felis, auctor bibendum nibh nisl et odio. In bibendum consequat lacus finibus tempor. In hac habitasse platea dictumst. Pellentesque nulla diam, fermentum sed eros ornare, condimentum fringilla odio. Proin aliquam semper sodales. Suspendisse placerat elit sed mi consectetur, at viverra arcu luctus. Nulla eu facilisis justo.', 'escenarios-simulaciones/February2023/bDU0oiyqOnaLRh0WI6oc.jpeg', '2023-02-10 12:33:52', '2023-02-10 12:33:52'),
-(19, 'Prueba 10', 'Donec eleifend sagittis luctus. Fusce sit amet urna non eros eleifend imperdiet. Ut ultrices, felis sed sagittis mattis, ex sem placerat felis, auctor bibendum nibh nisl et odio. In bibendum consequat lacus finibus tempor. In hac habitasse platea dictumst. Pellentesque nulla diam, fermentum sed eros ornare, condimentum fringilla odio. Proin aliquam semper sodales. Suspendisse placerat elit sed mi consectetur, at viverra arcu luctus. Nulla eu facilisis justo.', 'escenarios-simulaciones/February2023/C5yalOJ0HR9JWoS1P9Tl.jpeg', '2023-02-10 12:36:23', '2023-02-10 12:36:23'),
-(20, 'Prueba 11', 'Donec eleifend sagittis luctus. Fusce sit amet urna non eros eleifend imperdiet. Ut ultrices, felis sed sagittis mattis, ex sem placerat felis, auctor bibendum nibh nisl et odio. In bibendum consequat lacus finibus tempor. In hac habitasse platea dictumst. Pellentesque nulla diam, fermentum sed eros ornare, condimentum fringilla odio. Proin aliquam semper sodales. Suspendisse placerat elit sed mi consectetur, at viverra arcu luctus. Nulla eu facilisis justo.', 'escenarios-simulaciones/February2023/KnE5AOcQxxG5plZ97KHn.jpeg', '2023-02-10 12:36:32', '2023-02-10 12:36:32'),
-(21, 'Prueba 1 extra', 'd-flex justify-content-center d-flex justify-content-center d-flex justify-content-center d-flex justify-content-center d-flex justify-content-center d-flex justify-content-center d-flex justify-content-center d-flex justify-content-center d-flex justify-content-center d-flex justify-content-center d-flex justify-content-center d-flex justify-content-center d-flex justify-content-center d-flex justify-content-center d-flex justify-content-center d-flex justify-content-center d-flex justify-content-center d-flex justify-content-center d-flex justify-content-center d-flex justify-content-center d-flex justify-content-center d-flex justify-content-center d-flex justify-content-center d-flex justify-content-center d-flex justify-content-center d-flex justify-content-center d-flex justify-content-center d-flex justify-content-center d-flex justify-content-center d-flex justify-content-center d-flex justify-content-center d-flex justify-content-center d-flex justify-content-center d-flex justify-content-center d-flex justify-content-center d-flex justify-content-center d-flex justify-content-center d-flex justify-content-center d-flex justify-content-center d-flex justify-content-center d-flex justify-content-center d-flex justify-content-center', 'escenarios-simulaciones/February2023/9NVMfEGpbLKUKJZVSDfd.jpeg', '2023-02-10 13:08:56', '2023-02-10 13:08:56');
+(1, 'Caso 1', 'Diagnóstico de Enfermedad Diarreica Aguda. Tiene catéter venoso central por inserción periférica (PICC). En las últimas 4 horas ha eliminado  70 cc de orina. El pediatra indica pasar bolo de SSN 0,9% a 10 cc/kg en 10 minutos, luego iniciar líquidos al 120%.  El reporte de potasio sérico es 2meq/L, por lo tanto ordenan pasar un bolo de potasio en SSN 0.9% a 0,5 meq/kg a una velocidad de 0.5 meq/kg/hora. Recuerde que por vía central se pasa a 80meq/litro (presentación ampolla por 10 miliequivalentes 1ml=2 miliequivalentes)', 'escenarios-simulaciones\\March2023\\OCfnGtnoedHJUu1er4Cc.jpeg', '2023-02-03 12:01:38', '2023-03-10 17:06:42'),
+(2, 'Caso 2', 'Se encuentra en su segundo día de hospitalización en pos operatorio de apendicectomía más drenaje de peritonitis. El pediatra prescribe Ampicilina Sulbactam 150 mg/Kg/día repartido en cuatro dosis. (Presentación polvo estéril para reconstituir por 1.5g) y pasar bolo de Lactato de Ringer a 20 cc/kg en veinte minutos.', 'escenarios-simulaciones\\March2023\\AAzshItHnbYQ580MvegH.jpeg', '2023-02-03 12:02:32', '2023-03-10 17:06:52'),
+(3, 'Caso 3', 'El diagnóstico es Síndrome hemorrágico y dislipidemia. El pediatra de turno prescribe Colestiramina (Presentación sobre granulado de 4gr diluir en 50 ml de agua) 800mg VO c/4h, también ordena iniciar Inmunoglobulina humana (Presentación frasco por 50ml al 10%). Dosis: 2gr/kg. Iniciar la infusión a una velocidad de 0,5 ml/kg en 30 minutos y si es bien tolerada, continuar a 6 ml/Kg/hora.', 'escenarios-simulaciones\\March2023\\epgazaH9Lf2wNqvN337k.jpeg', '2023-02-03 12:02:51', '2023-03-10 17:07:01');
 
 -- --------------------------------------------------------
 
@@ -439,18 +489,16 @@ CREATE TABLE `medicamentos` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `presentacion` varchar(255) DEFAULT NULL,
   `nombre` varchar(255) NOT NULL,
-  `fabricante` varchar(255) DEFAULT NULL,
-  `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
+  `fabricante` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Volcado de datos para la tabla `medicamentos`
 --
 
-INSERT INTO `medicamentos` (`id`, `presentacion`, `nombre`, `fabricante`, `created_at`, `updated_at`) VALUES
-(1, 'SSN 0,9%', 'Bolsa por 500 ml', 'MK', '2023-01-31 23:31:00', '2023-01-31 23:32:04'),
-(2, 'Ampicilina sulbactam por 1,5g', 'Polvo para reconstituir', 'MK', '2023-01-31 23:31:55', '2023-01-31 23:31:55');
+INSERT INTO `medicamentos` (`id`, `presentacion`, `nombre`, `fabricante`) VALUES
+(1, 'SSN 0,9%', 'Bolsa por 500 ml', 'MK'),
+(2, 'Ampicilina sulbactam por 1,5g', 'Polvo para reconstituir', 'MK');
 
 -- --------------------------------------------------------
 
@@ -495,8 +543,8 @@ CREATE TABLE `mensajes_simulaciones` (
   `id` int(10) UNSIGNED NOT NULL,
   `mensaje` varchar(255) NOT NULL,
   `descripcion` text DEFAULT NULL,
-  `posx` double DEFAULT NULL,
-  `posy` double DEFAULT NULL,
+  `posicion_horizontal` double NOT NULL DEFAULT 0,
+  `posicion_vertical` double NOT NULL DEFAULT 0,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `escenario_id` bigint(20) NOT NULL
@@ -506,9 +554,9 @@ CREATE TABLE `mensajes_simulaciones` (
 -- Volcado de datos para la tabla `mensajes_simulaciones`
 --
 
-INSERT INTO `mensajes_simulaciones` (`id`, `mensaje`, `descripcion`, `posx`, `posy`, `created_at`, `updated_at`, `escenario_id`) VALUES
+INSERT INTO `mensajes_simulaciones` (`id`, `mensaje`, `descripcion`, `posicion_horizontal`, `posicion_vertical`, `created_at`, `updated_at`, `escenario_id`) VALUES
 (1, 'Hola', 'Es para dar bienvenida', 0.2, 0.3, '2023-02-03 17:43:40', '2023-02-03 17:43:40', 8),
-(2, 'Adios', 'Un mensaje para despedir', 0, 0, '2023-02-03 17:46:07', '2023-02-03 17:46:07', 8);
+(2, 'Mensaje de prueba', NULL, 50, 50, '2023-02-03 17:46:07', '2023-05-20 14:31:35', 1);
 
 -- --------------------------------------------------------
 
@@ -528,7 +576,7 @@ CREATE TABLE `menus` (
 --
 
 INSERT INTO `menus` (`id`, `name`, `created_at`, `updated_at`) VALUES
-(1, 'admin', '2023-01-28 09:13:25', '2023-01-28 09:13:25');
+(1, 'admin', '2023-01-28 09:13:25', '2023-02-28 16:25:16');
 
 -- --------------------------------------------------------
 
@@ -558,34 +606,40 @@ CREATE TABLE `menu_items` (
 
 INSERT INTO `menu_items` (`id`, `menu_id`, `title`, `url`, `target`, `icon_class`, `color`, `parent_id`, `order`, `created_at`, `updated_at`, `route`, `parameters`) VALUES
 (1, 1, 'Dashboard', '', '_self', 'voyager-home', '#000000', NULL, 1, '2023-01-28 09:13:25', '2023-01-31 16:27:16', 'voyager.dashboard', 'null'),
-(2, 1, 'Media', '', '_self', 'voyager-images', NULL, 5, 2, '2023-01-28 09:13:25', '2023-01-31 21:24:58', 'voyager.media.index', NULL),
+(2, 1, 'Media', '', '_self', 'voyager-images', NULL, 5, 2, '2023-01-28 09:13:25', '2023-05-22 16:51:55', 'voyager.media.index', NULL),
 (3, 1, 'Usuarios', '', '_self', 'voyager-person', '#000000', 18, 1, '2023-01-28 09:13:25', '2023-01-31 21:25:09', 'voyager.users.index', 'null'),
-(4, 1, 'Roles', '', '_self', 'voyager-lock', NULL, 27, 6, '2023-01-28 09:13:25', '2023-02-02 19:00:08', 'voyager.roles.index', NULL),
-(5, 1, 'Herramientas', '', '_self', 'voyager-tools', '#000000', NULL, 8, '2023-01-28 09:13:25', '2023-02-03 20:57:46', NULL, ''),
-(6, 1, 'Menu Builder', '', '_self', 'voyager-list', NULL, 5, 1, '2023-01-28 09:13:25', '2023-01-30 23:13:20', 'voyager.menus.index', NULL),
-(7, 1, 'Database', '', '_self', 'voyager-data', NULL, 5, 3, '2023-01-28 09:13:25', '2023-01-31 21:24:58', 'voyager.database.index', NULL),
-(8, 1, 'Compass', '', '_self', 'voyager-compass', NULL, 5, 4, '2023-01-28 09:13:25', '2023-01-31 21:24:58', 'voyager.compass.index', NULL),
-(9, 1, 'BREAD', '', '_self', 'voyager-bread', NULL, 5, 5, '2023-01-28 09:13:25', '2023-01-31 21:24:58', 'voyager.bread.index', NULL),
-(10, 1, 'Ajustes', '', '_self', 'voyager-settings', '#000000', 5, 6, '2023-01-28 09:13:25', '2023-02-02 19:00:03', 'voyager.settings.index', 'null'),
-(15, 1, 'Tipo Documentos', '', '_self', 'voyager-categories', '#000000', 27, 7, '2023-01-30 23:16:47', '2023-02-02 19:00:08', 'voyager.tipo-documentos.index', 'null'),
-(16, 1, 'Estudiantes', '', '_self', 'voyager-study', NULL, 18, 4, '2023-01-31 16:19:20', '2023-02-01 01:02:56', 'voyager.estudiantes.index', NULL),
-(17, 1, 'Medicos', '', '_self', 'fa fa-user-md', NULL, 18, 2, '2023-01-31 16:26:02', '2023-01-31 21:25:09', 'voyager.medicos.index', NULL),
-(18, 1, 'Usuarios', '', '_self', 'fa fa-users', '#000000', NULL, 6, '2023-01-31 16:37:09', '2023-02-03 20:57:46', NULL, ''),
-(19, 1, 'Pacientes', '', '_self', 'voyager-activity', '#000000', 18, 3, '2023-01-31 16:42:40', '2023-01-31 21:25:09', 'voyager.pacientes.index', 'null'),
-(23, 1, 'Componentes', '', '_self', 'voyager-puzzle', NULL, 27, 1, '2023-01-31 21:12:38', '2023-01-31 22:25:26', 'voyager.componentes.index', NULL),
-(24, 1, 'Enfermedades', '', '_self', 'voyager-droplet', NULL, 27, 4, '2023-01-31 21:13:33', '2023-02-02 19:00:08', 'voyager.enfermedades.index', NULL),
-(25, 1, 'Unidades Medidas', '', '_self', 'fa fa-adjust', NULL, 27, 8, '2023-01-31 21:17:10', '2023-02-02 19:00:08', 'voyager.unidades-medidas.index', NULL),
-(26, 1, 'Medicamentos', '', '_self', 'voyager-lab', NULL, 27, 5, '2023-01-31 21:19:27', '2023-02-02 19:00:08', 'voyager.medicamentos.index', NULL),
-(27, 1, 'Parametros', '', '_self', 'voyager-params', '#000000', NULL, 7, '2023-01-31 21:24:18', '2023-02-03 20:57:46', NULL, ''),
-(28, 1, 'Via Suministros', '', '_self', 'voyager-flashlight', NULL, 27, 9, '2023-01-31 21:57:33', '2023-02-02 19:00:08', 'voyager.via-suministros.index', NULL),
-(29, 1, 'Dispositivos Medicos', '', '_self', 'voyager-plug', NULL, 27, 3, '2023-01-31 21:59:34', '2023-02-02 19:00:10', 'voyager.dispositivos-medicos.index', NULL),
-(30, 1, 'Historias Clínicas', '', '_self', 'voyager-documentation', NULL, NULL, 4, '2023-02-01 00:05:45', '2023-02-03 20:57:46', 'voyager.historias-clinicas.index', NULL),
-(32, 1, 'Prescripciones Medicas', '', '_self', 'voyager-pen', '#000000', NULL, 5, '2023-02-01 01:01:51', '2023-02-03 20:57:46', 'voyager.prescripciones-medicas.index', 'null'),
-(33, 1, 'Componentes Medicamentos', '', '_self', 'voyager-rum-1', NULL, 27, 2, '2023-02-02 18:56:21', '2023-02-02 19:00:10', 'voyager.componentes-medicamentos.index', NULL),
-(34, 1, 'Preguntas Simulaciones', '', '_self', 'voyager-bulb', NULL, 37, 1, '2023-02-02 23:44:24', '2023-02-03 20:57:46', 'voyager.preguntas-simulaciones.index', NULL),
-(35, 1, 'Escenarios Simulaciones', '', '_self', 'voyager-tv', NULL, NULL, 2, '2023-02-02 23:46:49', '2023-02-03 20:57:46', 'voyager.escenarios-simulaciones.index', NULL),
-(36, 1, 'Mensajes Simulaciones', '', '_self', 'voyager-receipt', NULL, 37, 2, '2023-02-02 23:50:46', '2023-02-03 20:57:46', 'voyager.mensajes-simulaciones.index', NULL),
-(37, 1, 'Simulación', '', '_self', 'fa fa-gamepad', '#000000', NULL, 3, '2023-02-03 00:04:23', '2023-02-03 20:57:46', NULL, '');
+(4, 1, 'Roles', '', '_self', 'voyager-lock', NULL, 27, 12, '2023-01-28 09:13:25', '2023-05-22 16:53:20', 'voyager.roles.index', NULL),
+(5, 1, 'Herramientas', '', '_self', 'voyager-tools', '#000000', NULL, 5, '2023-01-28 09:13:25', '2023-04-12 14:21:39', NULL, ''),
+(6, 1, 'Menu Builder', '', '_self', 'voyager-list', NULL, 5, 1, '2023-01-28 09:13:25', '2023-05-22 16:51:55', 'voyager.menus.index', NULL),
+(7, 1, 'Database', '', '_self', 'voyager-data', NULL, 5, 3, '2023-01-28 09:13:25', '2023-05-22 16:51:55', 'voyager.database.index', NULL),
+(8, 1, 'Compass', '', '_self', 'voyager-compass', NULL, 5, 4, '2023-01-28 09:13:25', '2023-05-22 16:51:55', 'voyager.compass.index', NULL),
+(9, 1, 'BREAD', '', '_self', 'voyager-bread', NULL, 5, 5, '2023-01-28 09:13:25', '2023-05-22 16:51:55', 'voyager.bread.index', NULL),
+(10, 1, 'Ajustes', '', '_self', 'voyager-settings', '#000000', 5, 6, '2023-01-28 09:13:25', '2023-05-22 16:51:55', 'voyager.settings.index', 'null'),
+(15, 1, 'Tipo Documentos', '', '_self', 'voyager-categories', '#000000', 27, 13, '2023-01-30 23:16:47', '2023-05-22 16:53:20', 'voyager.tipo-documentos.index', 'null'),
+(16, 1, 'Estudiantes', '', '_self', 'voyager-study', NULL, 18, 2, '2023-01-31 16:19:20', '2023-05-22 16:52:08', 'voyager.estudiantes.index', NULL),
+(17, 1, 'Medicos', '', '_self', 'fa fa-user-md', NULL, 18, 3, '2023-01-31 16:26:02', '2023-05-22 16:52:08', 'voyager.medicos.index', NULL),
+(18, 1, 'Usuarios', '', '_self', 'voyager-people', '#000000', NULL, 3, '2023-01-31 16:37:09', '2023-04-12 14:23:15', NULL, ''),
+(19, 1, 'Pacientes', '', '_self', 'fa fa-heartbeat', '#000000', 18, 4, '2023-01-31 16:42:40', '2023-05-22 16:52:08', 'voyager.pacientes.index', 'null'),
+(23, 1, 'Componentes', '', '_self', 'voyager-puzzle', NULL, 27, 3, '2023-01-31 21:12:38', '2023-05-22 16:53:38', 'voyager.componentes.index', NULL),
+(24, 1, 'Enfermedades', '', '_self', 'voyager-droplet', NULL, 27, 7, '2023-01-31 21:13:33', '2023-05-22 16:53:20', 'voyager.enfermedades.index', NULL),
+(25, 1, 'Unidades Medidas', '', '_self', 'fa fa-adjust', NULL, 27, 14, '2023-01-31 21:17:10', '2023-05-22 16:53:20', 'voyager.unidades-medidas.index', NULL),
+(26, 1, 'Medicamentos', '', '_self', 'voyager-lab', NULL, 27, 8, '2023-01-31 21:19:27', '2023-05-22 16:53:20', 'voyager.medicamentos.index', NULL),
+(27, 1, 'Parametros', '', '_self', 'voyager-params', '#000000', NULL, 4, '2023-01-31 21:24:18', '2023-04-12 14:21:39', NULL, ''),
+(28, 1, 'Via Suministros', '', '_self', 'voyager-flashlight', NULL, 27, 15, '2023-01-31 21:57:33', '2023-05-22 16:53:20', 'voyager.via-suministros.index', NULL),
+(29, 1, 'Dispositivos Medicos', '', '_self', 'voyager-plug', NULL, 27, 5, '2023-01-31 21:59:34', '2023-05-22 16:54:04', 'voyager.dispositivos-medicos.index', NULL),
+(30, 1, 'Historias Clínicas', '', '_self', 'voyager-documentation', NULL, 27, 6, '2023-02-01 00:05:45', '2023-05-22 16:54:04', 'voyager.historias-clinicas.index', NULL),
+(32, 1, 'Prescripciones Medicas', '', '_self', 'voyager-pen', '#000000', 27, 10, '2023-02-01 01:01:51', '2023-05-22 16:53:20', 'voyager.prescripciones-medicas.index', 'null'),
+(33, 1, 'Componentes Medicamentos', '', '_self', 'voyager-rum-1', NULL, 27, 4, '2023-02-02 18:56:21', '2023-05-22 16:53:45', 'voyager.componentes-medicamentos.index', NULL),
+(34, 1, 'Preguntas Simulaciones', '', '_self', 'voyager-question', '#000000', 37, 4, '2023-02-02 23:44:24', '2023-05-22 16:52:46', 'voyager.preguntas-simulaciones.index', 'null'),
+(35, 1, 'Escenarios Simulaciones', '', '_self', 'voyager-play', '#000000', 37, 2, '2023-02-02 23:46:49', '2023-05-22 16:52:38', 'voyager.escenarios-simulaciones.index', 'null'),
+(36, 1, 'Mensajes Simulaciones', '', '_self', 'voyager-bubble', '#000000', 37, 3, '2023-02-02 23:50:46', '2023-05-22 16:52:46', 'voyager.mensajes-simulaciones.index', 'null'),
+(37, 1, 'Simulación', '', '_self', 'voyager-activity', '#000000', NULL, 2, '2023-02-03 00:04:23', '2023-04-12 14:22:49', NULL, ''),
+(41, 1, 'Niveles', '', '_self', 'voyager-paint-bucket', NULL, 27, 9, '2023-04-12 03:09:15', '2023-05-22 16:53:20', 'voyager.niveles.index', NULL),
+(42, 1, 'Categorias', '', '_self', 'voyager-categories', NULL, 27, 1, '2023-04-12 03:18:14', '2023-05-22 16:53:41', 'voyager.categorias.index', NULL),
+(43, 1, 'Calificaciones', '', '_self', 'voyager-certificate', NULL, 27, 2, '2023-05-20 14:19:20', '2023-05-22 16:53:41', 'voyager.calificaciones.index', NULL),
+(45, 1, 'Pruebas', '', '_self', 'voyager-list-add', NULL, 27, 11, '2023-05-22 15:54:14', '2023-05-22 16:53:20', 'voyager.pruebas.index', NULL),
+(47, 1, 'Profesores', '', '_self', NULL, NULL, 18, 5, '2023-05-22 16:04:29', '2023-05-22 16:52:08', 'voyager.profesor.index', NULL),
+(48, 1, 'Simulaciones', '', '_self', NULL, NULL, 37, 1, '2023-05-22 16:16:12', '2023-05-22 16:52:38', 'voyager.simulaciones.index', NULL);
 
 -- --------------------------------------------------------
 
@@ -632,6 +686,27 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (26, '2016_01_01_000000_create_posts_table', 2),
 (27, '2016_02_15_204651_create_categories_table', 2),
 (28, '2017_04_11_000000_alter_post_nullable_fields_table', 2);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `niveles`
+--
+
+CREATE TABLE `niveles` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `nombre` varchar(255) NOT NULL,
+  `descripcion` text DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Volcado de datos para la tabla `niveles`
+--
+
+INSERT INTO `niveles` (`id`, `nombre`, `descripcion`) VALUES
+(1, 'Fácil', NULL),
+(2, 'Medio', NULL),
+(3, 'Difícil', NULL);
 
 -- --------------------------------------------------------
 
@@ -793,7 +868,37 @@ INSERT INTO `permissions` (`id`, `key`, `table_name`, `created_at`, `updated_at`
 (142, 'read_mensajes_simulaciones', 'mensajes_simulaciones', '2023-02-02 23:50:46', '2023-02-02 23:50:46'),
 (143, 'edit_mensajes_simulaciones', 'mensajes_simulaciones', '2023-02-02 23:50:46', '2023-02-02 23:50:46'),
 (144, 'add_mensajes_simulaciones', 'mensajes_simulaciones', '2023-02-02 23:50:46', '2023-02-02 23:50:46'),
-(145, 'delete_mensajes_simulaciones', 'mensajes_simulaciones', '2023-02-02 23:50:46', '2023-02-02 23:50:46');
+(145, 'delete_mensajes_simulaciones', 'mensajes_simulaciones', '2023-02-02 23:50:46', '2023-02-02 23:50:46'),
+(146, 'browse_niveles', 'niveles', '2023-04-12 03:09:15', '2023-04-12 03:09:15'),
+(147, 'read_niveles', 'niveles', '2023-04-12 03:09:15', '2023-04-12 03:09:15'),
+(148, 'edit_niveles', 'niveles', '2023-04-12 03:09:15', '2023-04-12 03:09:15'),
+(149, 'add_niveles', 'niveles', '2023-04-12 03:09:15', '2023-04-12 03:09:15'),
+(150, 'delete_niveles', 'niveles', '2023-04-12 03:09:15', '2023-04-12 03:09:15'),
+(151, 'browse_categorias', 'categorias', '2023-04-12 03:18:14', '2023-04-12 03:18:14'),
+(152, 'read_categorias', 'categorias', '2023-04-12 03:18:14', '2023-04-12 03:18:14'),
+(153, 'edit_categorias', 'categorias', '2023-04-12 03:18:14', '2023-04-12 03:18:14'),
+(154, 'add_categorias', 'categorias', '2023-04-12 03:18:14', '2023-04-12 03:18:14'),
+(155, 'delete_categorias', 'categorias', '2023-04-12 03:18:14', '2023-04-12 03:18:14'),
+(156, 'browse_calificaciones', 'calificaciones', '2023-05-20 14:19:20', '2023-05-20 14:19:20'),
+(157, 'read_calificaciones', 'calificaciones', '2023-05-20 14:19:20', '2023-05-20 14:19:20'),
+(158, 'edit_calificaciones', 'calificaciones', '2023-05-20 14:19:20', '2023-05-20 14:19:20'),
+(159, 'add_calificaciones', 'calificaciones', '2023-05-20 14:19:20', '2023-05-20 14:19:20'),
+(160, 'delete_calificaciones', 'calificaciones', '2023-05-20 14:19:20', '2023-05-20 14:19:20'),
+(166, 'browse_pruebas', 'pruebas', '2023-05-22 15:54:14', '2023-05-22 15:54:14'),
+(167, 'read_pruebas', 'pruebas', '2023-05-22 15:54:14', '2023-05-22 15:54:14'),
+(168, 'edit_pruebas', 'pruebas', '2023-05-22 15:54:14', '2023-05-22 15:54:14'),
+(169, 'add_pruebas', 'pruebas', '2023-05-22 15:54:14', '2023-05-22 15:54:14'),
+(170, 'delete_pruebas', 'pruebas', '2023-05-22 15:54:14', '2023-05-22 15:54:14'),
+(176, 'browse_profesor', 'profesor', '2023-05-22 16:04:29', '2023-05-22 16:04:29'),
+(177, 'read_profesor', 'profesor', '2023-05-22 16:04:29', '2023-05-22 16:04:29'),
+(178, 'edit_profesor', 'profesor', '2023-05-22 16:04:29', '2023-05-22 16:04:29'),
+(179, 'add_profesor', 'profesor', '2023-05-22 16:04:29', '2023-05-22 16:04:29'),
+(180, 'delete_profesor', 'profesor', '2023-05-22 16:04:29', '2023-05-22 16:04:29'),
+(181, 'browse_simulaciones', 'simulaciones', '2023-05-22 16:16:11', '2023-05-22 16:16:11'),
+(182, 'read_simulaciones', 'simulaciones', '2023-05-22 16:16:11', '2023-05-22 16:16:11'),
+(183, 'edit_simulaciones', 'simulaciones', '2023-05-22 16:16:11', '2023-05-22 16:16:11'),
+(184, 'add_simulaciones', 'simulaciones', '2023-05-22 16:16:11', '2023-05-22 16:16:11'),
+(185, 'delete_simulaciones', 'simulaciones', '2023-05-22 16:16:11', '2023-05-22 16:16:11');
 
 -- --------------------------------------------------------
 
@@ -940,7 +1045,37 @@ INSERT INTO `permission_role` (`permission_id`, `role_id`) VALUES
 (144, 1),
 (144, 6),
 (145, 1),
-(145, 6);
+(145, 6),
+(146, 1),
+(147, 1),
+(148, 1),
+(149, 1),
+(150, 1),
+(151, 1),
+(152, 1),
+(153, 1),
+(154, 1),
+(155, 1),
+(156, 1),
+(157, 1),
+(158, 1),
+(159, 1),
+(160, 1),
+(166, 1),
+(167, 1),
+(168, 1),
+(169, 1),
+(170, 1),
+(176, 1),
+(177, 1),
+(178, 1),
+(179, 1),
+(180, 1),
+(181, 1),
+(182, 1),
+(183, 1),
+(184, 1),
+(185, 1);
 
 -- --------------------------------------------------------
 
@@ -974,17 +1109,10 @@ CREATE TABLE `preguntas_simulaciones` (
   `respuesta_unidad` int(11) NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
-  `escenario_id` bigint(20) NOT NULL
+  `escenario_id` bigint(20) NOT NULL,
+  `nivel_id` int(11) NOT NULL,
+  `categoria_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Volcado de datos para la tabla `preguntas_simulaciones`
---
-
-INSERT INTO `preguntas_simulaciones` (`id`, `pregunta`, `respuesta_medida`, `respuesta_unidad`, `created_at`, `updated_at`, `escenario_id`) VALUES
-(1, 'Cuanto es 2 ml + 2 ml', 4, 2, '2023-02-03 17:31:19', '2023-02-03 17:31:19', 8),
-(2, 'Cuanto es 4ml - 2ml', 2, 2, '2023-02-03 17:32:18', '2023-02-03 17:32:18', 8),
-(3, 'Cuanto es 2ml + 8 ml + 5ml', 15, 2, '2023-02-03 17:35:52', '2023-02-03 17:35:52', 8);
 
 -- --------------------------------------------------------
 
@@ -1002,6 +1130,31 @@ CREATE TABLE `prescripciones_medicas` (
   `medicamento_id` bigint(20) NOT NULL,
   `historia_clinica_id` bigint(20) NOT NULL,
   `medico_id` bigint(20) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `profesor`
+--
+
+CREATE TABLE `profesor` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `usuario_id` int(11) DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `pruebas`
+--
+
+CREATE TABLE `pruebas` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `nombre` varchar(255) DEFAULT NULL,
+  `descripcion` text DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
@@ -1057,12 +1210,31 @@ INSERT INTO `settings` (`id`, `key`, `display_name`, `value`, `details`, `type`,
 (2, 'site.description', 'Site Description', 'Administración de Medicamentos en Pediatría', '', 'text', 2, 'Site'),
 (3, 'site.logo', 'Site Logo', '', '', 'image', 3, 'Site'),
 (4, 'site.google_analytics_tracking_id', 'Google Analytics Tracking ID', NULL, '', 'text', 4, 'Site'),
-(5, 'admin.bg_image', 'Admin Background Image', '', '', 'image', 5, 'Admin'),
+(5, 'admin.bg_image', 'Admin Background Image', 'settings\\March2023\\NUOlBF5hplMeiVpFjku9.jpg', '', 'image', 5, 'Admin'),
 (6, 'admin.title', 'Admin Title', 'sofmedip', '', 'text', 1, 'Admin'),
 (7, 'admin.description', 'Admin Description', 'Administración de Medicamentos en Pediatría', '', 'text', 2, 'Admin'),
 (8, 'admin.loader', 'Admin Loader', '', '', 'image', 3, 'Admin'),
-(9, 'admin.icon_image', 'Admin Icon Image', '', '', 'image', 4, 'Admin'),
+(9, 'admin.icon_image', 'Admin Icon Image', 'settings\\March2023\\r6jx8EIdOmehfbAbk3ej.png', '', 'image', 4, 'Admin'),
 (10, 'admin.google_analytics_client_id', 'Google Analytics Client ID (used for admin dashboard)', NULL, '', 'text', 1, 'Admin');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `simulaciones`
+--
+
+CREATE TABLE `simulaciones` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `respuesta_medida` varchar(255) DEFAULT NULL,
+  `respuesta_unidad` int(11) DEFAULT NULL,
+  `nota` float DEFAULT NULL,
+  `pregunta_id` int(11) DEFAULT NULL,
+  `estudiante_id` int(11) DEFAULT NULL,
+  `profesor_id` int(11) DEFAULT NULL,
+  `prueba_id` int(11) DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -1150,21 +1322,19 @@ INSERT INTO `translations` (`id`, `table_name`, `column_name`, `foreign_key`, `l
 CREATE TABLE `unidades_medidas` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `nombre` varchar(255) NOT NULL,
-  `descripcion` text DEFAULT NULL,
-  `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
+  `descripcion` text DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Volcado de datos para la tabla `unidades_medidas`
 --
 
-INSERT INTO `unidades_medidas` (`id`, `nombre`, `descripcion`, `created_at`, `updated_at`) VALUES
-(1, 'mg', 'Miligramos', '2023-01-31 23:36:43', '2023-01-31 23:36:43'),
-(2, 'ml', 'Mililitros', '2023-01-31 23:37:19', '2023-01-31 23:37:26'),
-(3, 'gr', 'Gramos', '2023-01-31 23:37:37', '2023-01-31 23:37:44'),
-(4, 'meq', 'Miliequivalentes', '2023-01-31 23:38:44', '2023-01-31 23:39:10'),
-(5, 'mcg', 'Microgramos', '2023-01-31 23:38:54', '2023-01-31 23:39:05');
+INSERT INTO `unidades_medidas` (`id`, `nombre`, `descripcion`) VALUES
+(1, 'mg', 'Miligramos'),
+(2, 'ml', 'Mililitros'),
+(3, 'gr', 'Gramos'),
+(4, 'meq', 'Miliequivalentes'),
+(5, 'mcg', 'Microgramos');
 
 -- --------------------------------------------------------
 
@@ -1193,13 +1363,10 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `name`, `email`, `avatar`, `email_verified_at`, `password`, `remember_token`, `settings`, `created_at`, `updated_at`, `surname`, `identification`, `tipo_documento`) VALUES
-(1, 'Admin', 'admin@admin.com', 'users/default.png', NULL, '$2y$10$Nn1Om.H24Pk9IO0RA9jMYed.qBeymevgcZ2t0UTzixH6llogLlz/a', '3wFpFrIwljQJ9KZpYvY9646aNIq6jtZefw61cn9KcSA1d2SaJZYHorxGYhML', '{\"locale\":\"es\"}', '2023-01-28 09:14:11', '2023-01-30 23:55:50', 'Admin', '1', 2),
-(2, 'Santiago', 'sntgrncnc@gmail.com', 'users/January2023/xek50PTC8szarVP74JNR.png', NULL, '$2y$10$mVkl3MPyJn6ygNX5eiR4cu/e0sCwKNzMIonmNt9biywpTdFxAiL6m', NULL, '{\"locale\":\"es\"}', '2023-01-29 18:38:54', '2023-01-30 23:56:06', 'Roncancio', '1121956650', 2),
-(4, 'Candido', 'candido@gmail.com', 'users/January2023/IBXx1ZgxszXPOLowJy7M.png', NULL, '$2y$10$aW7mZYPzL3TzBafV8zWEYu0anjFzEzwwCnvZnoUR.yVaf.zMn12NG', NULL, '{\"locale\":\"es\"}', '2023-01-30 20:03:21', '2023-01-31 17:18:15', 'Moreno', '333', 2),
-(5, 'Javier', 'javier@gmail.com', 'users/January2023/jpk9Kxzpi1eQ0nu1lTWL.png', NULL, '$2y$10$83vien8/AVNkezKLpEpU1eoid2BbxJe75Jwj0WV6aHRuOVLeUzfNO', NULL, '{\"locale\":\"es\"}', '2023-01-30 20:16:47', '2023-01-30 23:56:13', 'Varon', '11213123123', 4),
+(1, 'Admin', 'admin@admin.com', 'users\\March2023\\24iz5EFiYzcaxiMYwirj.png', NULL, '$2y$10$Nn1Om.H24Pk9IO0RA9jMYed.qBeymevgcZ2t0UTzixH6llogLlz/a', 'xCkJoaWC7ghZy11S82ax3JhssL30jIxTjba9yUW29iS0Vv9DKT6BpPadrhWH', '{\"locale\":\"es\"}', '2023-01-28 09:14:11', '2023-03-10 16:20:31', 'Admin', '1', 2),
+(4, 'Candido', 'candido@gmail.com', 'users/January2023/IBXx1ZgxszXPOLowJy7M.png', NULL, '$2y$10$OdTZfAeqUFcpaGQ9bAbSi.CLIkrfYjwubANo.5QOGRl3oWJ87F5hq', NULL, '{\"locale\":\"es\"}', '2023-01-30 20:03:21', '2023-03-15 14:22:43', 'Moreno', '333', 2),
 (6, 'Bruno', 'bruno@gmail.com', 'users/January2023/neMfwNlrZAAOFtNyhiCY.png', NULL, '$2y$10$Cpr89S.C3O1Iv.K47pVSAez55Vwt6tz2/rMcZAlI67kCP9rA8p.Wm', NULL, '{\"locale\":\"es\"}', '2023-01-30 21:17:47', '2023-01-31 17:18:03', 'Roncancio', '111', 3),
-(7, 'Sebastian', 'sebastian@gmail.com', 'users/default.png', NULL, '$2y$10$Bzzk0NVCxATaI1Dwxlt4geKRBlzCHFH8/rAA/bDbB.IpbvbPpE0OO', NULL, '{\"locale\":\"es\"}', '2023-01-31 20:49:43', '2023-01-31 17:17:53', 'Mosquera', '222', 3),
-(8, 'Jennifer', 'jennifer@gmail.com', 'users/default.png', NULL, '$2y$10$aCXaWf3uv2ts/UQO.o1Uu.VuUFJ4Lb2AHPLKBennbNIfKSwn4Dady', NULL, NULL, '2023-01-31 15:54:05', '2023-01-31 15:54:05', 'De Varon', '12312449', 2);
+(7, 'Sebastian', 'sebastian@gmail.com', 'users/default.png', NULL, '$2y$10$Bzzk0NVCxATaI1Dwxlt4geKRBlzCHFH8/rAA/bDbB.IpbvbPpE0OO', NULL, '{\"locale\":\"es\"}', '2023-01-31 20:49:43', '2023-01-31 17:17:53', 'Mosquera', '222', 3);
 
 -- --------------------------------------------------------
 
@@ -1218,14 +1385,9 @@ CREATE TABLE `user_roles` (
 
 INSERT INTO `user_roles` (`user_id`, `role_id`) VALUES
 (1, 1),
-(2, 2),
-(2, 4),
 (4, 2),
-(5, 1),
-(5, 2),
 (6, 4),
-(7, 3),
-(8, 5);
+(7, 3);
 
 -- --------------------------------------------------------
 
@@ -1271,6 +1433,19 @@ INSERT INTO `via_suministros` (`id`, `nombre`, `descripcion`, `created_at`, `upd
 --
 
 --
+-- Indices de la tabla `calificaciones`
+--
+ALTER TABLE `calificaciones`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `calificaciones_pregunta_id_index` (`pregunta_id`);
+
+--
+-- Indices de la tabla `categorias`
+--
+ALTER TABLE `categorias`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indices de la tabla `componentes`
 --
 ALTER TABLE `componentes`
@@ -1278,9 +1453,9 @@ ALTER TABLE `componentes`
   ADD UNIQUE KEY `componentes_nombre_unique` (`nombre`);
 
 --
--- Indices de la tabla `Componentes_medicamentos`
+-- Indices de la tabla `componentes_medicamentos`
 --
-ALTER TABLE `Componentes_medicamentos`
+ALTER TABLE `componentes_medicamentos`
   ADD PRIMARY KEY (`id`),
   ADD KEY `componentes_medicamentos_unidad_medida_id_index` (`unidad_medida_id`),
   ADD KEY `componentes_medicamentos_componente_id_index` (`componente_id`);
@@ -1396,6 +1571,12 @@ ALTER TABLE `migrations`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indices de la tabla `niveles`
+--
+ALTER TABLE `niveles`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indices de la tabla `pacientes`
 --
 ALTER TABLE `pacientes`
@@ -1436,7 +1617,9 @@ ALTER TABLE `personal_access_tokens`
 --
 ALTER TABLE `preguntas_simulaciones`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `preguntas_simulaciones_escenario_id_index` (`escenario_id`);
+  ADD KEY `preguntas_simulaciones_escenario_id_index` (`escenario_id`),
+  ADD KEY `preguntas_simulaciones_nivel_id_index` (`nivel_id`),
+  ADD KEY `preguntas_simulaciones_categoria_id_index` (`categoria_id`);
 
 --
 -- Indices de la tabla `prescripciones_medicas`
@@ -1447,6 +1630,18 @@ ALTER TABLE `prescripciones_medicas`
   ADD KEY `prescripciones_medicas_medicamento_id_index` (`medicamento_id`),
   ADD KEY `prescripciones_medicas_historia_clinica_id_index` (`historia_clinica_id`),
   ADD KEY `prescripciones_medicas_medico_id_index` (`medico_id`);
+
+--
+-- Indices de la tabla `profesor`
+--
+ALTER TABLE `profesor`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indices de la tabla `pruebas`
+--
+ALTER TABLE `pruebas`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indices de la tabla `roles`
@@ -1461,6 +1656,17 @@ ALTER TABLE `roles`
 ALTER TABLE `settings`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `settings_key_unique` (`key`);
+
+--
+-- Indices de la tabla `simulaciones`
+--
+ALTER TABLE `simulaciones`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `simulaciones_respuesta_unidad_index` (`respuesta_unidad`),
+  ADD KEY `simulaciones_pregunta_id_index` (`pregunta_id`),
+  ADD KEY `simulaciones_estudiante_id_index` (`estudiante_id`),
+  ADD KEY `simulaciones_profesor_id_index` (`profesor_id`),
+  ADD KEY `simulaciones_prueba_id_index` (`prueba_id`);
 
 --
 -- Indices de la tabla `tipo_documentos`
@@ -1520,28 +1726,40 @@ ALTER TABLE `via_suministros`
 --
 
 --
+-- AUTO_INCREMENT de la tabla `calificaciones`
+--
+ALTER TABLE `calificaciones`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de la tabla `categorias`
+--
+ALTER TABLE `categorias`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
 -- AUTO_INCREMENT de la tabla `componentes`
 --
 ALTER TABLE `componentes`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
--- AUTO_INCREMENT de la tabla `Componentes_medicamentos`
+-- AUTO_INCREMENT de la tabla `componentes_medicamentos`
 --
-ALTER TABLE `Componentes_medicamentos`
+ALTER TABLE `componentes_medicamentos`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `data_rows`
 --
 ALTER TABLE `data_rows`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=208;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=246;
 
 --
 -- AUTO_INCREMENT de la tabla `data_types`
 --
 ALTER TABLE `data_types`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=46;
 
 --
 -- AUTO_INCREMENT de la tabla `dispositivos_medicos`
@@ -1559,7 +1777,7 @@ ALTER TABLE `enfermedades`
 -- AUTO_INCREMENT de la tabla `escenarios_simulaciones`
 --
 ALTER TABLE `escenarios_simulaciones`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
 -- AUTO_INCREMENT de la tabla `estudiantes`
@@ -1601,7 +1819,7 @@ ALTER TABLE `medicos`
 -- AUTO_INCREMENT de la tabla `mensajes_simulaciones`
 --
 ALTER TABLE `mensajes_simulaciones`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT de la tabla `menus`
@@ -1613,13 +1831,19 @@ ALTER TABLE `menus`
 -- AUTO_INCREMENT de la tabla `menu_items`
 --
 ALTER TABLE `menu_items`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=49;
 
 --
 -- AUTO_INCREMENT de la tabla `migrations`
 --
 ALTER TABLE `migrations`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
+
+--
+-- AUTO_INCREMENT de la tabla `niveles`
+--
+ALTER TABLE `niveles`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT de la tabla `pacientes`
@@ -1631,7 +1855,7 @@ ALTER TABLE `pacientes`
 -- AUTO_INCREMENT de la tabla `permissions`
 --
 ALTER TABLE `permissions`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=146;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=186;
 
 --
 -- AUTO_INCREMENT de la tabla `personal_access_tokens`
@@ -1652,6 +1876,18 @@ ALTER TABLE `prescripciones_medicas`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT de la tabla `profesor`
+--
+ALTER TABLE `profesor`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de la tabla `pruebas`
+--
+ALTER TABLE `pruebas`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT de la tabla `roles`
 --
 ALTER TABLE `roles`
@@ -1662,6 +1898,12 @@ ALTER TABLE `roles`
 --
 ALTER TABLE `settings`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+
+--
+-- AUTO_INCREMENT de la tabla `simulaciones`
+--
+ALTER TABLE `simulaciones`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `tipo_documentos`
