@@ -5,12 +5,10 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class UnidadMedida extends Model
+class Simulacion extends Model
 {
     use HasFactory;
 
-    public $timestamps = false;
-    
-    protected $table = "unidades_medidas";
+    protected $table = "simulaciones";
     protected $primaryKey = 'id'; // or null
 }

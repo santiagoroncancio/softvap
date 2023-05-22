@@ -8,6 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class Componente extends Model
 {
     use HasFactory;
+
+    public $timestamps = false;
     
     protected $table = "componentes";
     protected $primaryKey = 'id'; // or null
