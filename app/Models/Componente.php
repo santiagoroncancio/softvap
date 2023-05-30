@@ -10,7 +10,17 @@ class Componente extends Model
     use HasFactory;
 
     public $timestamps = false;
-    
+
     protected $table = "componentes";
     protected $primaryKey = 'id'; // or null
+
+    /**
+     * Los atributos que son asignados masivamente.
+     *
+     * @var array
+     */
+    protected $fillable = [
+        'nombre',
+        'descripcion'
+    ];
 }

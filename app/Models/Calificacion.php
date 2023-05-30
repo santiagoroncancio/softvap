@@ -13,4 +13,16 @@ class Calificacion extends Model
 
     protected $table = "calificaciones";
     protected $primaryKey = 'id'; // or null
+
+    /**
+     * Los atributos que son asignados masivamente.
+     *
+     * @var array
+     */
+    protected $fillable = [
+        'porcentaje',
+        'tiempo',
+        'nota',
+        'pregunta_id '
+    ];
 }

@@ -5,13 +5,13 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class prueba extends Model
+class Vacunacion extends Model
 {
     use HasFactory;
 
     public $timestamps = false;
 
-    protected $table = "pruebas";
+    protected $table = "vacunacion";
     protected $primaryKey = 'id'; // or null
 
     /**
@@ -21,6 +21,7 @@ class prueba extends Model
      */
     protected $fillable = [
         'nombre',
-        'descripcion'
+        'calibre_aguja',
+        'via_aplicacion'
     ];
 }

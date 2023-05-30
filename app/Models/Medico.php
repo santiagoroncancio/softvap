@@ -8,7 +8,27 @@ use Illuminate\Database\Eloquent\Model;
 class Medico extends Model
 {
     use HasFactory;
-    
+
     protected $table = "medicos";
     protected $primaryKey = 'id'; // or null
+
+    /**
+     * Los atributos que son asignados masivamente.
+     *
+     * @var array
+     */
+    protected $fillable = [
+        'nombre',
+        'descripcion'
+    ];
+
+    /**
+     * Los atributos ocultos para los array.
+     *
+     * @var array
+     */
+    protected $hidden = [
+        'created_at',
+        'updated_at'
+    ];
 }
