@@ -18,8 +18,8 @@ class Medico extends Model
      * @var array
      */
     protected $fillable = [
-        'nombre',
-        'descripcion'
+        'registro_medico',
+        'usuario_id'
     ];
 
     /**
