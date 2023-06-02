@@ -5,11 +5,13 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class ComponenteMedicamento extends Model
+class Grupo extends Model
 {
     use HasFactory;
 
-    protected $table = "Componentes_medicamentos";
+    public $timestamps = false;
+
+    protected $table = "grupos";
     protected $primaryKey = 'id'; // or null
 
     /**
@@ -18,8 +20,8 @@ class ComponenteMedicamento extends Model
      * @var array
      */
     protected $fillable = [
-        'cantidad',
-        'unidad_medida_id',
-        'componente_id'
+        'nombre',
+        'descripcion',
+        'annio'
     ];
 }

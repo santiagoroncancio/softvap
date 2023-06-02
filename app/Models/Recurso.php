@@ -5,13 +5,13 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class UnidadMedida extends Model
+class Recurso extends Model
 {
     use HasFactory;
 
     public $timestamps = false;
 
-    protected $table = "unidades_medidas";
+    protected $table = "recursos";
     protected $primaryKey = 'id'; // or null
 
     /**
@@ -20,10 +20,9 @@ class UnidadMedida extends Model
      * @var array
      */
     protected $fillable = [
+        'tipo_recurso',
         'nombre',
-        'descripcion',
-        'equivalencia',
-        'magnitud',
-        'abreviatura'
+        'calibre_aguja',
+        'via_aplicacion'
     ];
 }

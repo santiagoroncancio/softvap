@@ -5,11 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class PrescripcionMedica extends Model
+class RespuestaSimulacion extends Model
 {
     use HasFactory;
 
-    protected $table = "prescripciones_medicas";
+    protected $table = "respuesta_simulaciones";
     protected $primaryKey = 'id'; // or null
 
     /**
@@ -18,12 +18,9 @@ class PrescripcionMedica extends Model
      * @var array
      */
     protected $fillable = [
-        'cantidad',
-        'detalle',
-        'unidad_medida_id',
-        'medicamento_id',
-        'historia_clinica_id',
-        'medico_id'
+        'valor',
+        'simulacion_id',
+        'recurso_id'
     ];
 
     /**

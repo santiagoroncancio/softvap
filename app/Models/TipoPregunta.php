@@ -5,11 +5,13 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class ViaSuministro extends Model
+class TipoPregunta extends Model
 {
     use HasFactory;
 
-    protected $table = "via_suministros";
+    public $timestamps = false;
+
+    protected $table = "tipo_preguntas";
     protected $primaryKey = 'id'; // or null
 
     /**
@@ -20,15 +22,5 @@ class ViaSuministro extends Model
     protected $fillable = [
         'nombre',
         'descripcion'
-    ];
-
-    /**
-     * Los atributos ocultos para los array.
-     *
-     * @var array
-     */
-    protected $hidden = [
-        'created_at',
-        'updated_at'
     ];
 }
