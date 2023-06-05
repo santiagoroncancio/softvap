@@ -20,7 +20,8 @@ class RespuestaPregunta extends Model
     protected $fillable = [
         'valor',
         'recurso_id',
-        'pregunta_id'
+        'pregunta_id',
+        'campo_id'
     ];
 
     /**
@@ -32,4 +33,13 @@ class RespuestaPregunta extends Model
         'created_at',
         'updated_at'
     ];
+
+    /**
+     * Relacion con el modelo PreguntaSimulacion.
+     * @return mixed \App\Models\Database\PreguntaSimulacion
+     */
+    public function recurso()
+    {
+        return $this->belongsTo(Recurso::class, 'recurso_id', 'id');
+    }
 }

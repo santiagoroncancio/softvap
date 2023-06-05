@@ -5,9 +5,9 @@ namespace App\Repositories\Simulacion;
 use Illuminate\Support\Facades\DB;
 
 /**
- * Repositorio Predios Extincion Dominios
+ * Repositorio Simulacion
  *
- * Repositorio que controla la lógica de predios Extincion de Dominios
+ * Repositorio que controla la lógica de Simulacion
  *
  * @package    Repositories
  * @subpackage \Simulacion

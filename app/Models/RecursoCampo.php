@@ -5,11 +5,13 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class RespuestaSimulacion extends Model
+class RecursoCampo extends Model
 {
     use HasFactory;
 
-    protected $table = "respuesta_simulaciones";
+    public $timestamps = false;
+
+    protected $table = "recurso_campos";
     protected $primaryKey = 'id'; // or null
 
     /**
@@ -18,20 +20,10 @@ class RespuestaSimulacion extends Model
      * @var array
      */
     protected $fillable = [
-        'valor',
-        'simulacion_id',
         'recurso_id',
+        'campo_id',
+        'valor',
         'campo_id'
-    ];
-
-    /**
-     * Los atributos ocultos para los array.
-     *
-     * @var array
-     */
-    protected $hidden = [
-        'created_at',
-        'updated_at'
     ];
 
     /**

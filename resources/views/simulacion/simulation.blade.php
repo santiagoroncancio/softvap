@@ -13,23 +13,27 @@
 @section('content')
 <div class="page-content browse container-fluid">
     @include('voyager::alerts')
-    <div class="row">
+    <div class="row justify-content-center">
         <div class="col-md-8">
-            <img src="{{ asset(env('APP_URL') . '/storage/' . $data->imagen) }}" class="img-fluid card-img-top" alt="Imagen de caso de simulación" id="imgSimulation">
-        </div>
-        <div class="col-md-4">
             <div class="card">
                 <div class="card-body">
                     <h5 class="card-title">{{ $data->nombre }}</h5>
                     <p class="card-text">{{ $data->descripcion }}</p>
+                    <img src="{{ asset(env('APP_URL') . '/storage/' . $data->imagen) }}" class="img-fluid card-img-top" alt="Imagen de caso de simulación" id="imgSimulation">
                 </div>
             </div>
         </div>
     </div>
-    <div class="row">
-        <div class="col-md-12">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
             <div class="card">
                 <div class="card-body">
+                    @if ($data->preguntas != null)
+
+                    @php
+                    $pregunta = $data->preguntas->random();
+                    @endphp
+
                     <h5 class="card-title">
                         Pregunta:
                         <span class="badge pull-right" style="background-color: {{ $pregunta->nivel->color }}" id="nivel">{{ $pregunta->nivel->nombre }}</span>
@@ -41,23 +45,28 @@
                         <input type="hidden" name="ti" value="{{ date('Y-m-d G:i:s') }}">
                         <input type="hidden" name="question" value="{{ $pregunta->id }}">
 
-                        <div class="row">
-                            <div class="col-sm-8">
-                                <input type="text" name="answer" id="answer" value="{{ old('annio_produccion') }}" class="form-control">
-                                @if ($errors->has('answer'))
-                                <span class="form-validation text-red">{{ $errors->first('answer') }}</span>
-                                @endif
-                            </div>
-                            <div class="col-sm-4">
-                                <select name="answeru" id="answeru" style="width: 100%;"></select>
-                                @if ($errors->has('answeru'))
-                                <span class="form-validation text-red">{{ $errors->first('answeru') }}</span>
-                                @endif
-                            </div>
+                        @foreach ($pregunta->respuestas as $pr)
+                        <div class="form-group">
+                            <input type="hidden" name="recurso[]" value="{{ $pr->recurso_id }}">
+                            <label for="{{ $pr->recurso->nombre }}">{{ $pr->recurso->nombre }}</label>
+
+                            @if ($pr->campo_id == 2)
+                            <input type="number" name="answer[]" min="0" class="form-control">
+                            @elseif ($pr->campo_id == 3)
+                            <select name="answer[]" class="form-control viaAplicacion"></select>
+                            @endif
+
                         </div>
+                        @endforeach
 
                         <input type="submit" value="Evaluar" class="btn btn-primary pull-right" />
                     </form>
+                    @else
+                    <h5 class="card-title text-center">
+                        Caso Sin preguntas
+                        <i class="fa fa-frown-o" aria-hidden="true"></i>
+                    </h5>
+                    @endif
                 </div>
             </div>
         </div>
@@ -68,10 +77,6 @@
 @section('css')
 <link rel="stylesheet" href="{{ voyager_asset('lib/css/responsive.dataTables.min.css') }}">
 <style>
-    .card {
-        margin: 1em;
-    }
-
     .badge {
         padding: 8px;
         margin-left: 3px;
@@ -81,6 +86,11 @@
     .text-red {
         color: red;
     }
+
+    .justify-content-center {
+        display: flex;
+        justify-content: center;
+    }
 </style>
 @stop
 
@@ -89,10 +99,10 @@
 <script>
     let url = "{{env('APP_URL')}}";
 
-    if ($('#answeru').length > 0) {
-        $('#answeru').select2({
+    if ($('.viaAplicacion').length > 0) {
+        $('.viaAplicacion').select2({
             ajax: {
-                url: url + '/api/select/unidad-medida',
+                url: url + '/api/select/tipoAplicacion',
                 dataType: 'json',
                 type: 'get',
                 delay: 250,

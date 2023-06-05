@@ -1,7 +1,9 @@
 <?php
 
 use App\Http\Controllers\Estadistica\EstadisticaController;
+use App\Http\Controllers\Simulacion\PreguntasController;
 use App\Http\Controllers\Simulacion\SimulacionController;
+use App\Http\Controllers\Simulacion\VacunacionController;
 use Illuminate\Support\Facades\Route;
 use TCG\Voyager\Facades\Voyager;
 
@@ -23,6 +25,8 @@ use TCG\Voyager\Facades\Voyager;
 Route::get('lab-simulacion/random', [SimulacionController::class, 'random'])->name('lab-simulacion.random');
 Route::get('lab-simulacion/resultados/{id}', [SimulacionController::class, 'results'])->name('lab-simulacion.results');
 
+Route::resource('vacunacion', VacunacionController::class);
+Route::resource('preguntas', PreguntasController::class);
 Route::resource('lab-simulacion', SimulacionController::class);
 Route::resource('estadistica', EstadisticaController::class);
 

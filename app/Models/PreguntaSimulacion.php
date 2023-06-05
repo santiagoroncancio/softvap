@@ -19,21 +19,10 @@ class PreguntaSimulacion extends Model
      */
     protected $fillable = [
         'pregunta',
-        'respuesta_medida',
-        'respuesta_unidad',
         'escenario_id',
         'nivel_id',
         'categoria_id'
     ];
-
-    /**
-     * Relacion con el modelo UnidadMedida.
-     * @return mixed \App\Models\Database\UnidadMedida
-     */
-    public function unidad()
-    {
-        return $this->belongsTo(UnidadMedida::class, 'respuesta_unidad', 'id');
-    }
 
     /**
      * Relacion con el modelo UnidadMedida.
@@ -60,5 +49,14 @@ class PreguntaSimulacion extends Model
     public function categoria()
     {
         return $this->belongsTo(Categoria::class, 'categoria_id', 'id');
+    }
+
+    /**
+     * Relacion con el modelo respuestas.
+     * @return mixed \App\Models\Database\respuestas
+     */
+    public function respuestas()
+    {
+        return $this->hasMany(RespuestaPregunta::class, 'pregunta_id', 'id');
     }
 }

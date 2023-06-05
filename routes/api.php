@@ -1,6 +1,7 @@
 <?php
 
-use App\Http\Controllers\Simulacion\SimulacionController;
+use App\Http\Controllers\Simulacion\PreguntasController;
+use App\Http\Controllers\Simulacion\VacunacionController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -15,7 +16,17 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('select/unidad-medida', [SimulacionController::class, 'selectUnidadMedida']);
+// Datatables
+Route::get('datatable/preguntas', [PreguntasController::class, 'datatableIndex']);
+
+// Select
+Route::get('select/escenarios', [PreguntasController::class, 'selectEscenario']);
+Route::get('select/niveles', [PreguntasController::class, 'selectNivel']);
+Route::get('select/categorias', [PreguntasController::class, 'selectCategoria']);
+Route::get('select/recursos', [PreguntasController::class, 'selectRecursos']);
+Route::get('select/campos', [PreguntasController::class, 'selectCampo']);
+Route::get('select/tipoAplicacion', [VacunacionController::class, 'selectTipoAplicacion']);
+
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();

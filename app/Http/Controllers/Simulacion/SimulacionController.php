@@ -2,20 +2,16 @@
 
 namespace App\Http\Controllers\Simulacion;
 
-use App\Helpers\Helper;
-use DateTime;
 use Exception;
 use Illuminate\Http\Request;
 use App\Models\Simulacion;
-use App\Models\UnidadMedida;
+use App\Models\PreguntaSimulacion;
 use App\Models\EscenarioSimulacion;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Response;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\SimulacionRequest;
-use App\Models\Calificacion;
-use App\Models\PreguntaSimulacion;
+use App\Models\RespuestaSimulacion;
+use Illuminate\Support\Facades\DB;
 
 /**
  * Controlador Maneja Lógica de Simulacion.
@@ -43,63 +39,6 @@ class SimulacionController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(SimulacionRequest $request)
-    {
-        try {
-            // Calcular Tiempo
-            $ti = new DateTime($request->ti);
-            $tf = new DateTime("now");
-            $tiempo = $tf->diff($ti);
-            $tiempo = $tiempo->format("%h:%i:%s");
-
-            // Calcular Nota
-            $um = UnidadMedida::find($request->answeru);
-            $pr = PreguntaSimulacion::find($request->question);
-            $questionSI = Helper::calSi($pr->respuesta_medida, $pr->respuesta_unidad);
-            $answerSI = Helper::calSi($request->answer, $request->answeru);
-
-            $nota = 0;
-            if ($pr != null && $questionSI == $answerSI && $um != null && $pr->unidad->magnitud == $um->magnitud) {
-                $nota = Calificacion::where('pregunta_id', $request->question)
-                    ->get();
-
-                if (count($nota) > 0) {
-                    $nota = Calificacion::where('pregunta_id', $request->question)
-                        ->where('tiempo_inicial', '<=', $tiempo)
-                        ->where('tiempo_final', '>=', $tiempo)
-                        ->first();
-
-                    $nota = $nota != null ? $nota->nota : 0;
-                } else {
-                    $nota = 100; //Si no esta parametrizada la calificacion, su calificacion es 0 o 100
-                }
-            }
-
-            // Registrar simulacion
-            $simulacion = Simulacion::create([
-                'respuesta_medida' => $request->answer,
-                'respuesta_unidad' => $request->answeru,
-                'nota' => $nota,
-                'tiempo' => $tiempo,
-                'pregunta_id' => $request->question,
-                'estudiante_id' => auth()->id()
-            ]);
-        } catch (Exception $ex) {
-            Log::debug($ex);
-            return redirect()->route('lab-simulacion.index')->with([
-                'message'    => 'Error del sistema: Por favor comunicarse con el administrador',
-                'alert-type' => 'error',
-            ]);;
-        }
-        return redirect()->route('lab-simulacion.results', $simulacion->id);
-    }
-
-    /**
      * Display the specified resource.
      *
      * @param  int  $id
@@ -108,8 +47,41 @@ class SimulacionController extends Controller
     public function show($id)
     {
         $data = EscenarioSimulacion::find($id);
-        $pregunta = $data->preguntas->random();
-        return view('simulacion.simulation', compact('data', 'pregunta'));
+        return view('simulacion.simulation', compact('data'));
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store(Request $request)
+    {
+        try {
+            DB::beginTransaction();
+
+            dd($request->all());
+
+            // foreach ($request->recurso as $rc) {
+            //     RespuestaSimulacion::create([
+            //         'valor' => $request->,
+            //         'simulacion_id' => $request->,
+            //         'recurso_id' => $request->,
+            //         'campo_id' => 
+            //     ]);
+            // }
+
+            DB::commit();
+        } catch (Exception $ex) {
+            DB::rollBack();
+            Log::debug($ex);
+            return redirect()->route('lab-simulacion.index')->with([
+                'message'    => 'Error del sistema: Por favor comunicarse con el administrador',
+                'alert-type' => 'error',
+            ]);;
+        }
+        return redirect()->route('lab-simulacion.results', 1);
     }
 
     /**
@@ -173,35 +145,35 @@ class SimulacionController extends Controller
     }
 
 
-    /**
-     * Devuelve las Unidades de medida
-     *
-     * @param $string $term dato de entrada para busqueda.
-     * @param $int $page pagina de busqueda.
-     *
-     * @return array
-     */
-    public function selectUnidadMedida(Request $request)
-    {
-        $term = trim($request->term) ?? '';
-        $page = $request->page ?? '1';
+    // /**
+    //  * Devuelve las Unidades de medida
+    //  *
+    //  * @param $string $term dato de entrada para busqueda.
+    //  * @param $int $page pagina de busqueda.
+    //  *
+    //  * @return array
+    //  */
+    // public function selectUnidadMedida(Request $request)
+    // {
+    //     $term = trim($request->term) ?? '';
+    //     $page = $request->page ?? '1';
 
-        $um = UnidadMedida::where('nombre', 'LIKE', '%' . $term . '%')
-            ->orWhere('abreviatura', 'LIKE', '%' . $term . '%')
-            ->select(
-                'id',
-                DB::raw("CONCAT(nombre, ' - ', abreviatura) as text")
-            )
-            ->paginate(10);
+    //     $um = UnidadMedida::where('nombre', 'LIKE', '%' . $term . '%')
+    //         ->orWhere('abreviatura', 'LIKE', '%' . $term . '%')
+    //         ->select(
+    //             'id',
+    //             DB::raw("CONCAT(nombre, ' - ', abreviatura) as text")
+    //         )
+    //         ->paginate(10);
 
-        $morePages = ($page * $um->perPage()) < $um->total();
-        $data  = [
-            'incomplete_results' => false,
-            'more' => $morePages,
-            'total_count' => $um->total(),
-            'results' => $um
-        ];
+    //     $morePages = ($page * $um->perPage()) < $um->total();
+    //     $data  = [
+    //         'incomplete_results' => false,
+    //         'more' => $morePages,
+    //         'total_count' => $um->total(),
+    //         'results' => $um
+    //     ];
 
-        return Response::json($data, 200, [], JSON_PRETTY_PRINT);
-    }
+    //     return Response::json($data, 200, [], JSON_PRETTY_PRINT);
+    // }
 }
