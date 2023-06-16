@@ -4,8 +4,6 @@ namespace App\Http\Controllers\Simulacion;
 
 use Exception;
 use Illuminate\Http\Request;
-use App\Models\PreguntaSimulacion;
-use App\Models\EscenarioSimulacion;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Response;
@@ -16,9 +14,9 @@ use App\Models\ViaAplicacion;
 use App\Repositories\Vacunacion\VacunacionRepository;
 
 /**
- * Controlador Maneja Lógica de Preguntas Simulacion.
+ * Controlador Maneja Lógica de Vacunacion
  *
- * Controlador que maneja la lógica de Preguntas de Simulación.
+ * Controlador que maneja la lógica de Vacunacion.
  *
  * @package    Controllers
  * @subpackage \Simulacion
@@ -114,42 +112,99 @@ class VacunacionController extends Controller
         return redirect()->route('vacunacion.index')->with([
             'message'    => 'Se registro la vacuna',
             'alert-type' => 'success',
-        ]);;
+        ]);
     }
 
-    // /**
-    //  * Show the form for editing the specified resource.
-    //  *
-    //  * @param  int  $id
-    //  * @return \Illuminate\Http\Response
-    //  */
-    // public function edit($id)
-    // {
-    //     //
-    // }
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function edit($id)
+    {
+        $data = $this->vacunacionRepository->show($id);
+        return view('vacunacion.edit', compact('data'));
+    }
 
-    // /**
-    //  * Update the specified resource in storage.
-    //  *
-    //  * @param  \Illuminate\Http\Request  $request
-    //  * @param  int  $id
-    //  * @return \Illuminate\Http\Response
-    //  */
-    // public function update(Request $request, $id)
-    // {
-    //     //
-    // }
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request, $id)
+    {
+        try {
+            DB::beginTransaction();
 
-    // /**
-    //  * Remove the specified resource from storage.
-    //  *
-    //  * @param  int  $id
-    //  * @return \Illuminate\Http\Response
-    //  */
-    // public function destroy($id)
-    // {
-    //     //
-    // }
+            Recurso::find($id)
+                ->where([
+                    'nombre' => $request->nombre
+                ]);
+
+            RecursoCampo::where('recurso_id', '=', $id)
+                ->where('campo_id', '=', 1)
+                ->update([
+                    'valor' => $request->nombre
+                ]);
+
+            RecursoCampo::where('recurso_id', '=', $id)
+                ->where('campo_id', '=', 2)
+                ->update([
+                    'valor' => $request->calibre
+                ]);
+
+            RecursoCampo::where('recurso_id', '=', $id)
+                ->where('campo_id', '=', 3)
+                ->update([
+                    'valor' => $request->via_aplicacion
+                ]);
+
+            DB::commit();
+        } catch (Exception $ex) {
+            Log::debug($ex->getMessage() . ' - ' . $ex->getLine() . ' - ' . $ex->getFile());
+            DB::rollBack();
+            return redirect()->route('vacunacion.index')->with([
+                'message'    => 'Error del sistema: Por favor comunicarse con el administrador',
+                'alert-type' => 'error',
+            ]);
+        }
+        return redirect()->route('vacunacion.index')->with([
+            'message'    => 'Se Actualizo la vacuna',
+            'alert-type' => 'success',
+        ]);
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy($id)
+    {
+        try {
+            DB::beginTransaction();
+
+            Recurso::findOrFail($id)->delete();
+            RecursoCampo::where('recurso_id', '=', $id)->delete();
+
+            DB::commit();
+        } catch (Exception $ex) {
+            Log::debug($ex->getMessage() . ' - ' . $ex->getLine() . ' - ' . $ex->getFile());
+            DB::rollBack();
+            return redirect()->route('vacunacion.index')->with([
+                'message'    => 'Error del sistema: Por favor comunicarse con el administrador',
+                'alert-type' => 'error',
+            ]);
+        }
+        return redirect()->route('vacunacion.index')->with([
+            'message'    => 'Se Elimino la vacuna',
+            'alert-type' => 'success',
+        ]);
+    }
 
     // /**
     //  * Muestra una pregunta Al Azar

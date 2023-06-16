@@ -28,11 +28,8 @@
         <div class="col-md-8">
             <div class="card">
                 <div class="card-body">
-                    @if ($data->preguntas != null)
 
-                    @php
-                    $pregunta = $data->preguntas->random();
-                    @endphp
+                    @if ($pregunta != null)
 
                     <h5 class="card-title">
                         Pregunta:
@@ -40,33 +37,24 @@
                         <span class="badge badge-secondary pull-right">{{ $pregunta->categoria->nombre }}</span>
                     </h5>
                     <p class="card-text">{{ $pregunta->pregunta }}</p>
+
                     <form action="{{ route('lab-simulacion.store') }}" method="post">
                         @csrf
                         <input type="hidden" name="ti" value="{{ date('Y-m-d G:i:s') }}">
                         <input type="hidden" name="question" value="{{ $pregunta->id }}">
 
-                        @foreach ($pregunta->respuestas as $pr)
-                        <div class="form-group">
-                            <input type="hidden" name="recurso[]" value="{{ $pr->recurso_id }}">
-                            <label for="{{ $pr->recurso->nombre }}">{{ $pr->recurso->nombre }}</label>
-
-                            @if ($pr->campo_id == 2)
-                            <input type="number" name="answer[]" min="0" class="form-control">
-                            @elseif ($pr->campo_id == 3)
-                            <select name="answer[]" class="form-control viaAplicacion"></select>
-                            @endif
-
-                        </div>
-                        @endforeach
+                        @include('simulacion.partials.vacunas')
 
                         <input type="submit" value="Evaluar" class="btn btn-primary pull-right" />
                     </form>
+
                     @else
                     <h5 class="card-title text-center">
                         Caso Sin preguntas
                         <i class="fa fa-frown-o" aria-hidden="true"></i>
                     </h5>
                     @endif
+
                 </div>
             </div>
         </div>

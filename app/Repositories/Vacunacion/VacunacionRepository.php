@@ -56,4 +56,31 @@ class VacunacionRepository
             )
             ->get();
     }
+
+    public function show($id)
+    {
+        return DB::table('recursos as r')
+            ->join('recurso_campos as n', function ($e) {
+                $e->on('n.recurso_id', '=', 'r.id')
+                    ->where('n.campo_id', '=', 1);
+            })
+            ->join('recurso_campos as ta', function ($e) {
+                $e->on('ta.recurso_id', '=', 'r.id')
+                    ->where('ta.campo_id', '=', 2);
+            })
+            ->join('recurso_campos as va', function ($e) {
+                $e->on('va.recurso_id', '=', 'r.id')
+                    ->where('va.campo_id', '=', 3);
+            })
+            ->join('via_aplicaciones as vpl', 'vpl.id', '=', 'va.campo_id')
+            ->where('r.id', '=', $id)
+            ->select(
+                'r.id',
+                'n.valor as nombre',
+                'ta.valor as tipo_aplicacion',
+                'va.valor as via_aplicacion',
+                'vpl.nombre as nombre_via_aplicacion'
+            )
+            ->first();
+    }
 }

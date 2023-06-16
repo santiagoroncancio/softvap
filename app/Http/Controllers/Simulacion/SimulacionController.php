@@ -47,7 +47,13 @@ class SimulacionController extends Controller
     public function show($id)
     {
         $data = EscenarioSimulacion::find($id);
-        return view('simulacion.simulation', compact('data'));
+
+        $pregunta = null;
+        if (count($data->preguntas) > 0) {
+            $pregunta = $data->preguntas->random();
+        }
+
+        return view('simulacion.simulation', compact('data', 'pregunta'));
     }
 
     /**

@@ -18,22 +18,25 @@
         <div class="col-md-8">
             <div class="card">
                 <div class="card-body">
-                    <h5 class="card-title">Nuevo Registro</h5>
-                    <form action="{{ route('vacunacion.store') }}" method="post" id="formVacunacion">
+                    <h5 class="card-title">Editar un Registro</h5>
+                    <form action="{{ route('vacunacion.update', $data->id) }}" method="post" id="formVacunacion">
                         @csrf
+                        {{ method_field('PUT') }}
                         <fieldset>
                             <legend>Datos de la vacuna</legend>
                             <div class="form-group">
                                 <label for="nombre">Nombre</label>
-                                <input type="text" name="nombre" id="nombre" value="{{ old('nombre') }}" required class="form-control">
+                                <input type="text" name="nombre" id="nombre" value="{{ old('nombre', $data->nombre) }}" required class="form-control">
                             </div>
                             <div class="form-group">
                                 <label for="calibre">calibre de la aguja</label>
-                                <input type="number" name="calibre" id="calibre" value="{{ old('calibre') }}" class="form-control">
+                                <input type="number" name="calibre" id="calibre" value="{{ old('calibre', $data->tipo_aplicacion) }}" class="form-control">
                             </div>
                             <div class="form-group">
                                 <label for="via_aplicacion">Nivel</label>
-                                <select name="via_aplicacion" id="via_aplicacion" required class="form-control"></select>
+                                <select name="via_aplicacion" id="via_aplicacion" required class="form-control">
+                                    <option value="{{ $data->via_aplicacion }}">{{ $data->nombre_via_aplicacion }}</option>
+                                </select>
                             </div>
                         </fieldset>
                         <input type="submit" id="btnSave" value="Guardar" class="btn btn-primary pull-right">

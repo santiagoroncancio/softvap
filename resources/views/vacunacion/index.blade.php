@@ -38,10 +38,19 @@
                                 <td>{{ $d->via_aplicacion }}</td>
                                 <td>
                                     <div class="actions">
-                                        <a href="{{ route('preguntas.edit', $d->id) }}" class="btn btn-sm btn-primary pull-right edit">
-                                            <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
-                                            <span class="hidden-xs hidden-sm">Editar</span>
-                                        </a>
+                                        <div>
+                                            <a href="{{ route('vacunacion.edit', $d->id) }}" class="btn btn-sm btn-primary pull-right edit">
+                                                <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                                                <span class="hidden-xs hidden-sm">Editar</span>
+                                            </a>
+                                        </div>
+                                        <div>
+                                            <form action="{{ route('vacunacion.destroy', $d->id) }}" id="delete{{ $d->id }}" method="POST">
+                                                @csrf
+                                                {{ method_field('DELETE') }}
+                                                <input type="submit" value="Eliminar" class="btn btn-sm btn-danger" onclick="verificar('{{$d->id}}')">
+                                            </form>
+                                        </div>
                                     </div>
                                 </td>
                             </tr>
@@ -58,7 +67,7 @@
 @section('css')
 <link rel="stylesheet" href="{{ voyager_asset('lib/css/responsive.dataTables.min.css') }}">
 <style>
-    #dataTable .actions a.btn {
+    #dataTable .actions div a.btn {
         font-size: 12px;
         padding: 5px 10px;
     }
@@ -67,11 +76,23 @@
         font-weight: 500;
         text-decoration: none;
     }
+
+    .actions {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .actions div input {
+        font-size: 12px;
+    }
 </style>
 @stop
 
 @section('javascript')
 <script src="{{ voyager_asset('lib/js/dataTables.responsive.min.js') }}"></script>
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
     let QuestionTable = $('#dataTable').DataTable({
         destroy: true,
@@ -86,5 +107,25 @@
             url: '//cdn.datatables.net/plug-ins/1.13.4/i18n/es-ES.json',
         }
     });
+
+    function verificar(id) {
+        event.preventDefault();
+        event.stopPropagation();
+        Swal.fire({
+                title: '¿Deseas borrar el registro?',
+                text: 'El registro de vacunación se borrara del sistema',
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonColor: '#3c8dbc',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Confirmar',
+                cancelButtonText: 'Cancelar'
+            })
+            .then((result) => {
+                if (result.isConfirmed) {
+                    $('#delete' + id).submit();
+                }
+            });
+    }
 </script>
 @stop

@@ -30,4 +30,13 @@ class Recurso extends Model
         'created_at',
         'updated_at'
     ];
+
+    /**
+     * Relacion con el modelo campos.
+     * @return mixed \App\Models\Database\campos
+     */
+    public function campos()
+    {
+        return $this->hasMany(RecursoCampo::class, 'recurso_id');
+    }
 }
