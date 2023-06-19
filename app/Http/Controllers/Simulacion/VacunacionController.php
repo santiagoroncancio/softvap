@@ -206,33 +206,6 @@ class VacunacionController extends Controller
         ]);
     }
 
-    // /**
-    //  * Muestra una pregunta Al Azar
-    //  *
-    //  * @return \Illuminate\Http\Response
-    //  */
-    // public function random()
-    // {
-    //     $pregunta = PreguntaSimulacion::all()->random();
-    //     $data = $pregunta->escenario;
-    //     return view('simulacion.simulation', compact('data', 'pregunta'));
-    // }
-
-    // /**
-    //  * Muestra los resultados de la simulacion individual o grupal
-    //  *
-    //  * @param $string $term dato de entrada para busqueda.
-    //  * @param $int $page pagina de busqueda.
-    //  *
-    //  * @return array
-    //  */
-    // public function results($id)
-    // {
-    //     $resultado = Simulacion::find($id);
-    //     return view('simulacion.results', compact('resultado'));
-    // }
-
-
     /**
      * Devuelve los tipos de aplicacion
      *

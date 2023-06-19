@@ -18,15 +18,6 @@ use Illuminate\Support\Facades\DB;
 class VacunacionRepository
 {
     /**
-     * Constuctor de la clase.
-     *
-     * @access public
-     */
-    public function __construct()
-    {
-    }
-
-    /**
      * Mostrar una lista del recurso
      *
      * @access public
@@ -48,11 +39,12 @@ class VacunacionRepository
                 $e->on('va.recurso_id', '=', 'r.id')
                     ->where('va.campo_id', '=', 3);
             })
+            ->join('via_aplicaciones as vpl', 'vpl.id', '=', 'va.valor')
             ->select(
                 'r.id',
                 'n.valor as nombre',
                 'ta.valor as tipo_aplicacion',
-                'va.valor as via_aplicacion'
+                'vpl.nombre as via_aplicacion'
             )
             ->get();
     }
