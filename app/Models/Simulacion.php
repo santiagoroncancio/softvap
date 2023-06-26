@@ -18,13 +18,11 @@ class Simulacion extends Model
      * @var array
      */
     protected $fillable = [
-        'respuesta_medida',
-        'respuesta_unidad',
         'nota',
         'tiempo',
         'pregunta_id',
         'estudiante_id',
-        'prueba_id'
+        'campo_id'
     ];
 
     /**

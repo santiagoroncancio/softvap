@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Response;
 use App\Http\Controllers\Controller;
+use App\Models\Categoria;
 use App\Models\Recurso;
 use App\Models\RecursoCampo;
 use App\Models\ViaAplicacion;
@@ -78,8 +79,12 @@ class VacunacionController extends Controller
         try {
             DB::beginTransaction();
 
+            $vac = Categoria::where('nombre', 'LIKE', 'vacunacion')
+                ->first();
+
             $recurso = Recurso::create([
-                'nombre' => $request->nombre
+                'nombre' => $request->nombre,
+                'categoria_id' => $vac->id
             ]);
 
             RecursoCampo::create([

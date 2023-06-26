@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\DB;
  *
  * @package    Repositories
  * @subpackage \Simulacion
- * @copyright  2022 Sisoft Soluciones Informáticas S.A.S.
+ * @copyright  2023 Unillanos
  * @author     Santiago Roncancio <sntgrncnc@gmail.com>
  * @version    v1.0.0
  */

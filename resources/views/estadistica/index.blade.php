@@ -22,11 +22,9 @@
 @stop
 
 @section('css')
-<link rel="stylesheet" href="{{ voyager_asset('lib/css/responsive.dataTables.min.css') }}">
 @stop
 
 @section('javascript')
-<script src="{{ voyager_asset('lib/js/dataTables.responsive.min.js') }}"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <script type="text/javascript">

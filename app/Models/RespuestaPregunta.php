@@ -19,9 +19,7 @@ class RespuestaPregunta extends Model
      */
     protected $fillable = [
         'valor',
-        'recurso_id',
-        'pregunta_id',
-        'campo_id'
+        'pregunta_id'
     ];
 
     /**
@@ -40,6 +38,6 @@ class RespuestaPregunta extends Model
      */
     public function recurso()
     {
-        return $this->belongsTo(Recurso::class, 'recurso_id', 'id');
+        return $this->belongsTo(Recurso::class, 'valor', 'id');
     }
 }

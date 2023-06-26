@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\DB;
  *
  * @package    Repositories
  * @subpackage \vacunacion
- * @copyright  2022 Sisoft Soluciones Informáticas S.A.S.
+ * @copyright  2023 Unillanos
  * @author     Santiago Roncancio <sntgrncnc@gmail.com>
  * @version    v1.0.0
  */
@@ -21,7 +21,6 @@ class VacunacionRepository
      * Mostrar una lista del recurso
      *
      * @access public
-     * @param int $company empresa a consultar.
      * @return \Illuminate\Database\Query\Builder resultados encontrados.
      */
     public function index()
@@ -49,6 +48,12 @@ class VacunacionRepository
             ->get();
     }
 
+    /**
+     * Mostrar una lista del recurso
+     *
+     * @access public
+     * @return \Illuminate\Database\Query\Builder resultados encontrados.
+     */
     public function show($id)
     {
         return DB::table('recursos as r')

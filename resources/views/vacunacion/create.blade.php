@@ -28,11 +28,11 @@
                                 <input type="text" name="nombre" id="nombre" value="{{ old('nombre') }}" required class="form-control">
                             </div>
                             <div class="form-group">
-                                <label for="calibre">calibre de la aguja</label>
+                                <label for="calibre">Calibre de la aguja</label>
                                 <input type="number" name="calibre" id="calibre" value="{{ old('calibre') }}" class="form-control">
                             </div>
                             <div class="form-group">
-                                <label for="via_aplicacion">Nivel</label>
+                                <label for="via_aplicacion">Via de Aplicación</label>
                                 <select name="via_aplicacion" id="via_aplicacion" required class="form-control"></select>
                             </div>
                         </fieldset>

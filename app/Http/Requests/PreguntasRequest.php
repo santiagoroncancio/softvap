@@ -28,7 +28,8 @@ class PreguntasRequest extends FormRequest
             'pregunta' => 'required',
             'escenario' => 'required',
             'nivel' => 'required',
-            'categoria' => 'required'
+            'categoria' => 'required',
+            'valor' => 'required|array|min:1'
         ];
     }
 
@@ -49,7 +50,8 @@ class PreguntasRequest extends FormRequest
             'pregunta' => 'Pregunta',
             'escenario' => 'Escenario',
             'nivel' => 'Nivel',
-            'categoria' => 'Categoria'
+            'categoria' => 'Categoria',
+            'valor' => 'Valor Respuesta'
         ];
     }
 }

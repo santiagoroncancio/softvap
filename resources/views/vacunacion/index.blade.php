@@ -112,7 +112,7 @@
         Swal.fire({
                 title: '¿Deseas borrar el registro?',
                 text: 'El registro de vacunación se borrara del sistema',
-                icon: 'question',
+                icon: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#3c8dbc',
                 cancelButtonColor: '#d33',

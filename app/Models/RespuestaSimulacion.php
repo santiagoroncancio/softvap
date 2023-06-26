@@ -19,9 +19,7 @@ class RespuestaSimulacion extends Model
      */
     protected $fillable = [
         'valor',
-        'simulacion_id',
-        'recurso_id',
-        'campo_id'
+        'simulacion_id'
     ];
 
     /**

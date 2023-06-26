@@ -56,7 +56,6 @@
 @stop
 
 @section('css')
-<link rel="stylesheet" href="{{ voyager_asset('lib/css/responsive.dataTables.min.css') }}">
 <style>
     #dataTable .actions a.btn {
         font-size: 12px;
@@ -71,7 +70,7 @@
 @stop
 
 @section('javascript')
-<script src="{{ voyager_asset('lib/js/dataTables.responsive.min.js') }}"></script>
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
     let QuestionTable = $('#dataTable').DataTable({
         destroy: true,

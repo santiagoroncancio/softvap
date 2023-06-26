@@ -43,7 +43,11 @@
                         <input type="hidden" name="ti" value="{{ date('Y-m-d G:i:s') }}">
                         <input type="hidden" name="question" value="{{ $pregunta->id }}">
 
-                        @include('simulacion.partials.vacunas')
+                        @if ($pregunta->respuestas->first()->campo_id == 1)
+                        @include('simulacion.partials.select')
+                        @else
+                        @include('simulacion.partials.input')
+                        @endif
 
                         <input type="submit" value="Evaluar" class="btn btn-primary pull-right" />
                     </form>
@@ -112,6 +116,35 @@
                 cache: true
             },
             placeholder: 'Seleccione una Opción',
+        });
+    }
+
+    if ($('.vacunacion').length > 0) {
+        $('.vacunacion').select2({
+            ajax: {
+                url: url + '/api/select/recursos',
+                dataType: 'json',
+                type: 'get',
+                delay: 250,
+                data: function(params) {
+                    return {
+                        term: params.term, // search term
+                        page: params.page,
+                        categoria: 2 || params.categoria
+                    };
+                },
+                processResults: function(data, params) {
+                    params.page = params.page || 1;
+                    return {
+                        results: data.results.data,
+                        pagination: {
+                            more: (params.page * 30) < data.total_count
+                        }
+                    };
+                },
+                cache: true
+            },
+            placeholder: 'Seleccione Una o Varias Opciones',
         });
     }
 </script>

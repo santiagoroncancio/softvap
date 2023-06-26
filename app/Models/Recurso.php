@@ -18,7 +18,8 @@ class Recurso extends Model
      * @var array
      */
     protected $fillable = [
-        'nombre'
+        'nombre',
+        'categoria_id'
     ];
 
     /**

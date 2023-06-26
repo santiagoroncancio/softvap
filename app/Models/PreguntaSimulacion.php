@@ -21,12 +21,14 @@ class PreguntaSimulacion extends Model
         'pregunta',
         'escenario_id',
         'nivel_id',
-        'categoria_id'
+        'categoria_id',
+        'campo_id',
+        'abierta'
     ];
 
     /**
-     * Relacion con el modelo UnidadMedida.
-     * @return mixed \App\Models\Database\UnidadMedida
+     * Relacion con el modelo Escenario.
+     * @return mixed \App\Models\Database\Escenario
      */
     public function escenario()
     {
@@ -34,8 +36,8 @@ class PreguntaSimulacion extends Model
     }
 
     /**
-     * Relacion con el modelo UnidadMedida.
-     * @return mixed \App\Models\Database\UnidadMedida
+     * Relacion con el modelo Nivel.
+     * @return mixed \App\Models\Database\Nivel
      */
     public function nivel()
     {
@@ -43,12 +45,21 @@ class PreguntaSimulacion extends Model
     }
 
     /**
-     * Relacion con el modelo UnidadMedida.
-     * @return mixed \App\Models\Database\UnidadMedida
+     * Relacion con el modelo Categoria.
+     * @return mixed \App\Models\Database\Categoria
      */
     public function categoria()
     {
         return $this->belongsTo(Categoria::class, 'categoria_id', 'id');
+    }
+
+    /**
+     * Relacion con el modelo Campo.
+     * @return mixed \App\Models\Database\Campo
+     */
+    public function campo()
+    {
+        return $this->belongsTo(Campo::class, 'campo_id', 'id');
     }
 
     /**

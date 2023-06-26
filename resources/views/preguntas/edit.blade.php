@@ -18,45 +18,64 @@
         <div class="col-md-8">
             <div class="card">
                 <div class="card-body">
-                    <form action="{{ route('preguntas.store') }}" method="post">
+                    <form action="{{ route('preguntas.update', $data->id) }}" method="post" id="formPregunta">
                         @csrf
+                        {{ method_field('PUT') }}
                         <fieldset>
                             <legend>Datos de la pregunta</legend>
                             <div class="form-group">
                                 <label for="escenario">Escenario de simulación</label>
-                                <select name="escenario" id="escenario" required class="form-control"></select>
+                                <select name="escenario" id="escenario" required class="form-control">
+                                    <option value="{{ $data->escenario_id }}">{{ $data->escenario->nombre }}</option>
+                                </select>
                             </div>
                             <div class="form-group">
                                 <label for="nivel">Nivel</label>
-                                <select name="nivel" id="nivel" required class="form-control"></select>
+                                <select name="nivel" id="nivel" required class="form-control">
+                                    <option value="{{ $data->nivel_id }}">{{ $data->nivel->nombre }}</option>
+                                </select>
                             </div>
                             <div class="form-group">
                                 <label for="pregunta">Pregunta</label>
-                                <input type="text" name="pregunta" id="pregunta" required class="form-control">
+                                <input type="text" name="pregunta" id="pregunta" value="{{ $data->pregunta }}" required class="form-control">
                             </div>
                         </fieldset>
                         <fieldset>
                             <legend>Datos de la respuesta</legend>
                             <div class="form-group">
                                 <div class="float-right">
-                                    <input type="checkbox" name="pabierta" id="pabierta" value="s">
+                                    <input type="checkbox" name="pabierta" id="pabierta" value="s" {{ $data->abierta == 's' ? 'checked' : '' }}>
                                     <label for="pabierta"> Pregunta abierta</label>
                                 </div>
                             </div>
-                            <div class="form-group tc">
+                            <div class="form-group tc" @if ($data->abierta == 's') style="display:none" @endif>
                                 <label for="recurso">Respuesta</label>
-                                <select name="valor[]" id="recurso" class="form-control" multiple></select>
+                                <select name="valor[]" id="recurso" class="form-control" multiple>
+                                    @if ($data->abierta == 'n')
+                                    @foreach ($data->respuestas as $r)
+                                    <option value="{{ $r->valor }}" selected="selected">{{ $r->recurso->nombre }}</option>
+                                    @endforeach
+                                    @endif
+                                </select>
                             </div>
-                            <div class="form-group tc">
+                            <div class="form-group tc" @if ($data->abierta == 's') style="display:none" @endif>
                                 <label for="campo">Campo</label>
-                                <select name="campo" id="campo" class="form-control"></select>
+                                <select name="campo" id="campo" class="form-control">
+                                    @if ($data->abierta == 'n' || $data->campo_id != null)
+                                    <option value="{{ $data->campo_id }}" selected="selected">{{ $data->campo->nombre }}</option>
+                                    @endif
+                                </select>
                             </div>
-                            <div class="form-group ta">
+                            <div class="form-group ta" @if ($data->abierta == 'n') style="display:none" @endif>
                                 <label for="valor">Respuesta</label>
-                                <input type="text" id="valor" name="valor[]" class="form-control">
+                                @if ($data->abierta == 's')
+                                @foreach ($data->respuestas as $r)
+                                <input type="text" id="valor" name="valor[]" value="{{ $r->valor }}" class="form-control">
+                                @endforeach
+                                @endif
                             </div>
                         </fieldset>
-                        <input type="hidden" name="categoria" id="categoria" value="{{ $categoria->id }}">
+                        <input type="hidden" name="categoria" id="categoria" value="{{ $data->categoria_id }}">
                         <input type="submit" value="Guardar" class="btn btn-primary pull-right">
                     </form>
                 </div>
@@ -219,6 +238,5 @@
     }
 
     $('#pabierta').on('click', abierta);
-    abierta();
 </script>
 @stop

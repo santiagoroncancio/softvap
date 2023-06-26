@@ -7,10 +7,9 @@ use Illuminate\Http\Request;
 use App\Models\Simulacion;
 use App\Models\PreguntaSimulacion;
 use App\Models\EscenarioSimulacion;
+use App\Models\RespuestaSimulacion;
 use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\SimulacionRequest;
-use App\Models\RespuestaSimulacion;
 use Illuminate\Support\Facades\DB;
 
 /**
@@ -27,6 +26,16 @@ use Illuminate\Support\Facades\DB;
 
 class SimulacionController extends Controller
 {
+
+    public function calcTime($ti)
+    {
+        // Calcular Tiempo
+        $ti = new DateTime($ti);
+        $tf = new DateTime("now");
+        $tiempo = $tf->diff($ti);
+        return $tiempo->format("%h:%i:%s");
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -68,13 +77,20 @@ class SimulacionController extends Controller
             DB::beginTransaction();
 
             dd($request->all());
+            $ps = PreguntaSimulacion::find($request->question);
+            $sim = Simulacion::create([
+                'nota' => 100,
+                'tiempo' => $this->calcTime($request->ti),
+                'pregunta_id' => $request->question,
+                'estudiante_id' => auth()->id(),
+                'campo_id' => $request->campo
+            ]);
 
-            // foreach ($request->recurso as $rc) {
+            // foreach ($request->answer as $i => $rc) {
             //     RespuestaSimulacion::create([
-            //         'valor' => $request->,
-            //         'simulacion_id' => $request->,
-            //         'recurso_id' => $request->,
-            //         'campo_id' => 
+            //         'valor' => $rc,
+            //         'simulacion_id' => $sim->id,
+            //         'recurso_id' => ,
             //     ]);
             // }
 
@@ -149,37 +165,4 @@ class SimulacionController extends Controller
         $resultado = Simulacion::find($id);
         return view('simulacion.results', compact('resultado'));
     }
-
-
-    // /**
-    //  * Devuelve las Unidades de medida
-    //  *
-    //  * @param $string $term dato de entrada para busqueda.
-    //  * @param $int $page pagina de busqueda.
-    //  *
-    //  * @return array
-    //  */
-    // public function selectUnidadMedida(Request $request)
-    // {
-    //     $term = trim($request->term) ?? '';
-    //     $page = $request->page ?? '1';
-
-    //     $um = UnidadMedida::where('nombre', 'LIKE', '%' . $term . '%')
-    //         ->orWhere('abreviatura', 'LIKE', '%' . $term . '%')
-    //         ->select(
-    //             'id',
-    //             DB::raw("CONCAT(nombre, ' - ', abreviatura) as text")
-    //         )
-    //         ->paginate(10);
-
-    //     $morePages = ($page * $um->perPage()) < $um->total();
-    //     $data  = [
-    //         'incomplete_results' => false,
-    //         'more' => $morePages,
-    //         'total_count' => $um->total(),
-    //         'results' => $um
-    //     ];
-
-    //     return Response::json($data, 200, [], JSON_PRETTY_PRINT);
-    // }
 }

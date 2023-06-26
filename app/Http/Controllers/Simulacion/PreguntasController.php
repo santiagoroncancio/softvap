@@ -16,6 +16,7 @@ use App\Models\Nivel;
 use App\Models\Recurso;
 use App\Models\Categoria;
 use App\Models\RespuestaPregunta;
+use App\Repositories\Pregunta\PreguntaRepository;
 
 /**
  * Controlador Maneja Lógica de Preguntas Simulacion.
@@ -31,6 +32,24 @@ use App\Models\RespuestaPregunta;
 
 class PreguntasController extends Controller
 {
+    /**
+     * Objeto PreguntaRepository.
+     *
+     * @var object
+     */
+    private $preguntaRepository;
+
+    /**
+     * Constructor de la clase.
+     *
+     * @access public
+     * @param PreguntaRepository $vacunacionRepository
+     */
+    public function __construct(PreguntaRepository $preguntaRepository)
+    {
+        $this->preguntaRepository = $preguntaRepository;
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -50,7 +69,8 @@ class PreguntasController extends Controller
      */
     public function create()
     {
-        return view('preguntas.create');
+        $categoria = Categoria::where('nombre', 'LIKE', 'vacunacion')->first();
+        return view('preguntas.create', compact('categoria'));
     }
 
     /**
@@ -64,29 +84,23 @@ class PreguntasController extends Controller
         try {
             DB::beginTransaction();
 
+            $abierta = $request->pabierta ?? 'n';
             $qs = PreguntaSimulacion::create([
                 'pregunta' => $request->pregunta,
                 'escenario_id' => $request->escenario,
                 'nivel_id' => $request->nivel,
-                'categoria_id' => $request->categoria
+                'categoria_id' => $request->categoria,
+                'campo_id' => $request->campo ?? null,
+                'abierta' => $abierta
             ]);
 
-            if ($request->recurso != null) {
-                foreach ($request->recurso as $rc) {
+            foreach ($request->valor as $rc) {
+                if ($rc != null) {
                     RespuestaPregunta::create([
-                        'valor' => null,
-                        'recurso_id' => $rc,
-                        'campo_id' => $request->campo,
+                        'valor' => $rc,
                         'pregunta_id' => $qs->id
                     ]);
                 }
-            } else {
-                RespuestaPregunta::create([
-                    'valor' => $request->valor,
-                    'recurso_id' => null,
-                    'campo_id' => null,
-                    'pregunta_id' => $qs->id
-                ]);
             }
 
             DB::commit();
@@ -104,16 +118,17 @@ class PreguntasController extends Controller
         ]);;
     }
 
-    // /**
-    //  * Show the form for editing the specified resource.
-    //  *
-    //  * @param  int  $id
-    //  * @return \Illuminate\Http\Response
-    //  */
-    // public function edit($id)
-    // {
-    //     //
-    // }
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function edit($id)
+    {
+        $data = PreguntaSimulacion::find($id);
+        return view('preguntas.edit', compact('data'));
+    }
 
     // /**
     //  * Update the specified resource in storage.
@@ -272,6 +287,7 @@ class PreguntasController extends Controller
         $page = $request->page ?? '1';
 
         $um = Recurso::where('nombre', 'LIKE', '%' . $term . '%')
+            ->where('categoria_id', '=', $request->categoria)
             ->select(
                 'id',
                 'nombre as text'
