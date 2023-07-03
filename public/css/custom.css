@@ -19,3 +19,8 @@
     position: absolute;
     margin-left: 10px;
 }
+
+.form-validation {
+    color: #962424;
+    font-size: 0.8em; 
+}

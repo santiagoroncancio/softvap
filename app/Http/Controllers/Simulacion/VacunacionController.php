@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Response;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\VacunacionRequest;
 use App\Models\Categoria;
 use App\Models\Recurso;
 use App\Models\RecursoCampo;
@@ -74,7 +75,7 @@ class VacunacionController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(VacunacionRequest $request)
     {
         try {
             DB::beginTransaction();
@@ -139,7 +140,7 @@ class VacunacionController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(VacunacionRequest $request, $id)
     {
         try {
             DB::beginTransaction();
