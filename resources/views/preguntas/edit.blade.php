@@ -18,26 +18,35 @@
         <div class="col-md-8">
             <div class="card">
                 <div class="card-body">
-                    <form action="{{ route('preguntas.update', $data->id) }}" method="post" id="formPregunta">
+                    <form action="{{ route('preguntas.update', $data->id) }}" method="post" id="formPreguntas">
                         @csrf
                         {{ method_field('PUT') }}
                         <fieldset>
                             <legend>Datos de la pregunta</legend>
-                            <div class="form-group">
+                            <div class="form-group {{ $errors->has('escenario') ? 'has-error' : '' }}">
                                 <label for="escenario">Escenario de simulación</label>
                                 <select name="escenario" id="escenario" required class="form-control">
                                     <option value="{{ $data->escenario_id }}">{{ $data->escenario->nombre }}</option>
                                 </select>
+                                @if ($errors->has('escenario'))
+                                <span class="form-validation">{{ $errors->first('escenario') }}</span>
+                                @endif
                             </div>
-                            <div class="form-group">
+                            <div class="form-group {{ $errors->has('nivel') ? 'has-error' : '' }}">
                                 <label for="nivel">Nivel</label>
                                 <select name="nivel" id="nivel" required class="form-control">
                                     <option value="{{ $data->nivel_id }}">{{ $data->nivel->nombre }}</option>
                                 </select>
+                                @if ($errors->has('nivel'))
+                                <span class="form-validation">{{ $errors->first('nivel') }}</span>
+                                @endif
                             </div>
-                            <div class="form-group">
+                            <div class="form-group {{ $errors->has('pregunta') ? 'has-error' : '' }}">
                                 <label for="pregunta">Pregunta</label>
                                 <input type="text" name="pregunta" id="pregunta" value="{{ $data->pregunta }}" required class="form-control">
+                                @if ($errors->has('pregunta'))
+                                <span class="form-validation">{{ $errors->first('pregunta') }}</span>
+                                @endif
                             </div>
                         </fieldset>
                         <fieldset>
@@ -48,7 +57,7 @@
                                     <label for="pabierta"> Pregunta abierta</label>
                                 </div>
                             </div>
-                            <div class="form-group tc" @if ($data->abierta == 's') style="display:none" @endif>
+                            <div class="form-group tc {{ $errors->has('recurso') ? 'has-error' : '' }}" @if ($data->abierta == 's') style="display:none" @endif>
                                 <label for="recurso">Respuesta</label>
                                 <select name="valor[]" id="recurso" class="form-control" multiple>
                                     @if ($data->abierta == 'n')
@@ -57,26 +66,36 @@
                                     @endforeach
                                     @endif
                                 </select>
+                                @if ($errors->has('recurso'))
+                                <span class="form-validation">{{ $errors->first('recurso') }}</span>
+                                @endif
                             </div>
-                            <div class="form-group tc" @if ($data->abierta == 's') style="display:none" @endif>
+                            <div class="form-group tc {{ $errors->has('campo') ? 'has-error' : '' }}" @if ($data->abierta == 's') style="display:none" @endif>
                                 <label for="campo">Campo</label>
                                 <select name="campo" id="campo" class="form-control">
                                     @if ($data->abierta == 'n' || $data->campo_id != null)
                                     <option value="{{ $data->campo_id }}" selected="selected">{{ $data->campo->nombre }}</option>
                                     @endif
                                 </select>
+                                @if ($errors->has('valor'))
+                                <span class="form-validation">{{ $errors->first('valor') }}</span>
+                                @endif
                             </div>
-                            <div class="form-group ta" @if ($data->abierta == 'n') style="display:none" @endif>
+                            <div class="form-group ta {{ $errors->has('valor') ? 'has-error' : '' }}" @if ($data->abierta == 'n') style="display:none" @endif>
                                 <label for="valor">Respuesta</label>
                                 @if ($data->abierta == 's')
                                 @foreach ($data->respuestas as $r)
                                 <input type="text" id="valor" name="valor[]" value="{{ $r->valor }}" class="form-control">
                                 @endforeach
                                 @endif
+
+                                @if ($errors->has('valor'))
+                                <span class="form-validation">{{ $errors->first('valor') }}</span>
+                                @endif
                             </div>
                         </fieldset>
                         <input type="hidden" name="categoria" id="categoria" value="{{ $data->categoria_id }}">
-                        <input type="submit" value="Guardar" class="btn btn-primary pull-right">
+                        <input type="submit" value="Guardar" id="btnSave" class="btn btn-primary pull-right">
                     </form>
                 </div>
             </div>
@@ -228,15 +247,43 @@
         $('#campo').empty();
         $('#valor').val('');
 
-        if ($(this).is(':checked')) {
+        if ($('#pabierta').is(':checked')) {
             $('.tc').hide();
             $('.ta').show();
+
+            $('#recurso').prop("disabled", true);
+            $('#campo').prop("disabled", true);
+            $('#valor').prop("disabled", false);
         } else {
             $('.tc').show();
             $('.ta').hide();
+
+            $('#recurso').prop("disabled", false);
+            $('#campo').prop("disabled", false);
+            $('#valor').prop("disabled", true);
         }
     }
-
     $('#pabierta').on('click', abierta);
+
+    $('#btnSave').on('click', function() {
+        event.preventDefault();
+        event.stopPropagation();
+
+        Swal.fire({
+                title: '¿Deseas guardar el registro?',
+                text: 'Asegúrese de que toda la información este correcta.',
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonColor: '#3c8dbc',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Confirmar',
+                cancelButtonText: 'Cancelar'
+            })
+            .then((result) => {
+                if (result.isConfirmed) {
+                    $('#formPreguntas').submit();
+                }
+            });
+    });
 </script>
 @stop

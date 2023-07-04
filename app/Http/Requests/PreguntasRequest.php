@@ -51,7 +51,7 @@ class PreguntasRequest extends FormRequest
             'escenario' => 'Escenario',
             'nivel' => 'Nivel',
             'categoria' => 'Categoria',
-            'valor' => 'Valor Respuesta'
+            'valor' => 'Respuesta'
         ];
     }
 }

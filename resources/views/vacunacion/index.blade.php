@@ -75,17 +75,6 @@
         font-weight: 500;
         text-decoration: none;
     }
-
-    .actions {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        gap: 10px;
-    }
-
-    .actions div input {
-        font-size: 12px;
-    }
 </style>
 @stop
 

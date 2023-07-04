@@ -130,55 +130,84 @@ class PreguntasController extends Controller
         return view('preguntas.edit', compact('data'));
     }
 
-    // /**
-    //  * Update the specified resource in storage.
-    //  *
-    //  * @param  \Illuminate\Http\Request  $request
-    //  * @param  int  $id
-    //  * @return \Illuminate\Http\Response
-    //  */
-    // public function update(Request $request, $id)
-    // {
-    //     //
-    // }
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function update(PreguntasRequest $request, $id)
+    {
+        try {
+            DB::beginTransaction();
 
-    // /**
-    //  * Remove the specified resource from storage.
-    //  *
-    //  * @param  int  $id
-    //  * @return \Illuminate\Http\Response
-    //  */
-    // public function destroy($id)
-    // {
-    //     //
-    // }
+            $abierta = $request->pabierta ?? 'n';
+            PreguntaSimulacion::find($id)
+                ->update([
+                    'pregunta' => $request->pregunta,
+                    'escenario_id' => $request->escenario,
+                    'nivel_id' => $request->nivel,
+                    'categoria_id' => $request->categoria,
+                    'campo_id' => $request->campo ?? null,
+                    'abierta' => $abierta
+                ]);
 
-    // /**
-    //  * Muestra una pregunta Al Azar
-    //  *
-    //  * @return \Illuminate\Http\Response
-    //  */
-    // public function random()
-    // {
-    //     $pregunta = PreguntaSimulacion::all()->random();
-    //     $data = $pregunta->escenario;
-    //     return view('simulacion.simulation', compact('data', 'pregunta'));
-    // }
+            RespuestaPregunta::where('pregunta_id', '=', $id)
+                ->delete();
 
-    // /**
-    //  * Muestra los resultados de la simulacion individual o grupal
-    //  *
-    //  * @param $string $term dato de entrada para busqueda.
-    //  * @param $int $page pagina de busqueda.
-    //  *
-    //  * @return array
-    //  */
-    // public function results($id)
-    // {
-    //     $resultado = Simulacion::find($id);
-    //     return view('simulacion.results', compact('resultado'));
-    // }
+            foreach ($request->valor as $rc) {
+                if ($rc != null) {
+                    RespuestaPregunta::create([
+                        'valor' => $rc,
+                        'pregunta_id' => $id
+                    ]);
+                }
+            }
 
+            DB::commit();
+        } catch (Exception $ex) {
+            Log::debug($ex->getMessage() . ' - ' . $ex->getLine() . ' - ' . $ex->getFile());
+            DB::rollBack();
+            return redirect()->route('preguntas.index')->with([
+                'message'    => 'Error del sistema: Por favor comunicarse con el administrador',
+                'alert-type' => 'error',
+            ]);
+        }
+        return redirect()->route('preguntas.index')->with([
+            'message'    => 'Pregunta Actualizada',
+            'alert-type' => 'success',
+        ]);;
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy($id)
+    {
+        try {
+            DB::beginTransaction();
+
+            PreguntaSimulacion::findOrFail($id)->delete();
+            RespuestaPregunta::where('pregunta_id', '=', $id)->delete();
+
+            DB::commit();
+        } catch (Exception $ex) {
+            Log::debug($ex->getMessage() . ' - ' . $ex->getLine() . ' - ' . $ex->getFile());
+            DB::rollBack();
+            return redirect()->route('preguntas.index')->with([
+                'message'    => 'Error del sistema: Por favor comunicarse con el administrador',
+                'alert-type' => 'error',
+            ]);
+        }
+        return redirect()->route('preguntas.index')->with([
+            'message'    => 'Se Elimino la pregunta',
+            'alert-type' => 'success',
+        ]);
+    }
 
     /**
      * Devuelve los escenarios

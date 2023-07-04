@@ -24,3 +24,14 @@
     color: #962424;
     font-size: 0.8em; 
 }
+
+.actions {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+
+.actions div input {
+    font-size: 12px;
+}

@@ -18,46 +18,62 @@
         <div class="col-md-8">
             <div class="card">
                 <div class="card-body">
-                    <form action="{{ route('preguntas.store') }}" method="post">
+                    <form action="{{ route('preguntas.store') }}" id="formPreguntas" method="post">
                         @csrf
                         <fieldset>
                             <legend>Datos de la pregunta</legend>
-                            <div class="form-group">
+                            <div class="form-group {{ $errors->has('escenario') ? 'has-error' : '' }}">
                                 <label for="escenario">Escenario de simulación</label>
                                 <select name="escenario" id="escenario" required class="form-control"></select>
+                                @if ($errors->has('escenario'))
+                                <span class="form-validation">{{ $errors->first('escenario') }}</span>
+                                @endif
                             </div>
-                            <div class="form-group">
+                            <div class="form-group {{ $errors->has('nivel') ? 'has-error' : '' }}">
                                 <label for="nivel">Nivel</label>
                                 <select name="nivel" id="nivel" required class="form-control"></select>
+                                @if ($errors->has('nivel'))
+                                <span class="form-validation">{{ $errors->first('nivel') }}</span>
+                                @endif
                             </div>
-                            <div class="form-group">
+                            <div class="form-group {{ $errors->has('pregunta') ? 'has-error' : '' }}">
                                 <label for="pregunta">Pregunta</label>
-                                <input type="text" name="pregunta" id="pregunta" required class="form-control">
+                                <input type="text" name="pregunta" id="pregunta" value="{{ old('pregunta') }}" required class="form-control">
+                                @if ($errors->has('pregunta'))
+                                <span class="form-validation">{{ $errors->first('pregunta') }}</span>
+                                @endif
                             </div>
                         </fieldset>
                         <fieldset>
                             <legend>Datos de la respuesta</legend>
-                            <div class="form-group">
-                                <div class="float-right">
-                                    <input type="checkbox" name="pabierta" id="pabierta" value="s">
-                                    <label for="pabierta"> Pregunta abierta</label>
-                                </div>
+                            <div class="float-right">
+                                <input type="checkbox" name="pabierta" id="pabierta" value="s" @if (old('pabierta')=='s' ) checked @endif>
+                                <label for="pabierta"> Pregunta abierta</label>
                             </div>
-                            <div class="form-group tc">
-                                <label for="recurso">Respuesta</label>
+                            <div class="form-group tc {{ $errors->has('valor') ? 'has-error' : '' }}">
+                                <label for="valor">Respuesta</label>
                                 <select name="valor[]" id="recurso" class="form-control" multiple></select>
+                                @if ($errors->has('valor'))
+                                <span class="form-validation">{{ $errors->first('valor') }}</span>
+                                @endif
                             </div>
-                            <div class="form-group tc">
+                            <div class="form-group tc {{ $errors->has('campo') ? 'has-error' : '' }}">
                                 <label for="campo">Campo</label>
                                 <select name="campo" id="campo" class="form-control"></select>
+                                @if ($errors->has('campo'))
+                                <span class="form-validation">{{ $errors->first('campo') }}</span>
+                                @endif
                             </div>
-                            <div class="form-group ta">
+                            <div class="form-group ta {{ $errors->has('valor') ? 'has-error' : '' }}">
                                 <label for="valor">Respuesta</label>
                                 <input type="text" id="valor" name="valor[]" class="form-control">
+                                @if ($errors->has('valor'))
+                                <span class="form-validation">{{ $errors->first('valor') }}</span>
+                                @endif
                             </div>
                         </fieldset>
                         <input type="hidden" name="categoria" id="categoria" value="{{ $categoria->id }}">
-                        <input type="submit" value="Guardar" class="btn btn-primary pull-right">
+                        <input type="submit" value="Guardar" id="btnSave" class="btn btn-primary pull-right">
                     </form>
                 </div>
             </div>
@@ -209,16 +225,45 @@
         $('#campo').empty();
         $('#valor').val('');
 
-        if ($(this).is(':checked')) {
+        if ($('#pabierta').is(':checked')) {
             $('.tc').hide();
             $('.ta').show();
+
+            $('#recurso').prop("disabled", true);
+            $('#campo').prop("disabled", true);
+            $('#valor').prop("disabled", false);
         } else {
             $('.tc').show();
             $('.ta').hide();
+
+            $('#recurso').prop("disabled", false);
+            $('#campo').prop("disabled", false);
+            $('#valor').prop("disabled", true);
         }
     }
 
     $('#pabierta').on('click', abierta);
     abierta();
+
+    $('#btnSave').on('click', function() {
+        event.preventDefault();
+        event.stopPropagation();
+
+        Swal.fire({
+                title: '¿Deseas guardar el registro?',
+                text: 'Asegúrese de que toda la información este correcta.',
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonColor: '#3c8dbc',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Confirmar',
+                cancelButtonText: 'Cancelar'
+            })
+            .then((result) => {
+                if (result.isConfirmed) {
+                    $('#formPreguntas').submit();
+                }
+            });
+    });
 </script>
 @stop

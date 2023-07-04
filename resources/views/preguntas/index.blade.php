@@ -38,10 +38,19 @@
                                 <td>{{ $d->nivel->nombre }}</td>
                                 <td>
                                     <div class="actions">
-                                        <a href="{{ route('preguntas.edit', $d->id) }}" class="btn btn-sm btn-primary pull-right edit">
-                                            <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
-                                            <span class="hidden-xs hidden-sm">Editar</span>
-                                        </a>
+                                        <div>
+                                            <a href="{{ route('preguntas.edit', $d->id) }}" class="btn btn-sm btn-primary pull-right edit">
+                                                <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                                                <span class="hidden-xs hidden-sm">Editar</span>
+                                            </a>
+                                        </div>
+                                        <div>
+                                            <form action="{{ route('preguntas.destroy', $d->id) }}" id="delete{{ $d->id }}" method="POST">
+                                                @csrf
+                                                {{ method_field('DELETE') }}
+                                                <input type="submit" value="Eliminar" class="btn btn-sm btn-danger" onclick="verificar('{{$d->id}}')">
+                                            </form>
+                                        </div>
                                     </div>
                                 </td>
                             </tr>
@@ -85,5 +94,25 @@
             url: '//cdn.datatables.net/plug-ins/1.13.4/i18n/es-ES.json',
         }
     });
+
+    function verificar(id) {
+        event.preventDefault();
+        event.stopPropagation();
+        Swal.fire({
+                title: '¿Deseas borrar el registro?',
+                text: 'El registro de pregunta se borrara del sistema',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3c8dbc',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Confirmar',
+                cancelButtonText: 'Cancelar'
+            })
+            .then((result) => {
+                if (result.isConfirmed) {
+                    $('#delete' + id).submit();
+                }
+            });
+    }
 </script>
 @stop
