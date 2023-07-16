@@ -119,12 +119,24 @@ class PreguntasController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
+     * Show the form for show the specified resource.
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
+    {
+        $data = PreguntaSimulacion::find($id);
+        return view('preguntas.edit', compact('data'));
+    }
+
+    /**
+     * Show the form for show the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function show($id)
     {
         $data = PreguntaSimulacion::find($id);
         return view('preguntas.edit', compact('data'));

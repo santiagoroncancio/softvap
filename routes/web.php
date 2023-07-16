@@ -4,6 +4,7 @@ use App\Http\Controllers\Estadistica\EstadisticaController;
 use App\Http\Controllers\Simulacion\PreguntasController;
 use App\Http\Controllers\Simulacion\SimulacionController;
 use App\Http\Controllers\Simulacion\VacunacionController;
+use App\Http\Controllers\Usuario\UsuarioController;
 use Illuminate\Support\Facades\Route;
 use TCG\Voyager\Facades\Voyager;
 
@@ -28,6 +29,7 @@ Route::get('lab-simulacion/resultados/{id}', [SimulacionController::class, 'resu
 Route::resource('lab-simulacion', SimulacionController::class);
 Route::resource('vacunacion', VacunacionController::class);
 Route::resource('preguntas', PreguntasController::class);
+Route::resource('usuarios', UsuarioController::class);
 Route::resource('estadistica', EstadisticaController::class);
 
 
