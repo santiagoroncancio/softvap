@@ -24,10 +24,17 @@
                         <fieldset>
                             <legend>Datos de la vacuna</legend>
                             <div class="form-group {{ $errors->has('nombre') ? 'has-error' : '' }}">
-                                <label for=" nombre">Nombre</label>
+                                <label for="nombre" class="is-required">Nombre</label>
                                 <input type="text" name="nombre" id="nombre" value="{{ old('nombre') }}" required class="form-control">
                                 @if ($errors->has('nombre'))
                                 <span class="form-validation">{{ $errors->first('nombre') }}</span>
+                                @endif
+                            </div>
+                            <div class="form-group {{ $errors->has('via_aplicacion') ? 'has-error' : '' }}">
+                                <label for="via_aplicacion" class="is-required">Via de Aplicación</label>
+                                <select name="via_aplicacion" id="via_aplicacion" required class="form-control"></select>
+                                @if ($errors->has('via_aplicacion'))
+                                <span class="form-validation">{{ $errors->first('via_aplicacion') }}</span>
                                 @endif
                             </div>
                             <div class="form-group {{ $errors->has('calibre') ? 'has-error' : '' }}">
@@ -35,13 +42,6 @@
                                 <input type="number" name="calibre" id="calibre" value="{{ old('calibre') }}" class="form-control">
                                 @if ($errors->has('calibre'))
                                 <span class="form-validation">{{ $errors->first('calibre') }}</span>
-                                @endif
-                            </div>
-                            <div class="form-group {{ $errors->has('via_aplicacion') ? 'has-error' : '' }}">
-                                <label for="via_aplicacion">Via de Aplicación</label>
-                                <select name="via_aplicacion" id="via_aplicacion" required class="form-control"></select>
-                                @if ($errors->has('via_aplicacion'))
-                                <span class="form-validation">{{ $errors->first('via_aplicacion') }}</span>
                                 @endif
                             </div>
                         </fieldset>

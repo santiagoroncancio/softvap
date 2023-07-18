@@ -25,10 +25,19 @@
                         <fieldset>
                             <legend>Datos de la vacuna</legend>
                             <div class="form-group {{ $errors->has('nombre') ? 'has-error' : '' }}">
-                                <label for="nombre">Nombre</label>
+                                <label for="nombre" class="is-required">Nombre</label>
                                 <input type="text" name="nombre" id="nombre" value="{{ old('nombre', $data->nombre) }}" required class="form-control">
                                 @if ($errors->has('nombre'))
                                 <span class="form-validation">{{ $errors->first('nombre') }}</span>
+                                @endif
+                            </div>
+                            <div class="form-group {{ $errors->has('via_aplicacion') ? 'has-error' : '' }}">
+                                <label for="via_aplicacion" class="is-required">Via Aplicación</label>
+                                <select name="via_aplicacion" id="via_aplicacion" required class="form-control">
+                                    <option value="{{ $data->via_aplicacion }}">{{ $data->nombre_via_aplicacion }}</option>
+                                </select>
+                                @if ($errors->has('via_aplicacion'))
+                                <span class="form-validation">{{ $errors->first('via_aplicacion') }}</span>
                                 @endif
                             </div>
                             <div class="form-group {{ $errors->has('calibre') ? 'has-error' : '' }}">
@@ -36,15 +45,6 @@
                                 <input type="number" name="calibre" id="calibre" value="{{ old('calibre', $data->tipo_aplicacion) }}" class="form-control">
                                 @if ($errors->has('calibre'))
                                 <span class="form-validation">{{ $errors->first('calibre') }}</span>
-                                @endif
-                            </div>
-                            <div class="form-group {{ $errors->has('via_aplicacion') ? 'has-error' : '' }}">
-                                <label for="via_aplicacion">Nivel</label>
-                                <select name="via_aplicacion" id="via_aplicacion" required class="form-control">
-                                    <option value="{{ $data->via_aplicacion }}">{{ $data->nombre_via_aplicacion }}</option>
-                                </select>
-                                @if ($errors->has('via_aplicacion'))
-                                <span class="form-validation">{{ $errors->first('via_aplicacion') }}</span>
                                 @endif
                             </div>
                         </fieldset>
