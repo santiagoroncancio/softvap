@@ -24,13 +24,22 @@ class PreguntasRequest extends FormRequest
      */
     public function rules()
     {
-        return [
+        $rules = [
             'pregunta' => 'required',
             'escenario' => 'required',
             'nivel' => 'required',
             'categoria' => 'required',
-            'valor' => 'required|array|min:1'
+            'valor' => 'required|array|min:1',
+            'valor.*' => 'required|string'
         ];
+
+        if ($this->input('pabierta') != 's') {
+            $rules = array_merge($rules, [
+                'campo' => 'required'
+            ]);
+        }
+
+        return $rules;
     }
 
     public function messages()
@@ -51,7 +60,8 @@ class PreguntasRequest extends FormRequest
             'escenario' => 'Escenario',
             'nivel' => 'Nivel',
             'categoria' => 'Categoria',
-            'valor' => 'Respuesta'
+            'valor' => 'Respuesta',
+            'campo' => 'Campo'
         ];
     }
 }

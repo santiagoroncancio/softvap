@@ -35,3 +35,10 @@
 .actions div input {
     font-size: 12px;
 }
+
+.is-required:after {
+    content: '*';
+    margin-left: 3px;
+    color: red;
+    font-weight: bold;
+  }

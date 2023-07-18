@@ -70,7 +70,9 @@ class PreguntasController extends Controller
     public function create()
     {
         $categoria = Categoria::where('nombre', 'LIKE', 'vacunacion')->first();
-        return view('preguntas.create', compact('categoria'));
+        $escenario = EscenarioSimulacion::all();
+        $nivel = Nivel::all();
+        return view('preguntas.create', compact('categoria', 'escenario', 'nivel'));
     }
 
     /**
@@ -126,8 +128,16 @@ class PreguntasController extends Controller
      */
     public function edit($id)
     {
+        $categoria = Categoria::where('nombre', 'LIKE', 'vacunacion')->first();
+        $escenario = EscenarioSimulacion::all();
+        $nivel = Nivel::all();
         $data = PreguntaSimulacion::find($id);
-        return view('preguntas.edit', compact('data'));
+
+        // dd($data, $data->respuestas);
+        // dd($data->escenario_id);
+        // dd($data->respuestas->pluck('id'));
+
+        return view('preguntas.edit', compact('data', 'categoria', 'escenario', 'nivel'));
     }
 
     /**
@@ -138,8 +148,11 @@ class PreguntasController extends Controller
      */
     public function show($id)
     {
+        $categoria = Categoria::where('nombre', 'LIKE', 'vacunacion')->first();
+        $escenario = EscenarioSimulacion::all();
+        $nivel = Nivel::all();
         $data = PreguntaSimulacion::find($id);
-        return view('preguntas.edit', compact('data'));
+        return view('preguntas.edit', compact('data', 'categoria', 'escenario', 'nivel'));
     }
 
     /**

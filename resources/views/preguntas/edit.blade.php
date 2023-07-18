@@ -23,78 +23,116 @@
                         {{ method_field('PUT') }}
                         <fieldset>
                             <legend>Datos de la pregunta</legend>
-                            <div class="form-group {{ $errors->has('escenario') ? 'has-error' : '' }}">
-                                <label for="escenario">Escenario de simulación</label>
-                                <select name="escenario" id="escenario" required class="form-control">
-                                    <option value="{{ $data->escenario_id }}">{{ $data->escenario->nombre }}</option>
-                                </select>
-                                @if ($errors->has('escenario'))
-                                <span class="form-validation">{{ $errors->first('escenario') }}</span>
-                                @endif
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group {{ $errors->has('escenario') ? 'has-error' : '' }}">
+                                        <label for="escenario" class="is-required">Escenario de simulación</label>
+                                        <select name="escenario" id="escenario" required class="form-control select2">
+                                            <option value="" selected disabled hidden>Seleccione una Opción</option>
+                                            @foreach ($escenario as $esce)
+                                            <option value="{{$esce->id}}" {{old('escenario', $data->escenario_id)==$esce->id ? 'selected' : '' }}>{{$esce->nombre}}</option>
+                                            @endforeach
+                                        </select>
+                                        @if ($errors->has('escenario'))
+                                        <span class="form-validation">{{ $errors->first('escenario') }}</span>
+                                        @endif
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group {{ $errors->has('nivel') ? 'has-error' : '' }}">
+                                        <label for="nivel" class="is-required">Nivel</label>
+                                        <select name="nivel" id="nivel" required class="form-control select2">
+                                            <option value="" selected disabled hidden>Seleccione una Opción</option>
+                                            @foreach ($nivel as $nive)
+                                            <option value="{{$nive->id}}" @if(old('nivel', $data->nivel_id)==$nive->id) selected @endif>{{$nive->nombre}}</option>
+                                            @endforeach
+                                        </select>
+                                        @if ($errors->has('nivel'))
+                                        <span class="form-validation">{{ $errors->first('nivel') }}</span>
+                                        @endif
+                                    </div>
+                                </div>
                             </div>
-                            <div class="form-group {{ $errors->has('nivel') ? 'has-error' : '' }}">
-                                <label for="nivel">Nivel</label>
-                                <select name="nivel" id="nivel" required class="form-control">
-                                    <option value="{{ $data->nivel_id }}">{{ $data->nivel->nombre }}</option>
-                                </select>
-                                @if ($errors->has('nivel'))
-                                <span class="form-validation">{{ $errors->first('nivel') }}</span>
-                                @endif
-                            </div>
-                            <div class="form-group {{ $errors->has('pregunta') ? 'has-error' : '' }}">
-                                <label for="pregunta">Pregunta</label>
-                                <input type="text" name="pregunta" id="pregunta" value="{{ $data->pregunta }}" required class="form-control">
-                                @if ($errors->has('pregunta'))
-                                <span class="form-validation">{{ $errors->first('pregunta') }}</span>
-                                @endif
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group {{ $errors->has('pregunta') ? 'has-error' : '' }}">
+                                        <label for="pregunta" class="is-required">Pregunta</label>
+                                        <input type="text" name="pregunta" id="pregunta" value="{{ old('pregunta', $data->pregunta) }}" required class="form-control">
+                                        @if ($errors->has('pregunta'))
+                                        <span class="form-validation">{{ $errors->first('pregunta') }}</span>
+                                        @endif
+                                    </div>
+                                </div>
                             </div>
                         </fieldset>
                         <fieldset>
                             <legend>Datos de la respuesta</legend>
-                            <div class="form-group">
-                                <div class="float-right">
-                                    <input type="checkbox" name="pabierta" id="pabierta" value="s" {{ $data->abierta == 's' ? 'checked' : '' }}>
-                                    <label for="pabierta"> Pregunta abierta</label>
+                            <div class="float-right">
+                                <input type="checkbox" name="pabierta" id="pabierta" value="s" @if (old('pabierta', $data->abierta)=='s' ) checked @endif>
+                                <label for="pabierta"> Pregunta abierta</label>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group tc {{ $errors->has('valor') ? 'has-error' : '' }}">
+                                        <label for="valor" class="is-required">Respuesta</label>
+                                        <select name="valor[]" id="selectRecurso" class="form-control select2" multiple>
+                                            @foreach ($categoria->recurso as $val)
+                                            <option value="{{$val->id}}" {{ $data->respuestas->pluck('valor')->contains($val->id) && old('pabierta', $data->abierta)!='s' ? 'selected' : '' }}>{{$val->nombre}}</option>
+                                            @endforeach
+                                        </select>
+                                        @if ($errors->has('valor'))
+                                        <span class="form-validation">{{ $errors->first('valor') }}</span>
+                                        @endif
+                                    </div>
+                                    <div class="form-group tc {{ $errors->has('campo') ? 'has-error' : '' }}">
+                                        <label for="campo" class="is-required">Campo</label>
+                                        <select name="campo" class="form-control select2">
+                                            <option value="" selected disabled hidden>Seleccione una Opción</option>
+                                            @foreach ($categoria->campo as $cap)
+                                            <option value="{{$cap->id}}" @if(old('campo', $data->campo_id)==$cap->id) selected @endif>{{$cap->nombre}}</option>
+                                            @endforeach
+                                        </select>
+                                        @if ($errors->has('campo'))
+                                        <span class="form-validation">{{ $errors->first('campo') }}</span>
+                                        @endif
+                                    </div>
                                 </div>
                             </div>
-                            <div class="form-group tc {{ $errors->has('recurso') ? 'has-error' : '' }}" @if ($data->abierta == 's') style="display:none" @endif>
-                                <label for="recurso">Respuesta</label>
-                                <select name="valor[]" id="recurso" class="form-control" multiple>
-                                    @if ($data->abierta == 'n')
-                                    @foreach ($data->respuestas as $r)
-                                    <option value="{{ $r->valor }}" selected="selected">{{ $r->recurso->nombre }}</option>
-                                    @endforeach
-                                    @endif
-                                </select>
-                                @if ($errors->has('recurso'))
-                                <span class="form-validation">{{ $errors->first('recurso') }}</span>
-                                @endif
-                            </div>
-                            <div class="form-group tc {{ $errors->has('campo') ? 'has-error' : '' }}" @if ($data->abierta == 's') style="display:none" @endif>
-                                <label for="campo">Campo</label>
-                                <select name="campo" id="campo" class="form-control">
-                                    @if ($data->abierta == 'n' || $data->campo_id != null)
-                                    <option value="{{ $data->campo_id }}" selected="selected">{{ $data->campo->nombre }}</option>
-                                    @endif
-                                </select>
-                                @if ($errors->has('valor'))
-                                <span class="form-validation">{{ $errors->first('valor') }}</span>
-                                @endif
-                            </div>
-                            <div class="form-group ta {{ $errors->has('valor') ? 'has-error' : '' }}" @if ($data->abierta == 'n') style="display:none" @endif>
-                                <label for="valor">Respuesta</label>
-                                @if ($data->abierta == 's')
-                                @foreach ($data->respuestas as $r)
-                                <input type="text" id="valor" name="valor[]" value="{{ $r->valor }}" class="form-control">
-                                @endforeach
-                                @endif
-
-                                @if ($errors->has('valor'))
-                                <span class="form-validation">{{ $errors->first('valor') }}</span>
-                                @endif
+                            <div class="row" style="margin-bottom: 0;">
+                                <div class="col-md-12" style="margin-bottom: 0;">
+                                    <div class="form-group ta {{ $errors->has('valor') ? 'has-error' : '' }}">
+                                        <label for="valor" class="is-required">Respuesta</label>
+                                        <input type="button" value="Agregar" id="newAnswer" class="btn btn-success float-right">
+                                        <table id="respuestas" class="table table-striped">
+                                            <thead>
+                                                <th scope="col">Respuesta</th>
+                                                <th scope="col">Acción</th>
+                                            </thead>
+                                            <tbody>
+                                                @if (old('pabierta', $data->abierta)=='s')
+                                                @foreach ($data->respuestas as $rr)
+                                                <tr>
+                                                    <td>
+                                                        <input type="text" value="{{$rr->valor}}" name="valor[]" class="form-control valor" style="width: 100%;">
+                                                    </td>
+                                                    <td>
+                                                        <button class="btn btn-danger">
+                                                            <i class="fa fa-trash" aria-hidden="true"></i>
+                                                        </button>
+                                                    </td>
+                                                </tr>
+                                                @endforeach
+                                                @endif
+                                            </tbody>
+                                        </table>
+                                        @if ($errors->has('valor'))
+                                        <span class="form-validation">{{ $errors->first('valor') }}</span>
+                                        @endif
+                                    </div>
+                                </div>
                             </div>
                         </fieldset>
-                        <input type="hidden" name="categoria" id="categoria" value="{{ $data->categoria_id }}">
+                        <input type="hidden" name="categoria" id="categoria" value="{{ $categoria->id }}">
                         <input type="submit" value="Guardar" id="btnSave" class="btn btn-primary pull-right">
                     </form>
                 </div>
@@ -119,134 +157,26 @@
         display: flex;
         justify-content: center;
     }
+
+    #respuestas tr td:first-child {
+        width: 90%;
+    }
+
+    #respuestas tr td:last-child {
+        width: 10%;
+    }
 </style>
 @stop
 
 @section('javascript')
 <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
-    let url = "{{env('APP_URL')}}";
-    let categoria = $('#categoria').val();
-
-    if ($('#escenario').length > 0) {
-        $('#escenario').select2({
-            ajax: {
-                url: url + '/api/select/escenarios',
-                dataType: 'json',
-                type: 'get',
-                delay: 250,
-                data: function(params) {
-                    return {
-                        term: params.term, // search term
-                        page: params.page
-                    };
-                },
-                processResults: function(data, params) {
-                    params.page = params.page || 1;
-                    return {
-                        results: data.results.data,
-                        pagination: {
-                            more: (params.page * 30) < data.total_count
-                        }
-                    };
-                },
-                cache: true
-            },
-            placeholder: 'Seleccione una Opción',
-        });
-    }
-
-    if ($('#nivel').length > 0) {
-        $('#nivel').select2({
-            ajax: {
-                url: url + '/api/select/niveles',
-                dataType: 'json',
-                type: 'get',
-                delay: 250,
-                data: function(params) {
-                    return {
-                        term: params.term, // search term
-                        page: params.page
-                    };
-                },
-                processResults: function(data, params) {
-                    params.page = params.page || 1;
-                    return {
-                        results: data.results.data,
-                        pagination: {
-                            more: (params.page * 30) < data.total_count
-                        }
-                    };
-                },
-                cache: true
-            },
-            placeholder: 'Seleccione una Opción',
-        });
-    }
-
-    if ($('#recurso').length > 0) {
-        $('#recurso').select2({
-            ajax: {
-                url: url + '/api/select/recursos',
-                dataType: 'json',
-                type: 'get',
-                delay: 250,
-                data: function(params) {
-                    return {
-                        term: params.term, // search term
-                        page: params.page,
-                        categoria: categoria
-                    };
-                },
-                processResults: function(data, params) {
-                    params.page = params.page || 1;
-                    return {
-                        results: data.results.data,
-                        pagination: {
-                            more: (params.page * 30) < data.total_count
-                        }
-                    };
-                },
-                cache: true
-            },
-            placeholder: 'Seleccione una Opción',
-        });
-    }
-
-    if ($('#campo').length > 0) {
-        $('#campo').select2({
-            ajax: {
-                url: url + '/api/select/campos',
-                dataType: 'json',
-                type: 'get',
-                delay: 250,
-                data: function(params) {
-                    return {
-                        term: params.term, // search term
-                        page: params.page,
-                        categoria: categoria
-                    };
-                },
-                processResults: function(data, params) {
-                    params.page = params.page || 1;
-                    return {
-                        results: data.results.data,
-                        pagination: {
-                            more: (params.page * 30) < data.total_count
-                        }
-                    };
-                },
-                cache: true
-            },
-            placeholder: 'Seleccione una Opción',
-        });
-    }
+    $(".select2").select2({
+        placeholder: "Seleccione una Opción",
+        allowClear: false
+    });
 
     function abierta() {
-        $('#recurso').empty();
-        $('#campo').empty();
-        $('#valor').val('');
-
         if ($('#pabierta').is(':checked')) {
             $('.tc').hide();
             $('.ta').show();
@@ -263,7 +193,50 @@
             $('#valor').prop("disabled", true);
         }
     }
-    $('#pabierta').on('click', abierta);
+
+    if ($('#respuestas').length > 0) {
+        let tableAnswer = $('#respuestas').DataTable({
+            destroy: true,
+            lengthChange: false,
+            false: true,
+            searching: false,
+            ordering: false,
+            info: false,
+            responsive: false,
+            paging: false,
+            language: {
+                url: '//cdn.datatables.net/plug-ins/1.13.4/i18n/es-ES.json',
+            }
+        });
+
+        $('#newAnswer').on('click', function(e) {
+            e.stopPropagation();
+            e.preventDefault();
+
+            tableAnswer.row.add([
+                '<input type="text" id="valor" name="valor[]" class="form-control" style="width: 100%;">',
+                '<button class="btn btn-danger"><i class="fa fa-trash" aria-hidden="true"></i></button>'
+            ]).draw();
+        });
+
+        tableAnswer.on('click', '.btn-danger', function(e) {
+            e.stopPropagation();
+            e.preventDefault();
+
+            let $tr = $(this).closest('tr');
+            tableAnswer.row($tr).remove().draw(false);
+        });
+
+        $('#pabierta').on('click', function() {
+            $('#recurso').empty();
+            $('#campo').empty();
+            tableAnswer.clear().draw();
+
+            abierta();
+        });
+    }
+
+    abierta();
 
     $('#btnSave').on('click', function() {
         event.preventDefault();

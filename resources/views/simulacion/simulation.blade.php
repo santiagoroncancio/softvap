@@ -36,17 +36,17 @@
                         <span class="badge pull-right" style="background-color: {{ $pregunta->nivel->color }}" id="nivel">{{ $pregunta->nivel->nombre }}</span>
                         <span class="badge badge-secondary pull-right">{{ $pregunta->categoria->nombre }}</span>
                     </h5>
-                    <p class="card-text">{{ $pregunta->pregunta }}</p>
-
                     <form action="{{ route('lab-simulacion.store') }}" method="post">
                         @csrf
                         <input type="hidden" name="ti" value="{{ date('Y-m-d G:i:s') }}">
                         <input type="hidden" name="question" value="{{ $pregunta->id }}">
 
-                        @if ($pregunta->respuestas->first()->campo_id == 1)
-                        @include('simulacion.partials.select')
-                        @else
+                        <p class="card-text">{{ $pregunta->pregunta }}</p>
+
+                        @if ($pregunta->abierta == 's')
                         @include('simulacion.partials.input')
+                        @else
+                        @include('simulacion.partials.select')
                         @endif
 
                         <input type="submit" value="Evaluar" class="btn btn-primary pull-right" />
