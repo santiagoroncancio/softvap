@@ -38,6 +38,7 @@
                     </h5>
                     <form action="{{ route('lab-simulacion.store') }}" method="post">
                         @csrf
+                        <input type="hidden" name="campo" value="{{$pregunta->campo_id}}">
                         <input type="hidden" name="ti" value="{{ date('Y-m-d G:i:s') }}">
                         <input type="hidden" name="question" value="{{ $pregunta->id }}">
 
@@ -67,7 +68,6 @@
 @stop
 
 @section('css')
-<link rel="stylesheet" href="{{ voyager_asset('lib/css/responsive.dataTables.min.css') }}">
 <style>
     .badge {
         padding: 8px;
@@ -82,12 +82,12 @@
     .justify-content-center {
         display: flex;
         justify-content: center;
+        align-items: center;
     }
 </style>
 @stop
 
 @section('javascript')
-<script src="{{ voyager_asset('lib/js/dataTables.responsive.min.js') }}"></script>
 <script>
     let url = "{{env('APP_URL')}}";
 

@@ -24,7 +24,6 @@ Route::get('select/escenarios', [PreguntasController::class, 'selectEscenario'])
 Route::get('select/niveles', [PreguntasController::class, 'selectNivel']);
 Route::get('select/categorias', [PreguntasController::class, 'selectCategoria']);
 Route::get('select/recursos', [PreguntasController::class, 'selectRecursos']);
-Route::get('select/campos', [PreguntasController::class, 'selectCampo']);
 Route::get('select/tipoAplicacion', [VacunacionController::class, 'selectTipoAplicacion']);
 
 

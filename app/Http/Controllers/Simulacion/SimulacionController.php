@@ -8,9 +8,10 @@ use App\Models\Simulacion;
 use App\Models\PreguntaSimulacion;
 use App\Models\EscenarioSimulacion;
 use App\Models\RespuestaSimulacion;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\DB;
+use App\Repositories\Simulacion\SimulacionRepository;
 
 /**
  * Controlador Maneja Lógica de Simulacion.
@@ -26,14 +27,17 @@ use Illuminate\Support\Facades\DB;
 
 class SimulacionController extends Controller
 {
+    private $simulacionRepository;
 
-    public function calcTime($ti)
+    /**
+     * Constructor de la clase.
+     *
+     * @access public
+     * @param SimulacionRepository $simulacionRepository
+     */
+    public function __construct(SimulacionRepository $simulacionRepository)
     {
-        // Calcular Tiempo
-        $ti = new DateTime($ti);
-        $tf = new DateTime("now");
-        $tiempo = $tf->diff($ti);
-        return $tiempo->format("%h:%i:%s");
+        $this->simulacionRepository = $simulacionRepository;
     }
 
     /**
@@ -74,25 +78,24 @@ class SimulacionController extends Controller
     public function store(Request $request)
     {
         try {
+
             DB::beginTransaction();
 
-            dd($request->all());
-            $ps = PreguntaSimulacion::find($request->question);
             $sim = Simulacion::create([
-                'nota' => 100,
-                'tiempo' => $this->calcTime($request->ti),
+                'nota' => $this->simulacionRepository->calcNota($request->question, $request->answer, $request->recurso),
+                'tiempo' => $this->simulacionRepository->calcTime($request->ti),
                 'pregunta_id' => $request->question,
                 'estudiante_id' => auth()->id(),
                 'campo_id' => $request->campo
             ]);
 
-            // foreach ($request->answer as $i => $rc) {
-            //     RespuestaSimulacion::create([
-            //         'valor' => $rc,
-            //         'simulacion_id' => $sim->id,
-            //         'recurso_id' => ,
-            //     ]);
-            // }
+            foreach ($this->simulacionRepository->sortCo($request->answer, $request->recurso) as $key => $rc) {
+                RespuestaSimulacion::create([
+                    'valor' => $rc,
+                    'simulacion_id' => $sim->id,
+                    'recurso_id' => $key != 0 ? $key : null
+                ]);
+            }
 
             DB::commit();
         } catch (Exception $ex) {
@@ -103,42 +106,42 @@ class SimulacionController extends Controller
                 'alert-type' => 'error',
             ]);;
         }
-        return redirect()->route('lab-simulacion.results', 1);
+        return redirect()->route('lab-simulacion.results', ['id' => $sim->id]);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
+    // /**
+    //  * Show the form for editing the specified resource.
+    //  *
+    //  * @param  int  $id
+    //  * @return \Illuminate\Http\Response
+    //  */
+    // public function edit($id)
+    // {
+    //     //
+    // }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
+    // /**
+    //  * Update the specified resource in storage.
+    //  *
+    //  * @param  \Illuminate\Http\Request  $request
+    //  * @param  int  $id
+    //  * @return \Illuminate\Http\Response
+    //  */
+    // public function update(Request $request, $id)
+    // {
+    //     //
+    // }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
-    }
+    // /**
+    //  * Remove the specified resource from storage.
+    //  *
+    //  * @param  int  $id
+    //  * @return \Illuminate\Http\Response
+    //  */
+    // public function destroy($id)
+    // {
+    //     //
+    // }
 
     /**
      * Muestra una pregunta Al Azar
@@ -160,9 +163,39 @@ class SimulacionController extends Controller
      *
      * @return array
      */
-    public function results($id)
+    public function results(Request $request)
     {
-        $resultado = Simulacion::find($id);
-        return view('simulacion.results', compact('resultado'));
+        $resultado = Simulacion::find($request->id);
+        $resCo = [];
+        $resDig = [];
+        if ($resultado->pregunta->campo_id != null) {
+            foreach ($resultado->pregunta->respuestas as $aux) {
+                $temp = null;
+                if ($resultado->campo_id == 1) {
+                    $temp = $this->simulacionRepository->nombreVacuna($aux->valor);
+                } elseif ($resultado->campo_id == 2) {
+                    $temp = $this->simulacionRepository->calibreVacuna($aux->valor);
+                } elseif ($resultado->campo_id == 3) {
+                    $temp = $this->simulacionRepository->viaAplicacionVacuna($aux->valor);
+                }
+
+                array_push($resCo, $temp);
+            }
+            foreach ($resultado->respuesta as $aux) {
+                $temp = null;
+                if ($resultado->pregunta->campo_id == 1) {
+                    $temp = $this->simulacionRepository->nombreVacuna($aux->valor);
+                } elseif ($resultado->pregunta->campo_id == 2) {
+                    $temp = $this->simulacionRepository->nombreVacuna($aux->recurso_id) . ' - ' . $aux->valor;
+                } elseif ($resultado->pregunta->campo_id == 3) {
+                    $temp = $this->simulacionRepository->nombreVacuna($aux->recurso_id) . ' - ' . $this->simulacionRepository->viaAplicacion($aux->valor);
+                }
+                array_push($resDig, $temp);
+            }
+        } else {
+        }
+
+        // dd($resCo, $resDig);
+        return view('simulacion.results', compact('resultado', 'resCo', 'resDig'));
     }
 }

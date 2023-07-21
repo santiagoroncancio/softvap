@@ -40,7 +40,6 @@
 @stop
 
 @section('css')
-<link rel="stylesheet" href="{{ voyager_asset('lib/css/responsive.dataTables.min.css') }}">
 <style type="text/css">
     img.card-img-top {
         height: 200px;
@@ -50,6 +49,5 @@
 @stop
 
 @section('javascript')
-<script src="{{ voyager_asset('lib/js/dataTables.responsive.min.js') }}"></script>
 <script src="js/simulacion.js"></script>
 @stop

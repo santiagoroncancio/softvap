@@ -35,11 +35,11 @@ class Simulacion extends Model
     }
 
     /**
-     * Relacion con el modelo UnidadMedida.
-     * @return mixed \App\Models\Database\UnidadMedida
+     * Relacion con el modelo PreguntaSimulacion.
+     * @return mixed \App\Models\Database\PreguntaSimulacion
      */
-    public function unidad()
+    public function respuesta()
     {
-        return $this->belongsTo(UnidadMedida::class, 'respuesta_unidad', 'id');
+        return $this->hasMany(RespuestaSimulacion::class, 'simulacion_id', 'id');
     }
 }

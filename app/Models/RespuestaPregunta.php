@@ -19,7 +19,8 @@ class RespuestaPregunta extends Model
      */
     protected $fillable = [
         'valor',
-        'pregunta_id'
+        'pregunta_id',
+        'recurso_id'
     ];
 
     /**

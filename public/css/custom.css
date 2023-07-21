@@ -2,6 +2,10 @@
     font-weight: bold;
 }
 
+.form-control {
+    border: 1px solid #4c4c4c !important;
+}
+
 .form-control, .table {
     color: #0f0f0f;
 }

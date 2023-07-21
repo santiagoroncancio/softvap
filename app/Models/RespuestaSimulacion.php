@@ -19,7 +19,8 @@ class RespuestaSimulacion extends Model
      */
     protected $fillable = [
         'valor',
-        'simulacion_id'
+        'simulacion_id',
+        'recurso_id'
     ];
 
     /**
@@ -38,6 +39,6 @@ class RespuestaSimulacion extends Model
      */
     public function recurso()
     {
-        return $this->belongsTo(Recurso::class, 'recurso_id', 'id');
+        return $this->belongsTo(Recurso::class, 'valor', 'id');
     }
 }

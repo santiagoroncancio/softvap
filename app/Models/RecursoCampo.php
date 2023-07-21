@@ -22,8 +22,7 @@ class RecursoCampo extends Model
     protected $fillable = [
         'recurso_id',
         'campo_id',
-        'valor',
-        'campo_id'
+        'valor'
     ];
 
     /**
