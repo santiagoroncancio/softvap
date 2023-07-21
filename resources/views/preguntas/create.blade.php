@@ -13,6 +13,12 @@
 
 @section('content')
 <div class="page-content browse container-fluid">
+    <ul>
+        @foreach ($errors->all() as $error)
+        <li>{{ $error }}</li>
+        @endforeach
+    </ul>
+
     @include('voyager::alerts')
     <div class="row justify-content-center">
         <div class="col-md-8">
@@ -73,8 +79,8 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="form-group tc {{ $errors->has('valor') ? 'has-error' : '' }}">
-                                        <label for="valor" class="is-required">Respuesta</label>
-                                        <select name="valor[]" class="form-control select2" multiple>
+                                        <label for="valorc" class="is-required">Respuesta</label>
+                                        <select name="valor[]" id="valorc" class="form-control select2" multiple>
                                             @foreach ($categoria->recurso as $val)
                                             <option value="{{$val->id}}" @if(old('valor')==$val->id) selected @endif>{{$val->nombre}}</option>
                                             @endforeach
@@ -85,7 +91,7 @@
                                     </div>
                                     <div class="form-group tc {{ $errors->has('campo') ? 'has-error' : '' }}">
                                         <label for="campo" class="is-required">Campo</label>
-                                        <select name="campo" class="form-control select2">
+                                        <select name="campo" id="campo" class="form-control select2">
                                             <option value="" selected disabled hidden>Seleccione una Opción</option>
                                             @foreach ($categoria->campo as $cap)
                                             <option value="{{$cap->id}}" @if(old('campo')==$cap->id) selected @endif>{{$cap->nombre}}</option>
@@ -100,24 +106,14 @@
                             <div class="row" style="margin-bottom: 0;">
                                 <div class="col-md-12" style="margin-bottom: 0;">
                                     <div class="form-group ta {{ $errors->has('valor') ? 'has-error' : '' }}">
-                                        <label for="valor" class="is-required">Respuesta</label>
                                         <input type="button" value="Agregar" id="newAnswer" class="btn btn-success float-right">
                                         <table id="respuestas" class="table table-striped">
+                                            <caption class="is-required">Respuestas</caption>
                                             <thead>
                                                 <th scope="col">Respuesta</th>
                                                 <th scope="col">Acción</th>
                                             </thead>
                                             <tbody>
-                                                <tr>
-                                                    <td>
-                                                        <input type="text" name="valor[]" class="form-control" style="width: 100%;">
-                                                    </td>
-                                                    <td>
-                                                        <button class="btn btn-danger">
-                                                            <i class="fa fa-trash" aria-hidden="true"></i>
-                                                        </button>
-                                                    </td>
-                                                </tr>
                                             </tbody>
                                         </table>
                                         @if ($errors->has('valor'))
@@ -171,6 +167,24 @@
         allowClear: false
     });
 
+    function abierta() {
+        if ($('#pabierta').is(':checked')) {
+            $('.tc').hide();
+            $('.ta').show();
+
+            $('#recurso').prop("disabled", true);
+            $('#campo').prop("disabled", true);
+            $('#valor').prop("disabled", false);
+        } else {
+            $('.tc').show();
+            $('.ta').hide();
+
+            $('#recurso').prop("disabled", false);
+            $('#campo').prop("disabled", false);
+            $('#valor').prop("disabled", true);
+        }
+    }
+
     if ($('#respuestas').length > 0) {
         let tableAnswer = $('#respuestas').DataTable({
             destroy: true,
@@ -203,31 +217,16 @@
             let $tr = $(this).closest('tr');
             tableAnswer.row($tr).remove().draw(false);
         });
+
+        $('#pabierta').on('click', function() {
+            $('#recurso').empty();
+            $('#campo').empty();
+            tableAnswer.clear().draw();
+
+            abierta();
+        });
     }
 
-    function abierta() {
-        $('#recurso').empty();
-        $('#campo').empty();
-        $('#valor').val('');
-
-        if ($('#pabierta').is(':checked')) {
-            $('.tc').hide();
-            $('.ta').show();
-
-            $('#recurso').prop("disabled", true);
-            $('#campo').prop("disabled", true);
-            $('#valor').prop("disabled", false);
-        } else {
-            $('.tc').show();
-            $('.ta').hide();
-
-            $('#recurso').prop("disabled", false);
-            $('#campo').prop("disabled", false);
-            $('#valor').prop("disabled", true);
-        }
-    }
-
-    $('#pabierta').on('click', abierta);
     abierta();
 
     $('#btnSave').on('click', function() {
