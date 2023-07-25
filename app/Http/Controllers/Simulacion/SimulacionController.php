@@ -11,6 +11,7 @@ use App\Models\RespuestaSimulacion;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\SimulacionRequest;
 use App\Repositories\Simulacion\SimulacionRepository;
 
 /**
@@ -75,7 +76,7 @@ class SimulacionController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(SimulacionRequest $request)
     {
         try {
 
@@ -109,40 +110,6 @@ class SimulacionController extends Controller
         return redirect()->route('lab-simulacion.results', ['id' => $sim->id]);
     }
 
-    // /**
-    //  * Show the form for editing the specified resource.
-    //  *
-    //  * @param  int  $id
-    //  * @return \Illuminate\Http\Response
-    //  */
-    // public function edit($id)
-    // {
-    //     //
-    // }
-
-    // /**
-    //  * Update the specified resource in storage.
-    //  *
-    //  * @param  \Illuminate\Http\Request  $request
-    //  * @param  int  $id
-    //  * @return \Illuminate\Http\Response
-    //  */
-    // public function update(Request $request, $id)
-    // {
-    //     //
-    // }
-
-    // /**
-    //  * Remove the specified resource from storage.
-    //  *
-    //  * @param  int  $id
-    //  * @return \Illuminate\Http\Response
-    //  */
-    // public function destroy($id)
-    // {
-    //     //
-    // }
-
     /**
      * Muestra una pregunta Al Azar
      *
@@ -168,34 +135,32 @@ class SimulacionController extends Controller
         $resultado = Simulacion::find($request->id);
         $resCo = [];
         $resDig = [];
-        if ($resultado->pregunta->campo_id != null) {
-            foreach ($resultado->pregunta->respuestas as $aux) {
-                $temp = null;
-                if ($resultado->campo_id == 1) {
-                    $temp = $this->simulacionRepository->nombreVacuna($aux->valor);
-                } elseif ($resultado->campo_id == 2) {
-                    $temp = $this->simulacionRepository->calibreVacuna($aux->valor);
-                } elseif ($resultado->campo_id == 3) {
-                    $temp = $this->simulacionRepository->viaAplicacionVacuna($aux->valor);
-                }
-
-                array_push($resCo, $temp);
+        foreach ($resultado->pregunta->respuestas as $aux) {
+            $temp = null;
+            if ($resultado->campo_id == 1) {
+                $temp = $this->simulacionRepository->nombreVacuna($aux->valor);
+            } elseif ($resultado->campo_id == 2) {
+                $temp = $this->simulacionRepository->calibreVacuna($aux->valor);
+            } elseif ($resultado->campo_id == 3) {
+                $temp = $this->simulacionRepository->viaAplicacionVacuna($aux->valor);
+            } else {
+                $temp = $aux->valor;
             }
-            foreach ($resultado->respuesta as $aux) {
-                $temp = null;
-                if ($resultado->pregunta->campo_id == 1) {
-                    $temp = $this->simulacionRepository->nombreVacuna($aux->valor);
-                } elseif ($resultado->pregunta->campo_id == 2) {
-                    $temp = $this->simulacionRepository->nombreVacuna($aux->recurso_id) . ' - ' . $aux->valor;
-                } elseif ($resultado->pregunta->campo_id == 3) {
-                    $temp = $this->simulacionRepository->nombreVacuna($aux->recurso_id) . ' - ' . $this->simulacionRepository->viaAplicacion($aux->valor);
-                }
-                array_push($resDig, $temp);
-            }
-        } else {
+            array_push($resCo, $temp);
         }
-
-        // dd($resCo, $resDig);
+        foreach ($resultado->respuesta as $aux) {
+            $temp = null;
+            if ($resultado->pregunta->campo_id == 1) {
+                $temp = $this->simulacionRepository->nombreVacuna($aux->valor);
+            } elseif ($resultado->pregunta->campo_id == 2) {
+                $temp = $this->simulacionRepository->nombreVacuna($aux->recurso_id) . ' - ' . $aux->valor;
+            } elseif ($resultado->pregunta->campo_id == 3) {
+                $temp = $this->simulacionRepository->nombreVacuna($aux->recurso_id) . ' - ' . $this->simulacionRepository->viaAplicacion($aux->valor);
+            } else {
+                $temp = $aux->valor;
+            }
+            array_push($resDig, $temp);
+        }
         return view('simulacion.results', compact('resultado', 'resCo', 'resDig'));
     }
 }

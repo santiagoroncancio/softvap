@@ -133,10 +133,6 @@ class PreguntasController extends Controller
         $nivel = Nivel::all();
         $data = PreguntaSimulacion::find($id);
 
-        // dd($data, $data->respuestas);
-        // dd($data->escenario_id);
-        // dd($data->respuestas->pluck('id'));
-
         return view('preguntas.edit', compact('data', 'categoria', 'escenario', 'nivel'));
     }
 

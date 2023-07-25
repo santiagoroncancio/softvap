@@ -26,7 +26,6 @@ class SimulacionRequest extends FormRequest
     {
         return [
             'answer' => 'required',
-            'answeru' => 'required',
             'question' => 'required',
             'ti' => 'required'
         ];
@@ -35,10 +34,7 @@ class SimulacionRequest extends FormRequest
     public function messages()
     {
         return [
-            'required'  => 'El campo :attribute es requerido',
-            'min'       => 'El campo :attribute debe tener como mínimo :min carácteres',
-            'max'       => 'El campo :attribute puede tener como máximo :max carácteres',
-            'numeric'   => 'El campo :attribute debe ser numérico',
+            'required'  => 'El campo :attribute es requerido'
 
         ];
     }
@@ -47,7 +43,6 @@ class SimulacionRequest extends FormRequest
     {
         return [
             'answer' => 'Respuesta',
-            'answeru' => "Unidad Medida",
             'question' => 'Pregunta',
             'ti' => 'Tiempo Inicial'
         ];
