@@ -66,9 +66,14 @@ class SimulacionRepository
                 }
             }
         } else {
-            // General
+            // Transfomar respuestas correctas sin espacios y minusculas
+            $respuestasTransformadas = $respuestas->pluck('valor')->map(function ($valor) {
+                return strtolower(str_replace(' ', '', $valor));
+            });
+
             foreach (array_unique($answer) as $asw) {
-                if ($respuestas->pluck('valor')->contains($asw)) {
+                $asw = strtolower(str_replace(' ', '', $asw));
+                if ($respuestasTransformadas->contains($asw)) {
                     $puntos = $puntos + 1;
                 }
             }
