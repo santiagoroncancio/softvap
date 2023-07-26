@@ -4,6 +4,7 @@ use App\Http\Controllers\Estadistica\EstadisticaController;
 use App\Http\Controllers\Simulacion\PreguntasController;
 use App\Http\Controllers\Simulacion\SimulacionController;
 use App\Http\Controllers\Simulacion\VacunacionController;
+use App\Http\Controllers\Simulacion\ExamenController;
 use App\Http\Controllers\Usuario\UsuarioController;
 use Illuminate\Support\Facades\Route;
 use TCG\Voyager\Facades\Voyager;
@@ -27,6 +28,7 @@ Route::get('lab-simulacion/random', [SimulacionController::class, 'random'])->na
 Route::get('lab-simulacion/resultados', [SimulacionController::class, 'results'])->name('lab-simulacion.results');
 
 Route::resource('lab-simulacion', SimulacionController::class);
+Route::resource('examen', ExamenController::class);
 Route::resource('vacunacion', VacunacionController::class);
 Route::resource('preguntas', PreguntasController::class);
 Route::resource('usuarios', UsuarioController::class);
