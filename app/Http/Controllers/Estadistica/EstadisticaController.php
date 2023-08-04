@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Estadistica;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\Simulacion;
 
 /**
  * Controlador Maneja Lógica de Estadistica.
@@ -26,7 +27,15 @@ class EstadisticaController extends Controller
      */
     public function index()
     {
-        return view('estadistica.index');
+        $user = auth()->user();
+        if ($user->roles->pluck('id')->contains(1)) {
+            // Admin
+            $simu = Simulacion::all();
+        } else {
+            $simu = Simulacion::where('estudiante_id', '=', $user->id)->get();
+        }
+        // dd($simu);
+        return view('estadistica.index', compact('user', 'simu'));
     }
 
     /**

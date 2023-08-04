@@ -15,7 +15,7 @@
 <div class="page-content browse container-fluid">
     @include('voyager::alerts')
     <div class="row justify-content-center">
-        <div class="col-md-8">
+        <div class="col-md-10">
             <div class="card">
                 <div class="card-body">
                     <form action="{{ route('preguntas.update', $data->id) }}" method="post" id="formPreguntas">
