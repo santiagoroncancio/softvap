@@ -65,6 +65,7 @@ class ExamenController extends Controller
         $role = User::find($usuario)->roles;
 
         $examen = Examen::all();
+
         return view('examen.index', compact('examen', 'role'));
     }
 
@@ -84,7 +85,6 @@ class ExamenController extends Controller
             $profesor = Profesor::where('usuario_id', '=', $usuario);
         }
         $pregunta = PreguntaSimulacion::all();
-
         return view('examen.create', compact('profesor', 'pregunta', 'role'));
     }
 
@@ -146,20 +146,8 @@ class ExamenController extends Controller
      */
     public function edit($id)
     {
-        $data = $this->vacunacionRepository->show($id);
-        return view('vacunacion.edit', compact('data'));
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        $data = $this->vacunacionRepository->show($id);
-        return view('vacunacion.edit', compact('data'));
+        // $data = $this->vacunacionRepository->show($id);
+        // return view('vacunacion.edit', compact('data'));
     }
 
     /**
@@ -187,6 +175,25 @@ class ExamenController extends Controller
             'message'    => 'Se Actualizo la vacuna',
             'alert-type' => 'success',
         ]);
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function show($id)
+    {
+        $usuario = Auth::user()->id;
+        $role = User::find($usuario)->roles;
+
+        $profesor = Profesor::all();
+        if ($role->contains('name', 'teacher')) {
+            $profesor = Profesor::where('usuario_id', '=', $usuario);
+        }
+        $pregunta = PreguntaSimulacion::all();
+        return view('examen.create', compact('profesor', 'pregunta', 'role'));
     }
 
     /**
@@ -227,27 +234,43 @@ class ExamenController extends Controller
      *
      * @return array
      */
-    public function selectTipoAplicacion(Request $request)
+    public function play(Request $request)
     {
-        $term = trim($request->term) ?? '';
-        $page = $request->page ?? '1';
+        $usuario = Auth::user()->id;
+        $role = User::find($usuario)->roles;
 
-        $um = ViaAplicacion::where('nombre', 'LIKE', '%' . $term . '%')
-            ->orWhere('abreviatura', 'LIKE', '%' . $term . '%')
-            ->select(
-                'id',
-                'nombre as text'
-            )
-            ->paginate(10);
+        $examen = Examen::find($request->id);
+        $pregunta = [];
+        if (count($examen->preguntas) > 0) {
+            $pregunta = $examen->preguntas->shuffle()->take($examen->n_pregunta);
+        }
+        return view('examen.play', compact('examen', 'pregunta', 'role'));
+    }
 
-        $morePages = ($page * $um->perPage()) < $um->total();
-        $data  = [
-            'incomplete_results' => false,
-            'more' => $morePages,
-            'total_count' => $um->total(),
-            'results' => $um
-        ];
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function savePlay(Request $request)
+    {
+        try {
+            DB::beginTransaction();
 
-        return Response::json($data, 200, [], JSON_PRETTY_PRINT);
+
+            DB::commit();
+        } catch (Exception $ex) {
+            Log::debug($ex->getMessage() . ' - ' . $ex->getLine() . ' - ' . $ex->getFile());
+            DB::rollBack();
+            return redirect()->route('examen.index')->with([
+                'message'    => 'Error del sistema: Por favor comunicarse con el administrador',
+                'alert-type' => 'error',
+            ]);
+        }
+        return redirect()->route('examen.index')->with([
+            'message'    => 'Se registro el examen',
+            'alert-type' => 'success',
+        ]);
     }
 }

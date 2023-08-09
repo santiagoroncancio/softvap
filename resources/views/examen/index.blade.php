@@ -40,7 +40,7 @@
                             @foreach ($examen as $d)
                             <tr>
                                 <td>{{ $d->nombre }}</td>
-                                <td>{{ $d->estado == 's' ? 'Activo' : 'Inactivo' }}</td>
+                                <td>{{ $d->tipoEstado->nombre }}</td>
                                 <td>{{ $d->profesor->user->identification }} - {{ $d->profesor->user->name }} {{ $d->profesor->user->surname }}</td>
                                 <td>{{ $d->duracion }}</td>
                                 <td>{{ count($d->preguntas) }}</td>
@@ -71,12 +71,21 @@
                                         </div>
                                         @elseif ($d->estado == 'f')
                                         <div>
-                                            <a href="{{ }}" class="btn btn-sm btn-primary pull-right edit">
+                                            <a href="{{ examen.results }}" class="btn btn-sm btn-primary pull-right edit">
                                                 <i class="fa fa-signal" aria-hidden="true"></i>
                                                 <span class="hidden-xs hidden-sm">Resultados</span>
                                             </a>
                                         </div>
                                         @endif
+                                    </div>
+                                    @else
+                                    <div class="actions">
+                                        <div>
+                                            <a href="{{ examen.play }}" class="btn btn-sm btn-primary pull-right edit">
+                                                <i class="voyager-play" aria-hidden="true"></i>
+                                                <span class="hidden-xs hidden-sm">Empezar</span>
+                                            </a>
+                                        </div>
                                     </div>
                                     @endif
                                 </td>

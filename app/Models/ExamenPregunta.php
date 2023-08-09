@@ -31,4 +31,13 @@ class ExamenPregunta extends Model
         'created_at',
         'updated_at'
     ];
+
+    /**
+     * Relacion con el modelo PreguntaSimulacion.
+     * @return mixed \App\Models\Database\PreguntaSimulacion
+     */
+    public function pregunta()
+    {
+        return $this->belongsTo(PreguntaSimulacion::class, 'pregunta_id', 'id');
+    }
 }

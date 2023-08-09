@@ -27,6 +27,10 @@ use TCG\Voyager\Facades\Voyager;
 Route::get('lab-simulacion/random', [SimulacionController::class, 'random'])->name('lab-simulacion.random');
 Route::get('lab-simulacion/resultados', [SimulacionController::class, 'results'])->name('lab-simulacion.results');
 
+Route::get('examen/results', [ExamenController::class, 'resultados'])->name('examen.resultados');
+Route::get('examen/play', [ExamenController::class, 'play'])->name('examen.play');
+Route::post('examen/savePlay', [ExamenController::class, 'savePlay'])->name('examen.savePlay');
+
 Route::resource('lab-simulacion', SimulacionController::class);
 Route::resource('examen', ExamenController::class);
 Route::resource('vacunacion', VacunacionController::class);

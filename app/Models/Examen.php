@@ -55,4 +55,13 @@ class Examen extends Model
     {
         return $this->hasMany(ExamenPregunta::class);
     }
+
+    /**
+     * Relacion con el modelo preguntas.
+     * @return mixed \App\Models\Database\preguntas
+     */
+    public function tipoEstado()
+    {
+        return $this->hasOne(TipoEstado::class, 'acronimo', 'estado');
+    }
 }
