@@ -10,11 +10,17 @@ use Illuminate\Support\Facades\Response;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\VacunacionRequest;
 use App\Models\Categoria;
+use App\Models\Examen;
+use App\Models\ExamenPregunta;
+use App\Models\PreguntaSimulacion;
+use App\Models\Profesor;
 use App\Models\Recurso;
 use App\Models\RecursoCampo;
+use App\Models\User;
 use App\Models\ViaAplicacion;
-use App\Repositories\Pregunta\ExamenRepository;
-use App\Repositories\Vacunacion\VacunacionRepository;
+use App\Repositories\Simulacion\ExamenRepository;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
 
 /**
  * Controlador Maneja Lógica de Examen
@@ -55,8 +61,11 @@ class ExamenController extends Controller
      */
     public function index()
     {
-        $data = $this->vacunacionRepository->index();
-        return view('vacunacion.index', compact('data'));
+        $usuario = Auth::user()->id;
+        $role = User::find($usuario)->roles;
+
+        $examen = Examen::all();
+        return view('examen.index', compact('examen', 'role'));
     }
 
     /**
@@ -67,7 +76,16 @@ class ExamenController extends Controller
      */
     public function create()
     {
-        return view('vacunacion.create');
+        $usuario = Auth::user()->id;
+        $role = User::find($usuario)->roles;
+
+        $profesor = Profesor::all();
+        if ($role->contains('name', 'teacher')) {
+            $profesor = Profesor::where('usuario_id', '=', $usuario);
+        }
+        $pregunta = PreguntaSimulacion::all();
+
+        return view('examen.create', compact('profesor', 'pregunta', 'role'));
     }
 
     /**
@@ -76,48 +94,46 @@ class ExamenController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(VacunacionRequest $request)
+    public function store(Request $request)
     {
         try {
             DB::beginTransaction();
 
-            $vac = Categoria::where('nombre', 'LIKE', 'vacunacion')
-                ->first();
+            $fechai = Carbon::createFromFormat('d/m/Y g:i A', $request->fecha_inicial);
+            $fechaiF = $fechai->format('Y-m-d H:i:s');
 
-            $recurso = Recurso::create([
+            $fechaf = Carbon::createFromFormat('d/m/Y g:i A', $request->fecha_final);
+            $fechafF = $fechaf->format('Y-m-d H:i:s');
+
+            $examen = Examen::create([
                 'nombre' => $request->nombre,
-                'categoria_id' => $vac->id
+                'descripcion' => $request->descripcion,
+                'fecha_inicial' => $fechaiF,
+                'fecha_final' => $fechafF,
+                'estado' => $request->estado,
+                'profesor_id' => $request->profesor,
+                'duracion' => $request->duracion,
+                'n_pregunta' => $request->n_pregunta
             ]);
 
-            RecursoCampo::create([
-                'recurso_id' => $recurso->id,
-                'campo_id' => 1,
-                'valor' => $request->nombre
-            ]);
-
-            RecursoCampo::create([
-                'recurso_id' => $recurso->id,
-                'campo_id' => 2,
-                'valor' => $request->calibre
-            ]);
-
-            RecursoCampo::create([
-                'recurso_id' => $recurso->id,
-                'campo_id' => 3,
-                'valor' => $request->via_aplicacion
-            ]);
+            foreach ($request->question as $q) {
+                ExamenPregunta::create([
+                    'examen_id' => $examen->id,
+                    'pregunta_id' => $q
+                ]);
+            }
 
             DB::commit();
         } catch (Exception $ex) {
             Log::debug($ex->getMessage() . ' - ' . $ex->getLine() . ' - ' . $ex->getFile());
             DB::rollBack();
-            return redirect()->route('vacunacion.index')->with([
+            return redirect()->route('examen.index')->with([
                 'message'    => 'Error del sistema: Por favor comunicarse con el administrador',
                 'alert-type' => 'error',
             ]);
         }
-        return redirect()->route('vacunacion.index')->with([
-            'message'    => 'Se registro la vacuna',
+        return redirect()->route('examen.index')->with([
+            'message'    => 'Se registro el examen',
             'alert-type' => 'success',
         ]);
     }
@@ -158,29 +174,6 @@ class ExamenController extends Controller
         try {
             DB::beginTransaction();
 
-            Recurso::find($id)
-                ->where([
-                    'nombre' => $request->nombre
-                ]);
-
-            RecursoCampo::where('recurso_id', '=', $id)
-                ->where('campo_id', '=', 1)
-                ->update([
-                    'valor' => $request->nombre
-                ]);
-
-            RecursoCampo::where('recurso_id', '=', $id)
-                ->where('campo_id', '=', 2)
-                ->update([
-                    'valor' => $request->calibre
-                ]);
-
-            RecursoCampo::where('recurso_id', '=', $id)
-                ->where('campo_id', '=', 3)
-                ->update([
-                    'valor' => $request->via_aplicacion
-                ]);
-
             DB::commit();
         } catch (Exception $ex) {
             Log::debug($ex->getMessage() . ' - ' . $ex->getLine() . ' - ' . $ex->getFile());
@@ -207,19 +200,20 @@ class ExamenController extends Controller
         try {
             DB::beginTransaction();
 
-            Recurso::findOrFail($id)->delete();
-            RecursoCampo::where('recurso_id', '=', $id)->delete();
+            Examen::findOrFail($id)->update([
+                'estado' => 'c'
+            ]);
 
             DB::commit();
         } catch (Exception $ex) {
             Log::debug($ex->getMessage() . ' - ' . $ex->getLine() . ' - ' . $ex->getFile());
             DB::rollBack();
-            return redirect()->route('vacunacion.index')->with([
+            return redirect()->route('examen.index')->with([
                 'message'    => 'Error del sistema: Por favor comunicarse con el administrador',
                 'alert-type' => 'error',
             ]);
         }
-        return redirect()->route('vacunacion.index')->with([
+        return redirect()->route('examen.index')->with([
             'message'    => 'Se Elimino la vacuna',
             'alert-type' => 'success',
         ]);

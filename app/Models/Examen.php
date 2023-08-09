@@ -22,7 +22,10 @@ class Examen extends Model
         'descripcion',
         'fecha_inicial',
         'fecha_final',
-        'estado'
+        'estado',
+        'profesor_id',
+        'duracion',
+        'n_pregunta'
     ];
 
     /**
@@ -34,4 +37,22 @@ class Examen extends Model
         'created_at',
         'updated_at'
     ];
+
+    /**
+     * Relacion con el modelo Profesor.
+     * @return mixed \App\Models\Database\Profesor
+     */
+    public function profesor()
+    {
+        return $this->belongsTo(Profesor::class, 'profesor_id');
+    }
+
+    /**
+     * Relacion con el modelo preguntas.
+     * @return mixed \App\Models\Database\preguntas
+     */
+    public function preguntas()
+    {
+        return $this->hasMany(ExamenPregunta::class);
+    }
 }

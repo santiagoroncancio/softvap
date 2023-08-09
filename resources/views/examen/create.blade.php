@@ -1,12 +1,12 @@
 @extends('voyager::master')
 
-@section('page_title', 'Nueva Pregunta')
+@section('page_title', 'Nuevo Examen')
 
 @section('page_header')
 <div class="container-fluid">
     <h1 class="page-title">
         <i class="voyager-news"></i>
-        Nueva Pregunta de Vacunación
+        Nuevo Examen
     </h1>
 </div>
 @stop
@@ -24,96 +24,131 @@
         <div class="col-md-8">
             <div class="card">
                 <div class="card-body">
-                    <form action="{{ route('preguntas.store') }}" id="formPreguntas" method="post">
+                    <form action="{{ route('examen.store') }}" id="formExamen" method="post">
                         @csrf
                         <fieldset>
-                            <legend>Datos de la pregunta</legend>
+                            <legend>Datos del Examen</legend>
                             <div class="row">
-                                <div class="col-md-6">
-                                    <div class="form-group {{ $errors->has('escenario') ? 'has-error' : '' }}">
-                                        <label for="escenario" class="is-required">Escenario de simulación</label>
-                                        <select name="escenario" id="escenario" required class="form-control select2">
-                                            <option value="" selected disabled hidden>Seleccione una Opción</option>
-                                            @foreach ($escenario as $esce)
-                                            <option value="{{$esce->id}}" @if(old('escenario')==$esce->id) selected @endif>{{$esce->nombre}}</option>
-                                            @endforeach
-                                        </select>
-                                        @if ($errors->has('escenario'))
-                                        <span class="form-validation">{{ $errors->first('escenario') }}</span>
+                                <div class="col-md-12">
+                                    <div class="form-group {{ $errors->has('nombre') ? 'has-error' : '' }}">
+                                        <label for="nombre" class="is-required">Nombre del examen</label>
+                                        <input type="text" name="nombre" id="nombre" value="{{ old('nombre') }}" required class="form-control">
+                                        @if ($errors->has('nombre'))
+                                        <span class="form-validation">{{ $errors->first('nombre') }}</span>
                                         @endif
                                     </div>
                                 </div>
-                                <div class="col-md-6">
-                                    <div class="form-group {{ $errors->has('nivel') ? 'has-error' : '' }}">
-                                        <label for="nivel" class="is-required">Nivel</label>
-                                        <select name="nivel" id="nivel" required class="form-control select2">
-                                            <option value="" selected disabled hidden>Seleccione una Opción</option>
-                                            @foreach ($nivel as $nive)
-                                            <option value="{{$nive->id}}" @if(old('nivel')==$nive->id) selected @endif>{{$nive->nombre}}</option>
-                                            @endforeach
-                                        </select>
-                                        @if ($errors->has('nivel'))
-                                        <span class="form-validation">{{ $errors->first('nivel') }}</span>
+                                <div class="col-md-12">
+                                    <div class="form-group {{ $errors->has('descripcion') ? 'has-error' : '' }}">
+                                        <label for="descripcion">Descripción</label>
+                                        <textarea name="descripcion" class="form-control" id="descripcion" cols="10" rows="4">{{ old('descripcion') }}</textarea>
+                                        @if ($errors->has('descripcion'))
+                                        <span class="form-validation">{{ $errors->first('descripcion') }}</span>
                                         @endif
                                     </div>
                                 </div>
                             </div>
+
                             <div class="row">
-                                <div class="col-md-12">
-                                    <div class="form-group {{ $errors->has('pregunta') ? 'has-error' : '' }}">
-                                        <label for="pregunta" class="is-required">Pregunta</label>
-                                        <input type="text" name="pregunta" id="pregunta" value="{{ old('pregunta') }}" required class="form-control">
-                                        @if ($errors->has('pregunta'))
-                                        <span class="form-validation">{{ $errors->first('pregunta') }}</span>
+                                <div class="col-md-4">
+                                    <div class="form-group {{ $errors->has('fecha_inicial') ? 'has-error' : '' }}">
+                                        <label for="fecha_inicial" class="is-required">Fecha Inicial</label>
+                                        <input type="datetime" name="fecha_inicial" id="fecha_inicial" value="{{ old('fecha_inicial') }}" required class="form-control datepicker">
+                                        @if ($errors->has('fecha_inicial'))
+                                        <span class="form-validation">{{ $errors->first('fecha_inicial') }}</span>
                                         @endif
                                     </div>
                                 </div>
+                                <div class="col-md-4">
+                                    <div class="form-group {{ $errors->has('fecha_final') ? 'has-error' : '' }}">
+                                        <label for="fecha_final" class="is-required">Fecha Final</label>
+                                        <input type="datetime" name="fecha_final" id="fecha_final" value="{{ old('fecha_final') }}" required class="form-control datepicker">
+                                        @if ($errors->has('fecha_final'))
+                                        <span class="form-validation">{{ $errors->first('fecha_final') }}</span>
+                                        @endif
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group {{ $errors->has('duracion') ? 'has-error' : '' }}">
+                                        <label for="duracion" class="is-required">Duración (Minutos)</label>
+                                        <input type="number" min="0" name="duracion" id="duracion" value="{{ old('duracion', 0) }}" required class="form-control">
+                                        @if ($errors->has('duracion'))
+                                        <span class="form-validation">{{ $errors->first('duracion') }}</span>
+                                        @endif
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="form-group {{ $errors->has('n_pregunta') ? 'has-error' : '' }}">
+                                        <label for="n_pregunta" class="is-required">Numero Pregunta</label>
+                                        <input type="number" min="0" name="n_pregunta" id="n_pregunta" value="{{ old('n_pregunta', 0) }}" required class="form-control">
+                                        @if ($errors->has('n_pregunta'))
+                                        <span class="form-validation">{{ $errors->first('n_pregunta') }}</span>
+                                        @endif
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group {{ $errors->has('estado') ? 'has-error' : '' }}">
+                                        <label for="estado" class="is-required">Estado</label>
+                                        <select name="estado" id="estado" required class="form-control select2">
+                                            <option value="" selected disabled hidden>Seleccione una Opción</option>
+                                            <option value="s">Activo</option>
+                                            <option value="n">Inactivo</option>
+                                        </select>
+                                        @if ($errors->has('estado'))
+                                        <span class="form-validation">{{ $errors->first('estado') }}</span>
+                                        @endif
+                                    </div>
+                                </div>
+                                @if ($role->contains('name', 'admin'))
+                                <div class="col-md-4">
+                                    <div class="form-group {{ $errors->has('profesor') ? 'has-error' : '' }}">
+                                        <label for="profesor" class="is-required">Profesor</label>
+                                        <select name="profesor" id="profesor" required class="form-control select2">
+                                            <option value="" selected disabled hidden>Seleccione una Opción</option>
+                                            @foreach ($profesor as $p)
+                                            <option value="{{ $p->id }}">{{ $p->user->identification }} - {{ $p->user->name }} {{ $p->user->surname }}</option>
+                                            @endforeach
+                                        </select>
+                                        @if ($errors->has('profesor'))
+                                        <span class="form-validation">{{ $errors->first('profesor') }}</span>
+                                        @endif
+                                    </div>
+                                </div>
+                                @elseif ($role->contains('name', 'teacher'))
+                                <input type="hidden" name="profesor" value="{{ $profesor }}">
+                                @endif
                             </div>
                         </fieldset>
                         <fieldset>
-                            <legend>Datos de la respuesta</legend>
-                            <div class="float-right">
-                                <input type="checkbox" name="pabierta" id="pabierta" value="s" @if (old('pabierta')=='s' ) checked @endif>
-                                <label for="pabierta"> Pregunta abierta</label>
-                            </div>
+                            <legend>Banco de Preguntas</legend>
                             <div class="row">
-                                <div class="col-md-12">
-                                    <div class="form-group tc {{ $errors->has('valor') ? 'has-error' : '' }}">
-                                        <label for="valorc" class="is-required">Respuesta</label>
-                                        <select name="valor[]" id="valorc" class="form-control select2" multiple>
-                                            @foreach ($categoria->recurso as $val)
-                                            <option value="{{$val->id}}" @if(old('valor')==$val->id) selected @endif>{{$val->nombre}}</option>
-                                            @endforeach
-                                        </select>
-                                        @if ($errors->has('valor'))
-                                        <span class="form-validation">{{ $errors->first('valor') }}</span>
-                                        @endif
-                                    </div>
-                                    <div class="form-group tc {{ $errors->has('campo') ? 'has-error' : '' }}">
-                                        <label for="campo" class="is-required">Campo</label>
-                                        <select name="campo" id="campo" class="form-control select2">
-                                            <option value="" selected disabled hidden>Seleccione una Opción</option>
-                                            @foreach ($categoria->campo as $cap)
-                                            <option value="{{$cap->id}}" @if(old('campo')==$cap->id) selected @endif>{{$cap->nombre}}</option>
-                                            @endforeach
-                                        </select>
-                                        @if ($errors->has('campo'))
-                                        <span class="form-validation">{{ $errors->first('campo') }}</span>
-                                        @endif
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row" style="margin-bottom: 0;">
                                 <div class="col-md-12" style="margin-bottom: 0;">
-                                    <div class="form-group ta {{ $errors->has('valor') ? 'has-error' : '' }}">
-                                        <input type="button" value="Agregar" id="newAnswer" class="btn btn-success float-right">
-                                        <table id="respuestas" class="table table-striped">
-                                            <caption class="is-required">Respuestas</caption>
+                                    <div class="form-group {{ $errors->has('valor') ? 'has-error' : '' }}">
+                                        <table id="preguntas" class="table table-striped">
+                                            <caption class="is-required">Banco de Preguntas</caption>
                                             <thead>
-                                                <th scope="col">Respuesta</th>
+                                                <th scope="col">Pregunta</th>
+                                                <th scope="col">Escenario</th>
+                                                <th scope="col">Categoria</th>
+                                                <th scope="col">Dificultad</th>
                                                 <th scope="col">Acción</th>
                                             </thead>
                                             <tbody>
+                                                @foreach ($pregunta as $p)
+                                                <tr>
+                                                    <td>{{ $p->pregunta }}</td>
+                                                    <td>{{ $p->escenario->nombre }}</td>
+                                                    <td>{{ $p->categoria->nombre }}</td>
+                                                    <td>{{ $p->nivel->nombre }}</td>
+                                                    <td style="text-align: center;" id="btn-sel">
+                                                        <input type="hidden" name="question[]" id="question{{ $p->id }}" disabled="disabled" value="{{ $p->id }}">
+                                                        <button class="btn btn-sm btn-success voyager-list-add" id="btn{{ $p->id }}" data-id="{{ $p->id }}"></button>
+                                                    </td>
+                                                </tr>
+                                                @endforeach
                                             </tbody>
                                         </table>
                                         @if ($errors->has('valor'))
@@ -123,7 +158,6 @@
                                 </div>
                             </div>
                         </fieldset>
-                        <input type="hidden" name="categoria" id="categoria" value="{{ $categoria->id }}">
                         <input type="submit" value="Guardar" id="btnSave" class="btn btn-primary pull-right">
                     </form>
                 </div>
@@ -167,32 +201,13 @@
         allowClear: false
     });
 
-    function abierta() {
-        if ($('#pabierta').is(':checked')) {
-            $('.tc').hide();
-            $('.ta').show();
-
-            $('#recurso').prop("disabled", true);
-            $('#campo').prop("disabled", true);
-            $('#valor').prop("disabled", false);
-        } else {
-            $('.tc').show();
-            $('.ta').hide();
-
-            $('#recurso').prop("disabled", false);
-            $('#campo').prop("disabled", false);
-            $('#valor').prop("disabled", true);
-        }
-    }
-
-    if ($('#respuestas').length > 0) {
-        let tableAnswer = $('#respuestas').DataTable({
+    if ($('#preguntas').length > 0) {
+        let tableQuestion = $('#preguntas').DataTable({
             destroy: true,
-            lengthChange: false,
-            false: true,
-            searching: false,
-            ordering: false,
-            info: false,
+            lengthChange: true,
+            searching: true,
+            ordering: true,
+            info: true,
             responsive: false,
             paging: false,
             language: {
@@ -200,34 +215,26 @@
             }
         });
 
-        $('#newAnswer').on('click', function(e) {
+        tableQuestion.on('click', '.btn-success', function(e) {
             e.stopPropagation();
             e.preventDefault();
 
-            tableAnswer.row.add([
-                '<input type="text" id="valor" name="valor[]" class="form-control" style="width: 100%;">',
-                '<button class="btn btn-danger"><i class="fa fa-trash" aria-hidden="true"></i></button>'
-            ]).draw();
+            let id = $(this).data('id');
+            $('#question' + id).attr('disabled', false);
+            $('#btn' + id).removeClass('btn-success').addClass('btn-danger');
+            $('#btn' + id).removeClass('voyager-list-add').addClass('voyager-trash');
         });
 
-        tableAnswer.on('click', '.btn-danger', function(e) {
+        tableQuestion.on('click', '.btn-danger', function(e) {
             e.stopPropagation();
             e.preventDefault();
 
-            let $tr = $(this).closest('tr');
-            tableAnswer.row($tr).remove().draw(false);
-        });
-
-        $('#pabierta').on('click', function() {
-            $('#recurso').empty();
-            $('#campo').empty();
-            tableAnswer.clear().draw();
-
-            abierta();
+            let id = $(this).data('id');
+            $('#question' + id).attr('disabled', true);
+            $('#btn' + id).removeClass('btn-danger').addClass('btn-success');
+            $('#btn' + id).removeClass('voyager-trash').addClass('voyager-list-add');
         });
     }
-
-    abierta();
 
     $('#btnSave').on('click', function() {
         event.preventDefault();
@@ -245,7 +252,7 @@
             })
             .then((result) => {
                 if (result.isConfirmed) {
-                    $('#formPreguntas').submit();
+                    $('#formExamen').submit();
                 }
             });
     });

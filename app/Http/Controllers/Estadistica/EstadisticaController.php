@@ -34,7 +34,6 @@ class EstadisticaController extends Controller
         } else {
             $simu = Simulacion::where('estudiante_id', '=', $user->id)->get();
         }
-        // dd($simu);
         return view('estadistica.index', compact('user', 'simu'));
     }
 

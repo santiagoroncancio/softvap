@@ -1,16 +1,20 @@
 @extends('voyager::master')
 
-@section('page_title', 'Preguntas de Simulación')
+@section('page_title', 'Simulación Examen')
 
 @section('page_header')
 <div class="container-fluid">
     <h1 class="page-title">
         <i class="voyager-news"></i>
-        Preguntas de Simulación
+        Simulación Examen
     </h1>
-    <a href="{{ route('preguntas.create') }}" class="btn btn-success">
+    @if ($role->contains(function ($valor, $clave) {
+    return in_array($valor['name'], ['admin', 'teacher']);
+    }))
+    <a href="{{ route('examen.create') }}" class="btn btn-success">
         <i class="voyager-plus"></i> <span>Nuevo</span>
     </a>
+    @endif
 </div>
 @stop
 
@@ -24,34 +28,57 @@
                     <table class="table table-striped" id="dataTable">
                         <thead>
                             <tr>
-                                <th scope="col">Pregunta</th>
-                                <th scope="col">Escenario</th>
-                                <th scope="col">Nivel</th>
+                                <th scope="col">Nombre</th>
+                                <th scope="col">Estado</th>
+                                <th scope="col">Profesor</th>
+                                <th scope="col">Duración (Minutos)</th>
+                                <th scope="col">N Preguntas</th>
                                 <th scope="col">Acción</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($data as $d)
+                            @foreach ($examen as $d)
                             <tr>
-                                <td>{{ $d->pregunta }}</td>
-                                <td>{{ $d->escenario->nombre }}</td>
-                                <td>{{ $d->nivel->nombre }}</td>
+                                <td>{{ $d->nombre }}</td>
+                                <td>{{ $d->estado == 's' ? 'Activo' : 'Inactivo' }}</td>
+                                <td>{{ $d->profesor->user->identification }} - {{ $d->profesor->user->name }} {{ $d->profesor->user->surname }}</td>
+                                <td>{{ $d->duracion }}</td>
+                                <td>{{ count($d->preguntas) }}</td>
                                 <td>
+                                    @if ($role->contains(function ($valor, $clave) {
+                                    return in_array($valor['name'], ['admin', 'teacher']);
+                                    }))
                                     <div class="actions">
+                                        @if ($d->estado == 's' || $d->estado == 'n')
                                         <div>
-                                            <a href="{{ route('preguntas.edit', $d->id) }}" class="btn btn-sm btn-primary pull-right edit">
+                                            <a href="{{ route('examen.edit', $d->id) }}" class="btn btn-sm btn-primary pull-right edit">
                                                 <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
                                                 <span class="hidden-xs hidden-sm">Editar</span>
                                             </a>
                                         </div>
                                         <div>
-                                            <form action="{{ route('preguntas.destroy', $d->id) }}" id="delete{{ $d->id }}" method="POST">
+                                            <form action="{{ route('examen.destroy', $d->id) }}" id="delete{{ $d->id }}" method="POST">
                                                 @csrf
                                                 {{ method_field('DELETE') }}
-                                                <input type="submit" value="Eliminar" class="btn btn-sm btn-danger" onclick="verificar('{{$d->id}}')">
+                                                <input type="submit" value="Anular" class="btn btn-sm btn-danger" onclick="verificar('{{$d->id}}')">
                                             </form>
                                         </div>
+                                        <div>
+                                            <form action="" id="finish{{ $d->id }}" method="POST">
+                                                @csrf
+                                                <input type="submit" value="Finalizar" class="btn btn-sm btn-success" onclick="finalizar('{{$d->id}}')">
+                                            </form>
+                                        </div>
+                                        @elseif ($d->estado == 'f')
+                                        <div>
+                                            <a href="{{ }}" class="btn btn-sm btn-primary pull-right edit">
+                                                <i class="fa fa-signal" aria-hidden="true"></i>
+                                                <span class="hidden-xs hidden-sm">Resultados</span>
+                                            </a>
+                                        </div>
+                                        @endif
                                     </div>
+                                    @endif
                                 </td>
                             </tr>
                             @endforeach
@@ -99,8 +126,8 @@
         event.preventDefault();
         event.stopPropagation();
         Swal.fire({
-                title: '¿Deseas borrar el registro?',
-                text: 'El registro de pregunta se borrara del sistema',
+                title: '¿Deseas Anular el registro?',
+                text: 'El registro de examen se Anula del sistema',
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#3c8dbc',
@@ -111,6 +138,26 @@
             .then((result) => {
                 if (result.isConfirmed) {
                     $('#delete' + id).submit();
+                }
+            });
+    }
+
+    function finalizar(id) {
+        event.preventDefault();
+        event.stopPropagation();
+        Swal.fire({
+                title: '¿Deseas Finalizar el Examen?',
+                text: 'El examen Finalizara en el sistema',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3c8dbc',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Confirmar',
+                cancelButtonText: 'Cancelar'
+            })
+            .then((result) => {
+                if (result.isConfirmed) {
+                    $('#finish' + id).submit();
                 }
             });
     }

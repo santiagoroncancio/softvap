@@ -32,4 +32,13 @@ class Profesor extends Model
         'created_at',
         'updated_at'
     ];
+
+    /**
+     * Relacion con el modelo user.
+     * @return mixed \App\Models\Database\user
+     */
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'usuario_id');
+    }
 }
