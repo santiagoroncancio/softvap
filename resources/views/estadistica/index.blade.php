@@ -42,18 +42,20 @@
                                 <th scope="col">Nota</th>
                                 <th scope="col">Tiempo</th>
                                 <th scope="col">Fecha</th>
+                                <th scope="col">Examen</th>
                                 @if ($user->id == 1) <th scope="col">Estudiante</th> @endif
                             </tr>
                         </thead>
                         <tbody>
                             @foreach ($simu as $dato)
                             <tr>
-                                <td>{{ $dato->pregunta->id }}</td>
+                                <td>{{ $dato->id }}</td>
                                 <td>{{ $dato->pregunta->pregunta }}</td>
                                 <td>{{ $dato->nota }}</td>
                                 <td>{{ $dato->tiempo }}</td>
                                 <td>{{ date('d/m/Y', strtotime($dato->created_at)) }}</td>
-                                @if ($user->id == 1) <td>{{$user->identification}} - {{$user->name}}</td> @endif
+                                <td>{{ $dato->examen != null ? $dato->examen->nombre : 'Practica' }}</td>
+                                @if ($user->id == 1) <td>{{$dato->estudiante->user->identification}} - {{$dato->estudiante->user->name}}</td> @endif
                             </tr>
                             @endforeach
                         </tbody>

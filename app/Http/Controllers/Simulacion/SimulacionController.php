@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\SimulacionRequest;
+use App\Models\Estudiante;
 use App\Repositories\Simulacion\SimulacionRepository;
 
 /**
@@ -79,14 +80,13 @@ class SimulacionController extends Controller
     public function store(SimulacionRequest $request)
     {
         try {
-
             DB::beginTransaction();
-
+            $estudiante = Estudiante::where('usuario_id', '=', auth()->id())->first();
             $sim = Simulacion::create([
                 'nota' => $this->simulacionRepository->calcNota($request->question, $request->answer, $request->recurso),
                 'tiempo' => $this->simulacionRepository->calcTime($request->ti),
                 'pregunta_id' => $request->question,
-                'estudiante_id' => auth()->id(),
+                'estudiante_id' => $estudiante->id,
                 'campo_id' => $request->campo
             ]);
 

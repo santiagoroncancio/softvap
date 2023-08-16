@@ -24,7 +24,8 @@
                 </h5>
                 <form action="{{ route('examen.savePlay') }}" method="post">
                     @csrf
-                    <input type="hidden" name="campo" value="{{$pregunta->campo_id}}">
+                    <input type="hidden" name="examen" value="{{ $examen }}">
+                    <input type="hidden" name="campo" value="{{ $pregunta->campo_id }}">
                     <input type="hidden" name="ti" value="{{ date('Y-m-d G:i:s') }}">
                     <input type="hidden" name="question" value="{{ $pregunta->id }}">
 

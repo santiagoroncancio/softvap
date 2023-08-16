@@ -28,7 +28,8 @@ Route::get('lab-simulacion/random', [SimulacionController::class, 'random'])->na
 Route::get('lab-simulacion/resultados', [SimulacionController::class, 'results'])->name('lab-simulacion.results');
 
 Route::get('examen/results', [ExamenController::class, 'resultados'])->name('examen.resultados');
-Route::get('examen/play', [ExamenController::class, 'play'])->name('examen.play');
+Route::get('examen/play', [ExamenController::class, 'indexPlay'])->name('examen.indexPlay');
+Route::get('examen/play/{id}', [ExamenController::class, 'play'])->name('examen.play');
 Route::post('examen/savePlay', [ExamenController::class, 'savePlay'])->name('examen.savePlay');
 
 Route::resource('lab-simulacion', SimulacionController::class);

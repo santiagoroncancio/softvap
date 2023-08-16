@@ -22,8 +22,27 @@ class Simulacion extends Model
         'tiempo',
         'pregunta_id',
         'estudiante_id',
-        'campo_id'
+        'campo_id',
+        'examen_id'
     ];
+
+    /**
+     * Relacion con el modelo PreguntaSimulacion.
+     * @return mixed \App\Models\Database\PreguntaSimulacion
+     */
+    public function estudiante()
+    {
+        return $this->belongsTo(Estudiante::class, 'estudiante_id', 'id');
+    }
+
+    /**
+     * Relacion con el modelo PreguntaSimulacion.
+     * @return mixed \App\Models\Database\PreguntaSimulacion
+     */
+    public function examen()
+    {
+        return $this->belongsTo(Examen::class, 'examen_id', 'id');
+    }
 
     /**
      * Relacion con el modelo PreguntaSimulacion.

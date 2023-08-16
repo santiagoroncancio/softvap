@@ -10,15 +10,19 @@ use Illuminate\Support\Facades\Response;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\VacunacionRequest;
 use App\Models\Categoria;
+use App\Models\Estudiante;
 use App\Models\Examen;
 use App\Models\ExamenPregunta;
 use App\Models\PreguntaSimulacion;
 use App\Models\Profesor;
 use App\Models\Recurso;
 use App\Models\RecursoCampo;
+use App\Models\RespuestaSimulacion;
+use App\Models\Simulacion;
 use App\Models\User;
 use App\Models\ViaAplicacion;
 use App\Repositories\Simulacion\ExamenRepository;
+use App\Repositories\Simulacion\SimulacionRepository;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 
@@ -44,14 +48,22 @@ class ExamenController extends Controller
     private $examenRepository;
 
     /**
+     * Objeto simulacionRepository.
+     *
+     * @var object
+     */
+    private $simulacionRepository;
+
+    /**
      * Constructor de la clase.
      *
      * @access public
      * @param examenRepository $examenRepository
      */
-    public function __construct(ExamenRepository $examenRepository)
+    public function __construct(ExamenRepository $examenRepository, SimulacionRepository $simulacionRepository)
     {
         $this->examenRepository = $examenRepository;
+        $this->simulacionRepository = $simulacionRepository;
     }
 
     /**
@@ -63,7 +75,6 @@ class ExamenController extends Controller
     {
         $usuario = Auth::user()->id;
         $role = User::find($usuario)->roles;
-
         $examen = Examen::all();
 
         return view('examen.index', compact('examen', 'role'));
@@ -227,6 +238,16 @@ class ExamenController extends Controller
     }
 
     /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function indexPlay()
+    {
+        return redirect()->route('examen.index');
+    }
+
+    /**
      * Devuelve los tipos de aplicacion
      *
      * @param $string $term dato de entrada para busqueda.
@@ -234,17 +255,33 @@ class ExamenController extends Controller
      *
      * @return array
      */
-    public function play(Request $request)
+    public function play(Request $request, $id)
     {
+        $bandera = true;
         $usuario = Auth::user()->id;
         $role = User::find($usuario)->roles;
+        $estu = Estudiante::where('usuario_id', '=', $usuario)->first();
 
-        $examen = Examen::find($request->id);
+        $examen = Examen::find($id);
+        $preguntas = $examen->preguntas;
+
         $pregunta = [];
-        if (count($examen->preguntas) > 0) {
-            $pregunta = $examen->preguntas->shuffle()->take($examen->n_pregunta);
+        if (count($preguntas) > 0) {
+            $simu = Simulacion::where('examen_id', '=', $examen->id)
+                ->where('estudiante_id', '=', $estu->id)
+                ->get();
+
+            if (count($simu) >= $examen->n_pregunta || count($simu) >= count($preguntas)) {
+                $bandera = false; // Fin del examen
+            }
+
+            $pregunta = $preguntas->reject(function ($objeto1) use ($simu) {
+                return $simu->contains('pregunta_id', $objeto1->pregunta_id);
+            });
+
+            $pregunta = count($pregunta) > 0 ? $pregunta->random() : 0;
         }
-        return view('examen.play', compact('examen', 'pregunta', 'role'));
+        return view('examen.play', compact('examen', 'pregunta', 'role', 'bandera'));
     }
 
     /**
@@ -257,7 +294,23 @@ class ExamenController extends Controller
     {
         try {
             DB::beginTransaction();
+            $estudiante = Estudiante::where('usuario_id', '=', auth()->id())->first();
+            $sim = Simulacion::create([
+                'nota' => $this->simulacionRepository->calcNota($request->question, $request->answer, $request->recurso),
+                'tiempo' => $this->simulacionRepository->calcTime($request->ti),
+                'pregunta_id' => $request->question,
+                'estudiante_id' => $estudiante->id,
+                'campo_id' => $request->campo,
+                'examen_id' => $request->examen
+            ]);
 
+            foreach ($this->simulacionRepository->sortCo($request->answer, $request->recurso) as $key => $rc) {
+                RespuestaSimulacion::create([
+                    'valor' => $rc,
+                    'simulacion_id' => $sim->id,
+                    'recurso_id' => $key != 0 ? $key : null
+                ]);
+            }
 
             DB::commit();
         } catch (Exception $ex) {
@@ -268,9 +321,9 @@ class ExamenController extends Controller
                 'alert-type' => 'error',
             ]);
         }
-        return redirect()->route('examen.index')->with([
-            'message'    => 'Se registro el examen',
-            'alert-type' => 'success',
+        return redirect()->route('examen.play', $request->examen)->with([
+            'message'    => 'Se registro su respuesta',
+            'alert-type' => 'success'
         ]);
     }
 }

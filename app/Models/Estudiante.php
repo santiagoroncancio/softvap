@@ -31,4 +31,13 @@ class Estudiante extends Model
         'created_at',
         'updated_at'
     ];
+
+    /**
+     * Relacion con el modelo PreguntaSimulacion.
+     * @return mixed \App\Models\Database\PreguntaSimulacion
+     */
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'usuario_id', 'id');
+    }
 }

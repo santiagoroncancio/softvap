@@ -51,6 +51,6 @@ class User extends \TCG\Voyager\Models\User
      */
     public function roles()
     {
-        return $this->hasMany(Role::class, 'id');
+        return $this->belongsToMany(Role::class, 'user_roles', 'user_id', 'role_id');
     }
 }

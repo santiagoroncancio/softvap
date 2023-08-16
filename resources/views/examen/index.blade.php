@@ -45,10 +45,11 @@
                                 <td>{{ $d->duracion }}</td>
                                 <td>{{ count($d->preguntas) }}</td>
                                 <td>
-                                    @if ($role->contains(function ($valor, $clave) {
-                                    return in_array($valor['name'], ['admin', 'teacher']);
-                                    }))
                                     <div class="actions">
+                                        @if ($role->contains(function ($valor, $clave) {
+                                        return in_array($valor['name'], ['admin', 'teacher']);
+                                        }))
+
                                         @if ($d->estado == 's' || $d->estado == 'n')
                                         <div>
                                             <a href="{{ route('examen.edit', $d->id) }}" class="btn btn-sm btn-primary pull-right edit">
@@ -77,17 +78,19 @@
                                             </a>
                                         </div>
                                         @endif
-                                    </div>
-                                    @else
-                                    <div class="actions">
+                                        @endif
+
+                                        @if ($role->contains(function ($valor, $clave) {
+                                        return in_array($valor['name'], ['student']);
+                                        }) && $d->estado == 's')
                                         <div>
-                                            <a href="{{ examen.play }}" class="btn btn-sm btn-primary pull-right edit">
+                                            <a href="{{ route('examen.play', $d->id) }}" class="btn btn-sm btn-primary pull-right edit">
                                                 <i class="voyager-play" aria-hidden="true"></i>
                                                 <span class="hidden-xs hidden-sm">Empezar</span>
                                             </a>
                                         </div>
+                                        @endif
                                     </div>
-                                    @endif
                                 </td>
                             </tr>
                             @endforeach
