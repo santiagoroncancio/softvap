@@ -23,7 +23,7 @@ use App\Repositories\Vacunacion\VacunacionRepository;
  *
  * @package    Controllers
  * @subpackage \Simulacion
- * @copyright  2023 Sofmedip
+ * @copyright  2023 sofvap
  * @author     Santiago Roncancio <Sntgrncnc@gmail.com>
  * @version    v1.0
  */

@@ -1242,12 +1242,12 @@ CREATE TABLE `settings` (
 --
 
 INSERT INTO `settings` (`id`, `key`, `display_name`, `value`, `details`, `type`, `order`, `group`) VALUES
-(1, 'site.title', 'Site Title', 'sofmedip', '', 'text', 1, 'Site'),
+(1, 'site.title', 'Site Title', 'sofvap', '', 'text', 1, 'Site'),
 (2, 'site.description', 'Site Description', 'Administración de Medicamentos en Pediatría', '', 'text', 2, 'Site'),
 (3, 'site.logo', 'Site Logo', 'settings/June2023/7ONKKfOPzftyzC9NXjrV.png', '', 'image', 3, 'Site'),
 (4, 'site.google_analytics_tracking_id', 'Google Analytics Tracking ID', NULL, '', 'text', 4, 'Site'),
 (5, 'admin.bg_image', 'Admin Background Image', 'settings/June2023/nvJf0LPXLSINM16h1IC0.jpg', '', 'image', 5, 'Admin'),
-(6, 'admin.title', 'Admin Title', 'sofmedip', '', 'text', 1, 'Admin'),
+(6, 'admin.title', 'Admin Title', 'sofvap', '', 'text', 1, 'Admin'),
 (7, 'admin.description', 'Admin Description', 'Administración de Medicamentos en Pediatría', '', 'text', 2, 'Admin'),
 (8, 'admin.loader', 'Admin Loader', '', '', 'image', 3, 'Admin'),
 (9, 'admin.icon_image', 'Admin Icon Image', 'settings/June2023/WX3Iw4Bzc6u08zGdFGRQ.png', '', 'image', 4, 'Admin'),
