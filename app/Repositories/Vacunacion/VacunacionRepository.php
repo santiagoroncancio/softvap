@@ -69,7 +69,7 @@ class VacunacionRepository
                 $e->on('va.recurso_id', '=', 'r.id')
                     ->where('va.campo_id', '=', 3);
             })
-            ->join('via_aplicaciones as vpl', 'vpl.id', '=', 'va.campo_id')
+            ->join('via_aplicaciones as vpl', 'vpl.id', '=', 'va.valor')
             ->where('r.id', '=', $id)
             ->select(
                 'r.id',
