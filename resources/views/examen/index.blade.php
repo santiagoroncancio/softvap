@@ -52,12 +52,6 @@
 
                                         @if ($d->estado == 's' || $d->estado == 'n')
                                         <div>
-                                            <a href="{{ route('examen.edit', $d->id) }}" class="btn btn-sm btn-primary pull-right edit">
-                                                <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
-                                                <span class="hidden-xs hidden-sm">Editar</span>
-                                            </a>
-                                        </div>
-                                        <div>
                                             <form action="{{ route('examen.destroy', $d->id) }}" id="delete{{ $d->id }}" method="POST">
                                                 @csrf
                                                 {{ method_field('DELETE') }}

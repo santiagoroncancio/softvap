@@ -33,7 +33,7 @@ use Illuminate\Support\Facades\Auth;
  *
  * @package    Controllers
  * @subpackage \Simulacion
- * @copyright  2023 Sofmedip
+ * @copyright  2023 sofvap
  * @author     Santiago Roncancio <Sntgrncnc@gmail.com>
  * @version    v1.0
  */
@@ -157,8 +157,7 @@ class ExamenController extends Controller
      */
     public function edit($id)
     {
-        // $data = $this->vacunacionRepository->show($id);
-        // return view('vacunacion.edit', compact('data'));
+        return redirect()->route('examen.index');
     }
 
     /**
@@ -232,7 +231,37 @@ class ExamenController extends Controller
             ]);
         }
         return redirect()->route('examen.index')->with([
-            'message'    => 'Se Elimino la vacuna',
+            'message'    => 'Examen anulado',
+            'alert-type' => 'success',
+        ]);
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function finish($id)
+    {
+        try {
+            DB::beginTransaction();
+
+            Examen::findOrFail($id)->update([
+                'estado' => 'f'
+            ]);
+
+            DB::commit();
+        } catch (Exception $ex) {
+            Log::debug($ex->getMessage() . ' - ' . $ex->getLine() . ' - ' . $ex->getFile());
+            DB::rollBack();
+            return redirect()->route('examen.index')->with([
+                'message'    => 'Error del sistema: Por favor comunicarse con el administrador',
+                'alert-type' => 'error',
+            ]);
+        }
+        return redirect()->route('examen.index')->with([
+            'message'    => 'Examen finalizado',
             'alert-type' => 'success',
         ]);
     }
