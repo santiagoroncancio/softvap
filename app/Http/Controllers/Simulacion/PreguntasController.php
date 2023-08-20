@@ -25,7 +25,7 @@ use App\Repositories\Pregunta\PreguntaRepository;
  *
  * @package    Controllers
  * @subpackage \Simulacion
- * @copyright  2023 sofvap
+ * @copyright  2023 softvap 1.0
  * @author     Santiago Roncancio <Sntgrncnc@gmail.com>
  * @version    v1.0
  */
