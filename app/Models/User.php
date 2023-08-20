@@ -45,6 +45,11 @@ class User extends \TCG\Voyager\Models\User
         'email_verified_at' => 'datetime',
     ];
 
+    public function getName()
+    {
+        return $this->identification . ' - ' . $this->name . ' ' . $this->surname;
+    }
+
     /**
      * Relacion con el modelo Role.
      * @return mixed \App\Models\Database\Role

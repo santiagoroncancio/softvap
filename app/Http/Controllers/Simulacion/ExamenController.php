@@ -12,6 +12,7 @@ use App\Http\Requests\VacunacionRequest;
 use App\Models\Categoria;
 use App\Models\Estudiante;
 use App\Models\Examen;
+use App\Models\ExamenEstudiante;
 use App\Models\ExamenPregunta;
 use App\Models\PreguntaSimulacion;
 use App\Models\Profesor;
@@ -24,6 +25,7 @@ use App\Models\ViaAplicacion;
 use App\Repositories\Simulacion\ExamenRepository;
 use App\Repositories\Simulacion\SimulacionRepository;
 use Carbon\Carbon;
+use DateTime;
 use Illuminate\Support\Facades\Auth;
 
 /**
@@ -33,7 +35,7 @@ use Illuminate\Support\Facades\Auth;
  *
  * @package    Controllers
  * @subpackage \Simulacion
- * @copyright  2023 sofvap
+ * @copyright  2023 softvap 1.0
  * @author     Santiago Roncancio <Sntgrncnc@gmail.com>
  * @version    v1.0
  */
@@ -76,6 +78,11 @@ class ExamenController extends Controller
         $usuario = Auth::user()->id;
         $role = User::find($usuario)->roles;
         $examen = Examen::all();
+
+        $examen = $examen->map(function ($examen) {
+            $examen->disponible = (date('Y-m-d H:i:s') >= $examen->fecha_inicial && $examen->fecha_final >= date('Y-m-d H:i:s')) ? true : false; // Agregar el atributo
+            return $examen;
+        });
 
         return view('examen.index', compact('examen', 'role'));
     }
@@ -251,6 +258,30 @@ class ExamenController extends Controller
                 'estado' => 'f'
             ]);
 
+            $examen = Examen::find($id);
+            $simu = Simulacion::where('examen_id', '=', $id)
+                ->get()
+                ->groupBy('estudiante_id');
+
+            foreach ($simu as $sm) {
+                $suma = 0;
+                foreach ($sm as $s) {
+                    $duracionSegundos = strtotime($s->tiempo) - strtotime('00:00:00');
+                    $suma += $duracionSegundos;
+                }
+
+                $cc = Carbon::parse($suma);
+                $sum = $sm->sum('nota');
+                $avg = $sum / $examen->n_pregunta;
+
+                ExamenEstudiante::create([
+                    'examen_id' => $sm->first()->examen_id,
+                    'estudiante_id' => $sm->first()->estudiante_id,
+                    'nota' => round($avg, 2),
+                    'tiempo' => $cc->format('H:i:s')
+                ]);
+            }
+
             DB::commit();
         } catch (Exception $ex) {
             Log::debug($ex->getMessage() . ' - ' . $ex->getLine() . ' - ' . $ex->getFile());
@@ -264,6 +295,73 @@ class ExamenController extends Controller
             'message'    => 'Examen finalizado',
             'alert-type' => 'success',
         ]);
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function resultados($id)
+    {
+        $usuario = Auth::user()->id;
+        $role = User::find($usuario)->roles;
+        $examen = Examen::find($id);
+        $resultados = $examen->resultados->sortBy('tiempo')->sortByDesc('nota');
+
+        $dataResultado = [];
+
+
+        if ($role->contains(function ($valor, $clave) {
+            return in_array($valor['name'], ['admin', 'teacher']);
+        })) {
+            $resultado = Simulacion::where('examen_id', '=', $id)
+                ->get();
+        } else {
+            $resultado = Simulacion::where('examen_id', '=', $id)
+                ->where('estudiante_id', '=', Estudiante::where('usuario_id', '=', $usuario)->first()->id)
+                ->get();
+        }
+
+        foreach ($resultado as $res) {
+            $resCo = [];
+            $resDig = [];
+            foreach ($res->pregunta->respuestas as $aux) {
+                $temp = null;
+                if ($res->campo_id == 1) {
+                    $temp = $this->simulacionRepository->nombreVacuna($aux->valor);
+                } elseif ($res->campo_id == 2) {
+                    $temp = $this->simulacionRepository->calibreVacuna($aux->valor);
+                } elseif ($res->campo_id == 3) {
+                    $temp = $this->simulacionRepository->viaAplicacionVacuna($aux->valor);
+                } else {
+                    $temp = $aux->valor;
+                }
+                array_push($resCo, $temp);
+            }
+            foreach ($res->respuesta as $aux) {
+                $temp = null;
+                if ($res->pregunta->campo_id == 1) {
+                    $temp = $this->simulacionRepository->nombreVacuna($aux->valor);
+                } elseif ($res->pregunta->campo_id == 2) {
+                    $temp = $this->simulacionRepository->nombreVacuna($aux->recurso_id) . ' - ' . $aux->valor;
+                } elseif ($res->pregunta->campo_id == 3) {
+                    $temp = $this->simulacionRepository->nombreVacuna($aux->recurso_id) . ' - ' . $this->simulacionRepository->viaAplicacion($aux->valor);
+                } else {
+                    $temp = $aux->valor;
+                }
+                array_push($resDig, $temp);
+            }
+
+            array_push($dataResultado, [
+                "res" => $res,
+                "resCo" => $resCo,
+                "resDig" => $resDig
+            ]);
+        }
+
+        return view('examen.results', compact('usuario', 'role', 'examen', 'resultados', 'dataResultado'));
     }
 
     /**
@@ -294,6 +392,8 @@ class ExamenController extends Controller
         $examen = Examen::find($id);
         $preguntas = $examen->preguntas;
 
+        $lim = (date('Y-m-d H:i:s') >= $examen->fecha_inicial && $examen->fecha_final >= date('Y-m-d H:i:s')) ? true : false;
+
         $pregunta = [];
         if (count($preguntas) > 0) {
             $simu = Simulacion::where('examen_id', '=', $examen->id)
@@ -310,7 +410,7 @@ class ExamenController extends Controller
 
             $pregunta = count($pregunta) > 0 ? $pregunta->random() : 0;
         }
-        return view('examen.play', compact('examen', 'pregunta', 'role', 'bandera'));
+        return view('examen.play', compact('examen', 'pregunta', 'role', 'bandera', 'lim'));
     }
 
     /**

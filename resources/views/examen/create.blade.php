@@ -205,11 +205,12 @@
         let tableQuestion = $('#preguntas').DataTable({
             destroy: true,
             lengthChange: true,
+            pageLength: 10,
             searching: true,
             ordering: true,
             info: true,
             responsive: false,
-            paging: false,
+            paging: true,
             language: {
                 url: '//cdn.datatables.net/plug-ins/1.13.4/i18n/es-ES.json',
             }

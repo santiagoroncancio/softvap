@@ -59,14 +59,14 @@
                                             </form>
                                         </div>
                                         <div>
-                                            <form action="" id="finish{{ $d->id }}" method="POST">
+                                            <form action="{{ route('examen.finish', $d->id) }}" id="finish{{ $d->id }}" method="POST">
                                                 @csrf
                                                 <input type="submit" value="Finalizar" class="btn btn-sm btn-success" onclick="finalizar('{{$d->id}}')">
                                             </form>
                                         </div>
                                         @elseif ($d->estado == 'f')
                                         <div>
-                                            <a href="{{ examen.results }}" class="btn btn-sm btn-primary pull-right edit">
+                                            <a href="{{ route('examen.results', $d->id) }}" class="btn btn-sm btn-primary pull-right edit">
                                                 <i class="fa fa-signal" aria-hidden="true"></i>
                                                 <span class="hidden-xs hidden-sm">Resultados</span>
                                             </a>
@@ -77,12 +77,18 @@
                                         @if ($role->contains(function ($valor, $clave) {
                                         return in_array($valor['name'], ['student']);
                                         }) && $d->estado == 's')
+
+                                        @if ($d->disponible == true)
+
                                         <div>
                                             <a href="{{ route('examen.play', $d->id) }}" class="btn btn-sm btn-primary pull-right edit">
                                                 <i class="voyager-play" aria-hidden="true"></i>
                                                 <span class="hidden-xs hidden-sm">Empezar</span>
                                             </a>
                                         </div>
+
+                                        @endif
+
                                         @endif
                                     </div>
                                 </td>

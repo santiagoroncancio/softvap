@@ -12,13 +12,13 @@
 
 @section('content')
 <div class="page-content browse container-fluid">
-    @if ($bandera == false)
+    @if ($bandera == false && $lim == true)
     <div style="text-align: center;">
         <h2>Examen Finalizado <i class="voyager-smile"></i></h2>
         <p>Gracias por finalizar el examen</p>
         <a href="{{ route('examen.indexPlay') }}" class="btn btn-primary">Volver al inicio</a>
     </div>
-    @elseif ($examen->estado == 's' && $bandera == true)
+    @elseif ($examen->estado == 's' && $bandera == true && $lim == true)
     @include('examen.case', ['data' => $pregunta->pregunta->escenario, 'pregunta' => $pregunta->pregunta, 'examen' => $examen->id])
     @else
     <div style="text-align: center;">

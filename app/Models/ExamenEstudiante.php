@@ -21,8 +21,7 @@ class ExamenEstudiante extends Model
         'examen_id',
         'estudiante_id',
         'nota',
-        'tiempo',
-        'estado'
+        'tiempo'
     ];
 
     /**
@@ -34,4 +33,13 @@ class ExamenEstudiante extends Model
         'created_at',
         'updated_at'
     ];
+
+    /**
+     * Relacion con el modelo preguntas.
+     * @return mixed \App\Models\Database\preguntas
+     */
+    public function estudiante()
+    {
+        return $this->belongsTo(Estudiante::class, 'estudiante_id');
+    }
 }
