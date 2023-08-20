@@ -14,14 +14,7 @@
 <div class="page-content browse container-fluid">
     @include('voyager::alerts')
     <div class="row">
-        <div class="col-md-3">
-            <ul class="list-group">
-                <li class="list-group-item">Simulaciones</li>
-                <li class="list-group-item">Más aciertos</li>
-                <li class="list-group-item">Menos aciertos</li>
-            </ul>
-        </div>
-        <div class="col-md-9">
+        <div class="col-md-12">
             <div class="card" style="margin-bottom: 10px;">
                 <h5 class="card-title text-center">Grafica</h5>
                 <div class="card-body">
@@ -43,7 +36,11 @@
                                 <th scope="col">Tiempo</th>
                                 <th scope="col">Fecha</th>
                                 <th scope="col">Examen</th>
-                                @if ($user->id == 1) <th scope="col">Estudiante</th> @endif
+                                @if ($role->contains(function ($valor, $clave) {
+                                return in_array($valor['name'], ['admin', 'teacher']);
+                                }))
+                                <th scope="col">Estudiante</th>
+                                @endif
                             </tr>
                         </thead>
                         <tbody>
@@ -55,7 +52,11 @@
                                 <td>{{ $dato->tiempo }}</td>
                                 <td>{{ date('d/m/Y', strtotime($dato->created_at)) }}</td>
                                 <td>{{ $dato->examen != null ? $dato->examen->nombre : 'Practica' }}</td>
-                                @if ($user->id == 1) <td>{{$dato->estudiante->user->identification}} - {{$dato->estudiante->user->name}}</td> @endif
+                                @if ($role->contains(function ($valor, $clave) {
+                                return in_array($valor['name'], ['admin', 'teacher']);
+                                }))
+                                <td>{{$dato->estudiante->user->getName()}}</td>
+                                @endif
                             </tr>
                             @endforeach
                         </tbody>

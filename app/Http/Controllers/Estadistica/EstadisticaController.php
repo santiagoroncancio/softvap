@@ -43,7 +43,7 @@ class EstadisticaController extends Controller
             $estu = Estudiante::where('usuario_id', '=', $user->id)->first();
             $simu = Simulacion::where('estudiante_id', '=', $estu->id)->get();
         }
-        return view('estadistica.index', compact('user', 'simu'));
+        return view('estadistica.index', compact('user', 'role', 'simu'));
     }
 
     /**

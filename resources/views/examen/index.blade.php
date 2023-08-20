@@ -76,17 +76,22 @@
 
                                         @if ($role->contains(function ($valor, $clave) {
                                         return in_array($valor['name'], ['student']);
-                                        }) && $d->estado == 's')
+                                        }))
 
                                         @if ($d->disponible == true)
-
                                         <div>
                                             <a href="{{ route('examen.play', $d->id) }}" class="btn btn-sm btn-primary pull-right edit">
                                                 <i class="voyager-play" aria-hidden="true"></i>
                                                 <span class="hidden-xs hidden-sm">Empezar</span>
                                             </a>
                                         </div>
-
+                                        @elseif ($d->estado == 'f')
+                                        <div>
+                                            <a href="{{ route('examen.results', $d->id) }}" class="btn btn-sm btn-primary pull-right edit">
+                                                <i class="fa fa-signal" aria-hidden="true"></i>
+                                                <span class="hidden-xs hidden-sm">Resultados</span>
+                                            </a>
+                                        </div>
                                         @endif
 
                                         @endif
