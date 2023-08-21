@@ -24,22 +24,24 @@ use TCG\Voyager\Facades\Voyager;
 //     return view('welcome');
 // });
 
-Route::get('examen/results/{id}', [ExamenController::class, 'resultados'])->name('examen.results');
-Route::get('examen/play', [ExamenController::class, 'indexPlay'])->name('examen.indexPlay');
-Route::get('examen/play/{id}', [ExamenController::class, 'play'])->name('examen.play');
-Route::post('examen/savePlay', [ExamenController::class, 'savePlay'])->name('examen.savePlay');
-Route::post('examen/finish/{id}', [ExamenController::class, 'finish'])->name('examen.finish');
-Route::resource('examen', ExamenController::class);
+Route::middleware(['auth'])->group(function () {
+    Route::get('examen/results/{id}', [ExamenController::class, 'resultados'])->name('examen.results');
+    Route::get('examen/play', [ExamenController::class, 'indexPlay'])->name('examen.indexPlay');
+    Route::get('examen/play/{id}', [ExamenController::class, 'play'])->name('examen.play');
+    Route::post('examen/savePlay', [ExamenController::class, 'savePlay'])->name('examen.savePlay');
+    Route::post('examen/finish/{id}', [ExamenController::class, 'finish'])->name('examen.finish');
+    Route::resource('examen', ExamenController::class);
 
-Route::get('lab-simulacion/random', [SimulacionController::class, 'random'])->name('lab-simulacion.random');
-Route::get('lab-simulacion/resultados', [SimulacionController::class, 'results'])->name('lab-simulacion.results');
-Route::resource('lab-simulacion', SimulacionController::class);
+    Route::get('lab-simulacion/random', [SimulacionController::class, 'random'])->name('lab-simulacion.random');
+    Route::get('lab-simulacion/resultados', [SimulacionController::class, 'results'])->name('lab-simulacion.results');
+    Route::resource('lab-simulacion', SimulacionController::class);
 
-Route::resource('estadistica', EstadisticaController::class);
+    Route::resource('estadistica', EstadisticaController::class);
 
-Route::resource('vacunacion', VacunacionController::class);
-Route::resource('preguntas', PreguntasController::class);
-Route::resource('usuarios', UsuarioController::class);
+    Route::resource('vacunacion', VacunacionController::class);
+    Route::resource('preguntas', PreguntasController::class);
+    Route::resource('usuarios', UsuarioController::class);
+});
 
 Route::group(['prefix' => '/'], function () {
     Voyager::routes();
