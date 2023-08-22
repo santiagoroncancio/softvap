@@ -185,13 +185,14 @@ return [
     |
     */
 
-    'primary_color' => '#0075f2', //Blue crayola
+    'primary_color' => '#fb1f04', //Blue crayola
 
     'show_dev_tips' => true, // Show development tip "How To Use:" in Menu and Settings
 
     // Here you can specify additional assets you would like to be included in the master.blade
     'additional_css' => [
         'css/custom.css',
+        'css/menuCustom.css',
         // 'css/loginCustom.css',
         'fa/css/font-awesome.min.css',
         'css/bootstrap.css',

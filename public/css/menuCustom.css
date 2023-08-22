@@ -1,0 +1,18 @@
+.voyager .side-menu.sidebar-inverse {
+    background: #49b4ef!important;
+    background-color: #49b4ef!important;
+}
+
+.voyager .side-menu.sidebar-inverse .navbar li.active>a {
+    font-weight: bold;
+    background-color: #0075f2;
+}
+
+.voyager .side-menu.sidebar-inverse .navbar li>a:hover {
+    background: #187fed;
+    color: #fff;
+}
+
+.voyager .side-menu.sidebar-inverse .navbar li>a {
+    color: white!important;
+}

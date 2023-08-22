@@ -3,9 +3,9 @@
 @section('content')
 <div class="page-content">
     @include('voyager::alerts')
-    <div class="row">
+    <div class="clearfix container-fluid row">
         <div class="col-md-12"> <!-- Widget de bienvenida -->
-            @widget('App\Widgets\WelcomeMessage')
+            <img src="{{ asset('img/portadaAzul2.jpeg') }}" style="width: 100%;" alt="Imagen Portada">
         </div>
     </div>
     @include('voyager::dimmers')
