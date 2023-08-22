@@ -46,3 +46,7 @@
     color: red;
     font-weight: bold;
   }
+
+  .panel.widget p {
+    max-height: max-content !important;
+}

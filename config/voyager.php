@@ -144,7 +144,10 @@ return [
         ],
 
         'widgets' => [
-            '\\App\Widgets\UserW',
+            '\\App\Widgets\ExamsLink',
+            '\\App\Widgets\StatsLink',
+            '\\App\Widgets\UserProfileLink',
+            // '\\App\Widgets\WelcomeMessage',
             // 'TCG\\Voyager\\Widgets\\UserDimmer'
         ],
 
@@ -196,6 +199,7 @@ return [
     ],
 
     'additional_js' => [
+        'js/widgets.js'
         // 'js/chart.js',
         // 'bootstrap/js/bootstrap.min.js'
     ],

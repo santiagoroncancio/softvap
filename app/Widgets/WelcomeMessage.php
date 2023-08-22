@@ -7,7 +7,7 @@ use Illuminate\Support\Str;
 use TCG\Voyager\Facades\Voyager;
 use Arrilot\Widgets\AbstractWidget;
 
-class UserW extends AbstractWidget
+class WelcomeMessage extends AbstractWidget
 {
     /**
      * The configuration array.
@@ -22,17 +22,19 @@ class UserW extends AbstractWidget
      */
     public function run()
     {
-        $count = Voyager::model('User')->count();
-        $string = trans_choice('voyager::dimmer.user', $count);
+        $user = Auth::user();
+
+        if ($user) {
+            $name = $user->name;
+            $message = "¡Bienvenido de nuevo, $name!";
+        } else {
+            $message = "Bienvenido al panel de administración";
+        }
 
         return view('voyager::dimmer', array_merge($this->config, [
-            'icon'   => 'voyager-group',
-            'title'  => "{$count} {$string}",
-            'text'   => __('voyager::dimmer.user_text', ['count' => $count, 'string' => Str::lower($string)]),
-            'button' => [
-                'text' => __('voyager::dimmer.user_link_text'),
-                'link' => route('voyager.users.index'),
-            ],
+            'icon'   => 'voyager-rocket',
+            'title'  => 'Bienvenida',
+            'text'   => $message,
             'image' => '/img/portadaAzul2.jpeg',
         ]));
     }
@@ -44,6 +46,6 @@ class UserW extends AbstractWidget
      */
     public function shouldBeDisplayed()
     {
-        return Auth::user()->can('browse', Voyager::model('User'));
+        return Auth::user() !== null; // Mostrar solo a usuarios autenticados
     }
 }
