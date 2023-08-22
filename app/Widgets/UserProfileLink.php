@@ -45,7 +45,7 @@ class UserProfileLink extends AbstractWidget
         } else {
             $message = 'Ver perfil';
             $buttonText = 'Ir a tu Perfil';
-            $buttonLink = route('profile');
+            $buttonLink = '/profile';
 
             return view('voyager::dimmer', array_merge($this->config, [
                 'icon'   => 'voyager-person',
