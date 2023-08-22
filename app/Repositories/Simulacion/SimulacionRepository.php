@@ -88,6 +88,18 @@ class SimulacionRepository
         return round($nota, 0);
     }
 
+    public function aprobado($calificaciones)
+    {
+        $totalCalificaciones = count($calificaciones);
+        $calificacionesMayoresA60 = array_filter($calificaciones, function ($calificacion) {
+            return $calificacion >= 60;
+        });
+
+        $cantidadMayoresA60 = count($calificacionesMayoresA60);
+
+        return ($cantidadMayoresA60 / $totalCalificaciones) * 100;
+    }
+
     public function viaAplicacion($id)
     {
         $vapl = viaAplicacion::find($id);

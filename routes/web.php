@@ -36,6 +36,10 @@ Route::middleware(['auth'])->group(function () {
     Route::get('lab-simulacion/resultados', [SimulacionController::class, 'results'])->name('lab-simulacion.results');
     Route::resource('lab-simulacion', SimulacionController::class);
 
+
+    Route::get('estadistica/intentos', [EstadisticaController::class, 'intentos'])->name('estadistica.intentos');
+    Route::get('estadistica/preguntas', [EstadisticaController::class, 'preguntas'])->name('estadistica.preguntas');
+    Route::get('estadistica/preguntas/{id}', [EstadisticaController::class, 'cPregunta'])->name('estadistica.preguntas');
     Route::resource('estadistica', EstadisticaController::class);
 
     Route::resource('vacunacion', VacunacionController::class);

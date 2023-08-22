@@ -5,8 +5,10 @@ namespace App\Http\Controllers\Estadistica;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Estudiante;
+use App\Models\PreguntaSimulacion;
 use App\Models\Simulacion;
 use App\Models\User;
+use App\Repositories\Simulacion\SimulacionRepository;
 use Illuminate\Support\Facades\Auth;
 
 /**
@@ -23,6 +25,20 @@ use Illuminate\Support\Facades\Auth;
 
 class EstadisticaController extends Controller
 {
+
+    private $simulacionRepository;
+
+    /**
+     * Constructor de la clase.
+     *
+     * @access public
+     * @param SimulacionRepository $simulacionRepository
+     */
+    public function __construct(SimulacionRepository $simulacionRepository)
+    {
+        $this->simulacionRepository = $simulacionRepository;
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -36,14 +52,101 @@ class EstadisticaController extends Controller
         if ($role->contains(function ($valor, $clave) {
             return in_array($valor['name'], ['admin', 'teacher']);
         })) {
-            // Admin and teacher
             $simu = Simulacion::all();
-            // dd();
         } else {
             $estu = Estudiante::where('usuario_id', '=', $user->id)->first();
             $simu = Simulacion::where('estudiante_id', '=', $estu->id)->get();
         }
-        return view('estadistica.index', compact('user', 'role', 'simu'));
+        return view('estadistica.grafIntento', compact('user', 'role', 'simu'));
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function intentos()
+    {
+        $user = Auth::user();
+        $role = User::find($user->id)->roles;
+
+        if ($role->contains(function ($valor, $clave) {
+            return in_array($valor['name'], ['admin', 'teacher']);
+        })) {
+            $simu = Simulacion::all();
+        } else {
+            $estu = Estudiante::where('usuario_id', '=', $user->id)->first();
+            $simu = Simulacion::where('estudiante_id', '=', $estu->id)->get();
+        }
+        return view('estadistica.grafIntento', compact('user', 'role', 'simu'));
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function preguntas()
+    {
+        $user = Auth::user();
+        $role = User::find($user->id)->roles;
+
+        $pregu = PreguntaSimulacion::all();
+
+        return view('estadistica.indexPreguntas', compact('user', 'role', 'pregu'));
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function cPregunta($id)
+    {
+        $user = Auth::user();
+        $role = User::find($user->id)->roles;
+
+        $pregu = PreguntaSimulacion::find($id);
+
+        $resCo = [];
+        $resDig = [];
+        $nota = [];
+
+        foreach ($pregu->respuestas as $aux) {
+            $temp = null;
+            if ($pregu->campo_id == 1) {
+                $temp = $this->simulacionRepository->nombreVacuna($aux->valor);
+            } elseif ($pregu->campo_id == 2) {
+                $temp = $this->simulacionRepository->calibreVacuna($aux->valor);
+            } elseif ($pregu->campo_id == 3) {
+                $temp = $this->simulacionRepository->viaAplicacionVacuna($aux->valor);
+            } else {
+                $temp = $aux->valor;
+            }
+            array_push($resCo, $temp);
+        }
+        foreach ($pregu->simulaciones as $simu) {
+            $arrAux = [];
+            foreach ($simu->respuesta as $aux) {
+                $temp = null;
+                if ($simu->pregunta->campo_id == 1) {
+                    $temp = $this->simulacionRepository->nombreVacuna($aux->valor);
+                } elseif ($simu->pregunta->campo_id == 2) {
+                    $temp = $this->simulacionRepository->nombreVacuna($aux->recurso_id) . ' - ' . $aux->valor;
+                } elseif ($simu->pregunta->campo_id == 3) {
+                    $temp = $this->simulacionRepository->nombreVacuna($aux->recurso_id) . ' - ' . $this->simulacionRepository->viaAplicacion($aux->valor);
+                } else {
+                    $temp = $aux->valor;
+                }
+                array_push($arrAux, $temp);
+            }
+            array_push($nota, $simu->nota);
+            array_push($resDig, $arrAux);
+        }
+
+        $aprobado = $this->simulacionRepository->aprobado($nota);
+
+        return view('estadistica.preguntaGrafPie', compact('user', 'role', 'pregu', 'resCo', 'resDig', 'aprobado'));
     }
 
     /**

@@ -70,4 +70,13 @@ class PreguntaSimulacion extends Model
     {
         return $this->hasMany(RespuestaPregunta::class, 'pregunta_id', 'id');
     }
+
+    /**
+     * Relacion con el modelo simulaciones.
+     * @return mixed \App\Models\Database\simulaciones
+     */
+    public function simulaciones()
+    {
+        return $this->hasMany(Simulacion::class, 'pregunta_id', 'id');
+    }
 }

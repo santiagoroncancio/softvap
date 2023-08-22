@@ -72,7 +72,7 @@
 @stop
 
 @section('javascript')
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="{{ asset('js/chart.js') }}" defer></script>
 
 <script type="text/javascript">
     $(document).ready(function() {
