@@ -189,13 +189,14 @@ return [
     // Here you can specify additional assets you would like to be included in the master.blade
     'additional_css' => [
         'css/custom.css',
+        // 'css/loginCustom.css',
         'fa/css/font-awesome.min.css',
         'css/bootstrap.css',
         // 'bootstrap/css/bootstrap.min.css'
     ],
 
     'additional_js' => [
-        //'js/custom.js',
+        // 'js/chart.js',
         // 'bootstrap/js/bootstrap.min.js'
     ],
 
