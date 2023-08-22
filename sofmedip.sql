@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.1
+-- version 5.2.0
 -- https://www.phpmyadmin.net/
 --
--- Servidor: localhost
--- Tiempo de generación: 16-07-2023 a las 20:59:12
--- Versión del servidor: 10.4.28-MariaDB
--- Versión de PHP: 8.2.4
+-- Servidor: 127.0.0.1
+-- Tiempo de generación: 23-08-2023 a las 01:29:59
+-- Versión del servidor: 10.4.27-MariaDB
+-- Versión de PHP: 8.2.0
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -34,13 +34,6 @@ CREATE TABLE `calificaciones` (
   `tiempo_inicial` time DEFAULT '00:00:00',
   `tiempo_final` time DEFAULT '00:00:00'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Volcado de datos para la tabla `calificaciones`
---
-
-INSERT INTO `calificaciones` (`id`, `nota`, `pregunta_id`, `tiempo_inicial`, `tiempo_final`) VALUES
-(5, 100, 20, '00:00:00', '00:05:00');
 
 -- --------------------------------------------------------
 
@@ -115,8 +108,8 @@ INSERT INTO `data_rows` (`id`, `data_type_id`, `field`, `type`, `display_name`, 
 (3, 1, 'email', 'text', 'Correo electrónico', 1, 1, 1, 1, 1, 1, '{\"validation\":{\"rule\":\"required|unique:users\",\"messages\":{\"required\":\"El campo Correo Eletr\\u00f3nico es requerido\",\"unique\":\"El campo Correo Eletr\\u00f3nico debe ser unico\"}}}', 3),
 (4, 1, 'password', 'password', 'Contraseña', 1, 0, 0, 1, 1, 0, '{}', 7),
 (5, 1, 'remember_token', 'text', 'Remember Token', 0, 0, 0, 0, 0, 0, '{}', 8),
-(6, 1, 'created_at', 'timestamp', 'Creado', 0, 1, 1, 0, 0, 0, '{}', 9),
-(7, 1, 'updated_at', 'timestamp', 'Actualizado', 0, 0, 0, 0, 0, 0, '{}', 10),
+(6, 1, 'created_at', 'timestamp', 'Creado', 0, 0, 1, 0, 0, 0, '{}', 9),
+(7, 1, 'updated_at', 'timestamp', 'Actualizado', 0, 0, 1, 0, 0, 0, '{}', 10),
 (8, 1, 'avatar', 'image', 'Avatar', 0, 1, 1, 1, 1, 1, '{}', 11),
 (11, 1, 'settings', 'hidden', 'Settings', 0, 0, 0, 0, 0, 0, '{}', 14),
 (12, 2, 'id', 'number', 'ID', 1, 0, 0, 0, 0, 0, NULL, 1),
@@ -152,14 +145,14 @@ INSERT INTO `data_rows` (`id`, `data_type_id`, `field`, `type`, `display_name`, 
 (86, 11, 'documento_acudiente', 'text', 'Documento Acudiente', 0, 1, 1, 1, 1, 1, '{}', 6),
 (87, 11, 'created_at', 'timestamp', 'Creado', 0, 0, 0, 0, 0, 0, '{}', 7),
 (88, 11, 'updated_at', 'timestamp', 'Actualizado', 0, 0, 0, 0, 0, 0, '{}', 8),
-(89, 9, 'estudiante_belongsto_user_relationship', 'relationship', 'Usuario', 1, 1, 1, 1, 1, 1, '{\"model\":\"\\\\App\\\\Models\\\\User\",\"table\":\"users\",\"type\":\"belongsTo\",\"column\":\"usuario_id\",\"key\":\"id\",\"label\":\"identification\",\"pivot_table\":\"data_rows\",\"pivot\":\"0\",\"taggable\":\"0\"}', 5),
+(89, 9, 'estudiante_belongsto_user_relationship', 'relationship', 'Usuario', 1, 1, 1, 1, 1, 1, '{\"model\":\"\\\\App\\\\Models\\\\User\",\"table\":\"users\",\"type\":\"belongsTo\",\"column\":\"usuario_id\",\"key\":\"id\",\"label\":\"email\",\"pivot_table\":\"data_rows\",\"pivot\":\"0\",\"taggable\":\"0\"}', 5),
 (90, 9, 'usuario_id', 'text', 'Usuario Id', 0, 1, 1, 1, 1, 1, '{}', 5),
 (91, 10, 'medico_belongsto_user_relationship', 'relationship', 'Usuario', 1, 1, 1, 1, 1, 1, '{\"model\":\"\\\\App\\\\Models\\\\User\",\"table\":\"users\",\"type\":\"belongsTo\",\"column\":\"usuario_id\",\"key\":\"id\",\"label\":\"identification\",\"pivot_table\":\"data_rows\",\"pivot\":\"0\",\"taggable\":\"0\"}', 5),
 (92, 10, 'usuario_id', 'text', 'Usuario Id', 0, 1, 1, 1, 1, 1, '{}', 5),
 (93, 11, 'paciente_belongsto_user_relationship', 'relationship', 'Usuario', 1, 1, 1, 1, 1, 1, '{\"model\":\"\\\\App\\\\Models\\\\User\",\"table\":\"users\",\"type\":\"belongsTo\",\"column\":\"usuario_id\",\"key\":\"id\",\"label\":\"identification\",\"pivot_table\":\"data_rows\",\"pivot\":\"0\",\"taggable\":\"0\"}', 9),
 (94, 11, 'usuario_id', 'text', 'Usuario Id', 0, 1, 1, 1, 1, 1, '{}', 9),
 (95, 11, 'fecha_nacimiento', 'date', 'Fecha Nacimiento', 0, 1, 1, 1, 1, 1, '{\"validation\":{\"rule\":\"required|date|date_format:Y-m-d|before:tomorrow\",\"messages\":{\"required\":\"El campo Fecha Nacimiento es requerido\",\"date\":\"El campo Fecha Nacimiento debe ser de tipo fecha\",\"date_format\":\"El campo Fecha Nacimiento debe tener el formato: a\\u00f1o-mes-dia\",\"before\":\"El campo Fecha Nacimiento no debe ser mayor a hoy\"}}}', 3),
-(96, 1, 'user_belongsto_tipo_documento_relationship', 'relationship', 'Tipo documento', 0, 1, 1, 1, 1, 1, '{\"model\":\"\\\\App\\\\Models\\\\TipoDocumento\",\"table\":\"tipo_documentos\",\"type\":\"belongsTo\",\"column\":\"tipo_documento\",\"key\":\"id\",\"label\":\"nombre\",\"pivot_table\":\"componentes\",\"pivot\":\"0\",\"taggable\":\"0\"}', 12),
+(96, 1, 'user_belongsto_tipo_documento_relationship', 'relationship', 'Tipo documento', 0, 1, 1, 1, 1, 1, '{\"model\":\"\\\\App\\\\Models\\\\TipoDocumento\",\"table\":\"tipo_documentos\",\"type\":\"belongsTo\",\"column\":\"tipo_documento\",\"key\":\"id\",\"label\":\"nombre\",\"pivot_table\":\"calificaciones\",\"pivot\":\"0\",\"taggable\":\"0\"}', 12),
 (113, 1, 'user_belongstomany_role_relationship', 'relationship', 'Roles', 1, 1, 1, 1, 1, 1, '{\"model\":\"TCG\\\\Voyager\\\\Models\\\\Role\",\"table\":\"roles\",\"type\":\"belongsToMany\",\"column\":\"id\",\"key\":\"id\",\"label\":\"display_name\",\"pivot_table\":\"user_roles\",\"pivot\":\"1\",\"taggable\":\"0\"}', 15),
 (141, 8, 'created_at', 'timestamp', 'Creado', 0, 0, 1, 0, 0, 0, '{}', 4),
 (142, 8, 'updated_at', 'timestamp', 'Actualizado', 0, 0, 1, 0, 0, 0, '{}', 5),
@@ -200,30 +193,24 @@ INSERT INTO `data_rows` (`id`, `data_type_id`, `field`, `type`, `display_name`, 
 (226, 39, 'pregunta_id', 'text', 'Pregunta Id', 1, 1, 1, 1, 1, 1, '{}', 6),
 (231, 45, 'id', 'text', 'Id', 1, 0, 0, 0, 0, 0, '{}', 1),
 (234, 45, 'nota', 'number', 'Nota', 0, 1, 1, 1, 1, 1, '{\"validation\":{\"rule\":\"required|numeric|min:0|max:100\",\"messages\":{\"required\":\"El campo Nota es requerido\",\"numeric\":\"El campo Nota debe ser un numero\",\"min\":\"El campo Nota es minimo :min\",\"max\":\"El campo Nota es maximo :max\"}}}', 4),
-(235, 45, 'pregunta_id', 'text', 'Pregunta Id', 0, 1, 1, 1, 1, 1, '{}', 7),
-(236, 45, 'estudiante_id', 'text', 'Estudiante Id', 0, 1, 1, 1, 1, 1, '{}', 9),
-(239, 45, 'created_at', 'timestamp', 'Creado', 0, 1, 1, 1, 0, 1, '{}', 14),
-(240, 45, 'updated_at', 'timestamp', 'Actualizado', 0, 0, 0, 0, 0, 0, '{}', 15),
-(241, 45, 'simulacione_belongsto_preguntas_simulacione_relationship', 'relationship', 'Preguntas', 0, 1, 1, 1, 1, 1, '{\"model\":\"\\\\App\\\\Models\\\\PreguntaSimulacion\",\"table\":\"preguntas_simulaciones\",\"type\":\"belongsTo\",\"column\":\"pregunta_id\",\"key\":\"id\",\"label\":\"pregunta\",\"pivot_table\":\"calificaciones\",\"pivot\":\"0\",\"taggable\":\"0\"}', 6),
-(242, 45, 'simulacione_belongsto_estudiante_relationship', 'relationship', 'Estudiantes', 0, 1, 1, 1, 1, 1, '{\"model\":\"\\\\App\\\\Models\\\\Estudiante\",\"table\":\"estudiantes\",\"type\":\"belongsTo\",\"column\":\"estudiante_id\",\"key\":\"id\",\"label\":\"codigo_estudiante\",\"pivot_table\":\"calificaciones\",\"pivot\":\"0\",\"taggable\":\"0\"}', 8),
-(244, 45, 'simulacione_belongsto_prueba_relationship', 'relationship', 'Calificacion', 0, 1, 1, 1, 1, 1, '{\"model\":\"\\\\App\\\\Models\\\\Calificacion\",\"table\":\"calificaciones\",\"type\":\"belongsTo\",\"column\":\"id\",\"key\":\"id\",\"label\":\"id\",\"pivot_table\":\"calificaciones\",\"pivot\":\"0\",\"taggable\":\"0\"}', 12),
-(250, 36, 'color', 'color', 'Color', 0, 1, 1, 1, 1, 1, '{\"validation\":{\"rule\":\"required\",\"messages\":{\"required\":\"El campo Color es requerido\"}}}', 3),
+(235, 45, 'pregunta_id', 'text', 'Pregunta Id', 0, 1, 1, 1, 1, 1, '{}', 3),
+(236, 45, 'estudiante_id', 'text', 'Estudiante Id', 0, 1, 1, 1, 1, 1, '{}', 7),
+(239, 45, 'created_at', 'timestamp', 'Creado', 0, 0, 1, 0, 0, 0, '{}', 10),
+(240, 45, 'updated_at', 'timestamp', 'Actualizado', 0, 0, 1, 0, 0, 0, '{}', 11),
+(241, 45, 'simulacione_belongsto_preguntas_simulacione_relationship', 'relationship', 'Preguntas', 0, 1, 1, 1, 1, 1, '{\"model\":\"\\\\App\\\\Models\\\\PreguntaSimulacion\",\"table\":\"preguntas_simulaciones\",\"type\":\"belongsTo\",\"column\":\"pregunta_id\",\"key\":\"id\",\"label\":\"pregunta\",\"pivot_table\":\"calificaciones\",\"pivot\":\"0\",\"taggable\":\"0\"}', 2),
+(242, 45, 'simulacione_belongsto_estudiante_relationship', 'relationship', 'Estudiantes', 0, 1, 1, 1, 1, 1, '{\"model\":\"\\\\App\\\\Models\\\\Estudiante\",\"table\":\"estudiantes\",\"type\":\"belongsTo\",\"column\":\"estudiante_id\",\"key\":\"id\",\"label\":\"codigo_estudiante\",\"pivot_table\":\"calificaciones\",\"pivot\":\"0\",\"taggable\":\"0\"}', 6),
+(250, 36, 'color', 'color', 'Color', 1, 1, 1, 1, 1, 1, '{\"validation\":{\"rule\":\"required\",\"messages\":{\"required\":\"El campo Color es requerido\"}}}', 3),
 (251, 45, 'tiempo', 'time', 'Tiempo', 0, 1, 1, 1, 1, 1, '{\"validation\":{\"rule\":\"required\",\"messages\":{\"required\":\"El campo Tiempo es requerido\"}}}', 5),
 (252, 39, 'tiempo_inicial', 'time', 'Tiempo Inicial', 0, 1, 1, 1, 1, 1, '{\"format\":\"%h:%i:%s\"}', 2),
 (253, 39, 'tiempo_final', 'time', 'Tiempo Final', 0, 1, 1, 1, 1, 1, '{}', 3),
-(258, 48, 'id', 'text', 'Id', 1, 0, 0, 0, 0, 0, '{}', 1),
-(259, 48, 'nombre', 'text', 'Nombre', 1, 1, 1, 1, 1, 1, '{\"validation\":{\"rule\":\"required|unique:tipo_preguntas\",\"messages\":{\"required\":\"El campo Nombre es requerido\",\"unique\":\"El campo Nombre debe ser unico\"}}}', 2),
-(260, 48, 'descripcion', 'text_area', 'Descripción', 0, 1, 1, 1, 1, 1, '{}', 3),
-(261, 48, 'multiple', 'radio_btn', 'Respuesta Múltiple', 0, 1, 1, 1, 1, 1, '{\"default\":\"n\",\"options\":{\"n\":\"No\",\"s\":\"Si\"}}', 4),
-(262, 48, 'entrada', 'select_dropdown', 'Tipo Entrada', 0, 1, 1, 1, 1, 1, '{\"default\":\"\",\"options\":{\"text\":\"Entrada Texto\",\"num\":\"Entrada Numerica\",\"bool\":\"Entrada Booleana\"}}', 5),
 (263, 50, 'id', 'text', 'Id', 1, 0, 0, 0, 0, 0, '{}', 1),
-(264, 50, 'usuario_id', 'text', 'Usuario Id', 0, 1, 1, 1, 1, 1, '{}', 2),
-(265, 50, 'created_at', 'timestamp', 'Creado', 0, 0, 1, 1, 0, 1, '{}', 3),
-(266, 50, 'updated_at', 'timestamp', 'Actualizado', 0, 0, 0, 0, 0, 0, '{}', 4),
+(264, 50, 'usuario_id', 'text', 'Usuario Id', 0, 1, 1, 1, 1, 1, '{}', 3),
+(265, 50, 'created_at', 'timestamp', 'Creado', 0, 0, 1, 1, 0, 1, '{}', 4),
+(266, 50, 'updated_at', 'timestamp', 'Actualizado', 0, 0, 0, 0, 0, 0, '{}', 5),
 (273, 52, 'id', 'text', 'Id', 1, 0, 0, 0, 0, 0, '{}', 1),
 (274, 52, 'nombre', 'text', 'Nombre', 1, 1, 1, 1, 1, 1, '{\"validation\":{\"rule\":\"required|unique:via_aplicaciones\",\"messages\":{\"required\":\"El campo Nombre es requerido\",\"unique\":\"El campo Nombre debe ser unico\"}}}', 2),
 (275, 52, 'abreviatura', 'text', 'Abreviatura', 1, 1, 1, 1, 1, 1, '{}', 3),
-(276, 52, 'descripcion', 'text', 'Descripción', 0, 1, 1, 1, 1, 1, '{}', 4),
+(276, 52, 'descripcion', 'text_area', 'Descripción', 0, 1, 1, 1, 1, 1, '{}', 4),
 (284, 55, 'id', 'text', 'Id', 1, 0, 0, 0, 0, 0, '{}', 1),
 (285, 55, 'valor', 'text', 'Valor', 0, 1, 1, 1, 1, 1, '{}', 2),
 (286, 55, 'recurso_id', 'text', 'Recurso Id', 0, 1, 1, 1, 1, 1, '{}', 4),
@@ -234,24 +221,21 @@ INSERT INTO `data_rows` (`id`, `data_type_id`, `field`, `type`, `display_name`, 
 (293, 55, 'respuesta_simulacione_belongsto_simulacione_relationship', 'relationship', 'Simulación', 0, 1, 1, 1, 1, 1, '{\"model\":\"\\\\App\\\\Models\\\\Simulacion\",\"table\":\"simulaciones\",\"type\":\"belongsTo\",\"column\":\"simulacion_id\",\"key\":\"id\",\"label\":\"id\",\"pivot_table\":\"calificaciones\",\"pivot\":\"0\",\"taggable\":\"0\"}', 5),
 (294, 56, 'id', 'text', 'Id', 1, 0, 0, 0, 0, 0, '{}', 1),
 (295, 56, 'nombre', 'text', 'Nombre', 0, 1, 1, 1, 1, 1, '{\"validation\":{\"rule\":\"required|unique:examenes\",\"messages\":{\"required\":\"El campo Nombre es requerido\",\"unique\":\"El campo Nombre debe ser unico\"}}}', 2),
-(296, 56, 'descripcion', 'text_area', 'Descripción', 0, 1, 1, 1, 1, 1, '{}', 3),
-(297, 56, 'fecha_inicial', 'timestamp', 'Fecha Inicial', 0, 1, 1, 1, 1, 1, '{\"validation\":{\"rule\":\"required|date|date_format:Y-m-d|before_or_equal:now\",\"messages\":{\"required\":\"El campo Fecha Inicial es requerido\",\"date\":\"El campo Fecha Inicial debe ser fecha\",\"before_or_equal\":\"El campo Fecha Inicial debe ser una fecha anterior o igual a hoy\"}}}', 4),
-(298, 56, 'fecha_final', 'timestamp', 'Fecha Final', 0, 1, 1, 1, 1, 1, '{\"validation\":{\"rule\":\"required|date|date_format:Y-m-d|after_or_equal:fecha_inicial\",\"messages\":{\"required\":\"El campo Fecha Final es requerido\",\"date\":\"El campo Fecha Final debe ser fecha\",\"after_or_equal\":\"El campo Fecha Final debe ser una fecha posterior o igual a la fecha inicial\"}}}', 5),
+(296, 56, 'descripcion', 'text_area', 'Descripción', 0, 0, 1, 1, 1, 1, '{}', 3),
+(297, 56, 'fecha_inicial', 'timestamp', 'Fecha Inicial', 0, 0, 1, 1, 1, 1, '{\"validation\":{\"rule\":\"required|date|date_format:d\\/m\\/Y h:i A|before_or_equal:now\",\"messages\":{\"required\":\"El campo Fecha Inicial es requerido\",\"date\":\"El campo Fecha Inicial debe ser fecha\",\"before_or_equal\":\"El campo Fecha Inicial debe ser una fecha anterior o igual a hoy\"}}}', 4),
+(298, 56, 'fecha_final', 'timestamp', 'Fecha Final', 0, 0, 1, 1, 1, 1, '{\"validation\":{\"rule\":\"required|date|date_format:d\\/m\\/Y h:i A|after_or_equal:fecha_inicial\",\"messages\":{\"required\":\"El campo Fecha Final es requerido\",\"date\":\"El campo Fecha Final debe ser fecha\",\"after_or_equal\":\"El campo Fecha Final debe ser una fecha posterior o igual a la fecha inicial\"}}}', 5),
 (299, 56, 'estado', 'radio_btn', 'Estado', 1, 1, 1, 1, 1, 1, '{\"default\":\"s\",\"options\":{\"s\":\"Activo\",\"n\":\"Inactivo\"}}', 6),
 (300, 56, 'created_at', 'timestamp', 'Creado', 0, 0, 1, 1, 0, 1, '{}', 7),
 (301, 56, 'updated_at', 'timestamp', 'Actualizado', 0, 0, 0, 0, 0, 0, '{}', 8),
-(302, 56, 'examene_hasmany_examen_estudiante_relationship', 'relationship', 'Examen Estudiante', 0, 1, 1, 1, 1, 1, '{\"model\":\"\\\\App\\\\Models\\\\ExamenEstudiante\",\"table\":\"examen_estudiantes\",\"type\":\"hasMany\",\"column\":\"examen_id\",\"key\":\"id\",\"label\":\"examen_id\",\"pivot_table\":\"calificaciones\",\"pivot\":\"0\",\"taggable\":\"0\"}', 9),
-(303, 56, 'examene_hasmany_examen_pregunta_relationship', 'relationship', 'Examen Pregunta', 0, 1, 1, 1, 1, 1, '{\"model\":\"\\\\App\\\\Models\\\\ExamenPregunta\",\"table\":\"examen_preguntas\",\"type\":\"hasMany\",\"column\":\"pregunta_id\",\"key\":\"id\",\"label\":\"pregunta_id\",\"pivot_table\":\"calificaciones\",\"pivot\":\"0\",\"taggable\":\"0\"}', 10),
+(302, 56, 'examene_hasmany_examen_estudiante_relationship', 'relationship', 'Examen Estudiante', 0, 0, 0, 0, 0, 0, '{\"model\":\"\\\\App\\\\Models\\\\ExamenEstudiante\",\"table\":\"examen_estudiantes\",\"type\":\"hasMany\",\"column\":\"examen_id\",\"key\":\"id\",\"label\":\"examen_id\",\"pivot_table\":\"calificaciones\",\"pivot\":\"0\",\"taggable\":\"0\"}', 9),
+(303, 56, 'examene_hasmany_examen_pregunta_relationship', 'relationship', 'Examen Pregunta', 0, 0, 0, 0, 0, 0, '{\"model\":\"\\\\App\\\\Models\\\\ExamenPregunta\",\"table\":\"examen_preguntas\",\"type\":\"hasMany\",\"column\":\"pregunta_id\",\"key\":\"id\",\"label\":\"pregunta_id\",\"pivot_table\":\"calificaciones\",\"pivot\":\"0\",\"taggable\":\"0\"}', 12),
 (308, 58, 'id', 'text', 'Id', 1, 0, 0, 0, 0, 0, '{}', 1),
 (309, 58, 'nombre', 'text', 'Nombre', 0, 1, 1, 1, 1, 1, '{}', 2),
 (310, 58, 'descripcion', 'text_area', 'Descripcion', 0, 1, 1, 1, 1, 1, '{}', 3),
 (311, 58, 'annio', 'number', 'Año', 0, 1, 1, 1, 1, 1, '{\"step\":1,\"min\":2023,\"max\":2024,\"default\":2023}', 4),
 (312, 9, 'estudiante_belongsto_grupo_relationship', 'relationship', 'grupos', 0, 1, 1, 1, 1, 1, '{\"model\":\"\\\\App\\\\Models\\\\Grupo\",\"table\":\"grupos\",\"type\":\"belongsTo\",\"column\":\"grupo_id\",\"key\":\"id\",\"label\":\"nombre\",\"pivot_table\":\"calificaciones\",\"pivot\":\"0\",\"taggable\":\"0\"}', 6),
-(313, 9, 'estudiante_hasmany_examen_estudiante_relationship', 'relationship', 'Examen', 0, 1, 1, 1, 1, 1, '{\"model\":\"\\\\App\\\\Models\\\\ExamenEstudiante\",\"table\":\"examen_estudiantes\",\"type\":\"hasMany\",\"column\":\"estudiante_id\",\"key\":\"id\",\"label\":\"examen_id\",\"pivot_table\":\"calificaciones\",\"pivot\":\"0\",\"taggable\":\"0\"}', 7),
 (314, 9, 'grupo_id', 'text', 'Grupo Id', 0, 1, 1, 1, 1, 1, '{}', 6),
-(317, 45, 'simulacione_hasmany_respuesta_simulacione_relationship', 'relationship', 'respuesta_simulaciones', 0, 1, 1, 1, 1, 1, '{\"model\":\"\\\\App\\\\Models\\\\RespuestaSimulacion\",\"table\":\"respuesta_simulaciones\",\"type\":\"hasMany\",\"column\":\"simulacion_id\",\"key\":\"id\",\"label\":\"recurso_id\",\"pivot_table\":\"calificaciones\",\"pivot\":\"0\",\"taggable\":\"0\"}', 16),
-(318, 56, 'examene_belongsto_profesore_relationship', 'relationship', 'profesores', 0, 1, 1, 1, 1, 1, '{\"model\":\"\\\\App\\\\Models\\\\Profesor\",\"table\":\"profesores\",\"type\":\"belongsTo\",\"column\":\"profesor_id\",\"key\":\"id\",\"label\":\"id\",\"pivot_table\":\"calificaciones\",\"pivot\":\"0\",\"taggable\":\"0\"}', 11),
-(319, 56, 'profesor_id', 'text', 'Profesor Id', 0, 1, 1, 1, 1, 1, '{}', 9),
+(319, 56, 'profesor_id', 'text', 'Profesor Id', 1, 1, 1, 1, 1, 1, '{\"validation\":{\"rule\":\"required\",\"messages\":{\"required\":\"El campo Profesor es requerido\"}}}', 11),
 (332, 61, 'id', 'text', 'Id', 1, 0, 0, 0, 0, 0, '{}', 1),
 (333, 61, 'nombre', 'text', 'Nombre', 0, 1, 1, 1, 1, 1, '{}', 2),
 (334, 61, 'descripcion', 'text_area', 'Descripción', 0, 1, 1, 1, 1, 1, '{}', 3),
@@ -260,7 +244,7 @@ INSERT INTO `data_rows` (`id`, `data_type_id`, `field`, `type`, `display_name`, 
 (349, 63, 'id', 'text', 'Id', 1, 0, 0, 0, 0, 0, '{}', 1),
 (355, 63, 'created_at', 'timestamp', 'Creado', 0, 0, 1, 1, 0, 1, '{}', 7),
 (356, 63, 'updated_at', 'timestamp', 'Actualizado', 0, 0, 0, 0, 0, 0, '{}', 8),
-(357, 61, 'campo_hasmany_recurso_campo_relationship', 'relationship', 'Recursos', 0, 1, 1, 1, 1, 1, '{\"model\":\"\\\\App\\\\Models\\\\RecursoCampo\",\"table\":\"recurso_campos\",\"type\":\"hasMany\",\"column\":\"campo_id\",\"key\":\"id\",\"label\":\"recurso_id\",\"pivot_table\":\"calificaciones\",\"pivot\":\"0\",\"taggable\":\"0\"}', 6),
+(357, 61, 'campo_hasmany_recurso_campo_relationship', 'relationship', 'Recursos', 0, 0, 0, 0, 0, 0, '{\"model\":\"\\\\App\\\\Models\\\\RecursoCampo\",\"table\":\"recurso_campos\",\"type\":\"hasMany\",\"column\":\"campo_id\",\"key\":\"id\",\"label\":\"valor\",\"pivot_table\":\"calificaciones\",\"pivot\":\"0\",\"taggable\":\"0\"}', 6),
 (358, 63, 'recurso_hasmany_recurso_campo_relationship', 'relationship', 'Campos', 0, 0, 1, 1, 1, 1, '{\"model\":\"\\\\App\\\\Models\\\\RecursoCampo\",\"table\":\"recurso_campos\",\"type\":\"hasMany\",\"column\":\"recurso_id\",\"key\":\"id\",\"label\":\"valor\",\"pivot_table\":\"calificaciones\",\"pivot\":\"0\",\"taggable\":\"0\"}', 9),
 (359, 63, 'nombre', 'text', 'Nombre', 1, 1, 1, 1, 1, 1, '{}', 4),
 (360, 64, 'id', 'text', 'Id', 1, 0, 0, 0, 0, 0, '{}', 1),
@@ -276,7 +260,15 @@ INSERT INTO `data_rows` (`id`, `data_type_id`, `field`, `type`, `display_name`, 
 (370, 63, 'recurso_belongsto_categoria_relationship', 'relationship', 'Categoria', 0, 1, 1, 1, 1, 1, '{\"model\":\"\\\\App\\\\Models\\\\Categoria\",\"table\":\"categorias\",\"type\":\"belongsTo\",\"column\":\"categoria_id\",\"key\":\"id\",\"label\":\"nombre\",\"pivot_table\":\"calificaciones\",\"pivot\":\"0\",\"taggable\":\"0\"}', 10),
 (371, 63, 'categoria_id', 'text', 'Categoria Id', 0, 1, 1, 1, 1, 1, '{}', 5),
 (372, 64, 'campo_id', 'text', 'Campo Id', 0, 1, 1, 1, 1, 1, '{}', 8),
-(373, 64, 'abierta', 'radio_btn', 'Pregunta Abierta', 0, 0, 1, 1, 1, 1, '{\"default\":\"n\",\"options\":{\"s\":\"Si\",\"n\":\"No\"}}', 9);
+(373, 64, 'abierta', 'radio_btn', 'Pregunta Abierta', 0, 0, 1, 1, 1, 1, '{\"default\":\"n\",\"options\":{\"s\":\"Si\",\"n\":\"No\"}}', 9),
+(374, 56, 'duracion', 'number', 'Duración (Minutos)', 1, 1, 1, 1, 1, 1, '{\"validation\":{\"rule\":\"required|min:0\",\"messages\":{\"required\":\"El campo Duraci\\u00f3n es requerido\",\"min\":\"El campo Duraci\\u00f3n es minimo 0\"}}}', 13),
+(375, 45, 'campo_id', 'text', 'Campo Id', 0, 1, 1, 1, 1, 1, '{}', 9),
+(376, 45, 'simulacione_belongsto_campo_relationship', 'relationship', 'Tipo', 0, 1, 1, 1, 1, 1, '{\"model\":\"\\\\App\\\\Models\\\\Campo\",\"table\":\"campos\",\"type\":\"belongsTo\",\"column\":\"campo_id\",\"key\":\"id\",\"label\":\"nombre\",\"pivot_table\":\"calificaciones\",\"pivot\":\"0\",\"taggable\":\"0\"}', 8),
+(377, 36, 'nivele_belongsto_categoria_relationship', 'relationship', 'Categoria', 1, 1, 1, 1, 1, 1, '{\"model\":\"\\\\App\\\\Models\\\\Categoria\",\"table\":\"categorias\",\"type\":\"belongsTo\",\"column\":\"categoria_id\",\"key\":\"id\",\"label\":\"nombre\",\"pivot_table\":\"calificaciones\",\"pivot\":\"0\",\"taggable\":\"0\"}', 5),
+(378, 36, 'categoria_id', 'text', 'Categoria Id', 1, 1, 1, 1, 1, 1, '{}', 5),
+(379, 64, 'preguntas_simulacione_belongsto_campo_relationship', 'relationship', 'campos', 0, 1, 1, 1, 1, 1, '{\"model\":\"\\\\App\\\\Models\\\\Campo\",\"table\":\"campos\",\"type\":\"belongsTo\",\"column\":\"campo_id\",\"key\":\"id\",\"label\":\"nombre\",\"pivot_table\":\"calificaciones\",\"pivot\":\"0\",\"taggable\":null}', 11),
+(380, 56, 'examene_belongsto_profesore_relationship', 'relationship', 'Profesor', 0, 1, 1, 1, 1, 1, '{\"model\":\"\\\\App\\\\Models\\\\Profesor\",\"table\":\"profesores\",\"type\":\"belongsTo\",\"column\":\"profesor_id\",\"key\":\"id\",\"label\":\"usuario_id\",\"pivot_table\":\"calificaciones\",\"pivot\":\"0\",\"taggable\":\"0\"}', 10),
+(381, 50, 'profesore_belongsto_user_relationship', 'relationship', 'Usuario', 0, 1, 1, 1, 1, 1, '{\"model\":\"\\\\App\\\\Models\\\\User\",\"table\":\"users\",\"type\":\"belongsTo\",\"column\":\"usuario_id\",\"key\":\"id\",\"label\":\"email\",\"pivot_table\":\"calificaciones\",\"pivot\":\"0\",\"taggable\":\"0\"}', 2);
 
 -- --------------------------------------------------------
 
@@ -307,27 +299,26 @@ CREATE TABLE `data_types` (
 --
 
 INSERT INTO `data_types` (`id`, `name`, `slug`, `display_name_singular`, `display_name_plural`, `icon`, `model_name`, `policy_name`, `controller`, `description`, `generate_permissions`, `server_side`, `details`, `created_at`, `updated_at`) VALUES
-(1, 'users', 'users', 'Usuario', 'Usuarios', 'voyager-person', 'TCG\\Voyager\\Models\\User', 'TCG\\Voyager\\Policies\\UserPolicy', '\\App\\Http\\Controllers\\VoyagerUserController', NULL, 1, 0, '{\"order_column\":\"identification\",\"order_display_column\":null,\"order_direction\":\"asc\",\"default_search_key\":null,\"scope\":null}', '2023-01-28 09:13:25', '2023-02-01 00:50:55'),
+(1, 'users', 'users', 'Usuario', 'Usuarios', 'voyager-person', 'TCG\\Voyager\\Models\\User', 'TCG\\Voyager\\Policies\\UserPolicy', '\\App\\Http\\Controllers\\VoyagerUserController', NULL, 1, 0, '{\"order_column\":\"identification\",\"order_display_column\":null,\"order_direction\":\"asc\",\"default_search_key\":null,\"scope\":null}', '2023-01-28 09:13:25', '2023-08-18 18:20:19'),
 (2, 'menus', 'menus', 'Menu', 'Menus', 'voyager-list', 'TCG\\Voyager\\Models\\Menu', NULL, '', '', 1, 0, NULL, '2023-01-28 09:13:25', '2023-01-28 09:13:25'),
 (3, 'roles', 'roles', 'Role', 'Roles', 'voyager-lock', 'TCG\\Voyager\\Models\\Role', NULL, 'TCG\\Voyager\\Http\\Controllers\\VoyagerRoleController', NULL, 1, 0, '{\"order_column\":null,\"order_display_column\":null,\"order_direction\":\"asc\",\"default_search_key\":null,\"scope\":null}', '2023-01-28 09:13:25', '2023-01-31 23:33:55'),
 (8, 'tipo_documentos', 'tipo-documentos', 'Tipo Documento', 'Tipo Documentos', 'voyager-categories', 'App\\Models\\TipoDocumento', NULL, NULL, NULL, 1, 0, '{\"order_column\":\"nombre\",\"order_display_column\":null,\"order_direction\":\"asc\",\"default_search_key\":null,\"scope\":null}', '2023-01-30 23:16:47', '2023-01-31 23:38:10'),
-(9, 'estudiantes', 'estudiantes', 'Estudiante', 'Estudiantes', 'voyager-study', 'App\\Models\\Estudiante', NULL, NULL, NULL, 1, 0, '{\"order_column\":\"id\",\"order_display_column\":null,\"order_direction\":\"asc\",\"default_search_key\":null,\"scope\":null}', '2023-01-31 16:19:20', '2023-06-12 23:04:06'),
+(9, 'estudiantes', 'estudiantes', 'Estudiante', 'Estudiantes', 'voyager-study', 'App\\Models\\Estudiante', NULL, NULL, NULL, 1, 0, '{\"order_column\":\"id\",\"order_display_column\":null,\"order_direction\":\"asc\",\"default_search_key\":null,\"scope\":null}', '2023-01-31 16:19:20', '2023-08-18 20:01:55'),
 (10, 'medicos', 'medicos', 'Medico', 'Medicos', 'fa fa-user-md', 'App\\Models\\Medico', NULL, NULL, NULL, 1, 0, '{\"order_column\":null,\"order_display_column\":null,\"order_direction\":\"asc\",\"default_search_key\":null,\"scope\":null}', '2023-01-31 16:26:02', '2023-01-31 17:19:04'),
 (11, 'pacientes', 'pacientes', 'Paciente', 'Pacientes', NULL, 'App\\Models\\Paciente', NULL, NULL, NULL, 1, 0, '{\"order_column\":null,\"order_display_column\":null,\"order_direction\":\"asc\",\"default_search_key\":null,\"scope\":null}', '2023-01-31 16:42:40', '2023-01-31 17:14:54'),
 (32, 'Componentes_medicamentos', 'componentes-medicamentos', 'Componente Medicamento', 'Componentes Medicamentos', 'voyager-rum-1', 'App\\Models\\ComponenteMedicamento', NULL, NULL, NULL, 1, 0, '{\"order_column\":null,\"order_display_column\":null,\"order_direction\":\"asc\",\"default_search_key\":null,\"scope\":null}', '2023-02-02 18:56:21', '2023-02-02 18:58:08'),
 (34, 'escenarios_simulaciones', 'escenarios-simulaciones', 'Escenario de Simulación', 'Escenarios de Simulaciones', 'voyager-tv', 'App\\Models\\EscenarioSimulacion', NULL, '\\App\\Http\\Controllers\\EscenarioSimulacionController', NULL, 1, 0, '{\"order_column\":\"nombre\",\"order_display_column\":\"nombre\",\"order_direction\":\"asc\",\"default_search_key\":null,\"scope\":null}', '2023-02-02 23:46:49', '2023-06-23 09:00:14'),
 (35, 'mensajes_simulaciones', 'mensajes-simulaciones', 'Mensaje Simulación', 'Mensajes Simulaciones', 'voyager-receipt', 'App\\Models\\MensajeSimulacion', NULL, NULL, NULL, 1, 0, '{\"order_column\":null,\"order_display_column\":null,\"order_direction\":\"asc\",\"default_search_key\":null,\"scope\":null}', '2023-02-02 23:50:46', '2023-05-20 14:27:30'),
-(36, 'niveles', 'niveles', 'Nivel', 'Niveles', 'voyager-paint-bucket', 'App\\Models\\Nivel', NULL, NULL, NULL, 1, 0, '{\"order_column\":null,\"order_display_column\":null,\"order_direction\":\"asc\",\"default_search_key\":null,\"scope\":null}', '2023-04-12 03:09:15', '2023-05-28 22:23:15'),
+(36, 'niveles', 'niveles', 'Nivel', 'Niveles', 'voyager-paint-bucket', 'App\\Models\\Nivel', NULL, NULL, NULL, 1, 0, '{\"order_column\":null,\"order_display_column\":null,\"order_direction\":\"asc\",\"default_search_key\":null,\"scope\":null}', '2023-04-12 03:09:15', '2023-07-31 19:29:59'),
 (37, 'categorias', 'categorias', 'Categoria', 'Categorias', 'voyager-categories', 'App\\Models\\Categoria', NULL, NULL, NULL, 1, 0, '{\"order_column\":null,\"order_display_column\":null,\"order_direction\":\"asc\",\"default_search_key\":null,\"scope\":null}', '2023-04-12 03:18:14', '2023-04-12 14:18:41'),
 (39, 'calificaciones', 'calificaciones', 'Calificación', 'Calificaciones', 'voyager-certificate', 'App\\Models\\Calificacion', NULL, NULL, NULL, 1, 0, '{\"order_column\":\"nota\",\"order_display_column\":\"nota\",\"order_direction\":\"desc\",\"default_search_key\":null,\"scope\":null}', '2023-05-20 14:19:20', '2023-05-29 04:55:46'),
-(45, 'simulaciones', 'simulaciones', 'Simulacion', 'Simulaciones', NULL, 'App\\Models\\Simulacion', NULL, NULL, NULL, 1, 0, '{\"order_column\":null,\"order_display_column\":null,\"order_direction\":\"asc\",\"default_search_key\":null,\"scope\":null}', '2023-05-22 16:16:11', '2023-06-02 06:02:53'),
-(48, 'tipo_preguntas', 'tipo-preguntas', 'Tipo Pregunta', 'Tipo Preguntas', 'voyager-question', 'App\\Models\\TipoPregunta', NULL, NULL, NULL, 1, 0, '{\"order_column\":null,\"order_display_column\":null,\"order_direction\":\"asc\",\"default_search_key\":null,\"scope\":null}', '2023-05-30 15:57:56', '2023-05-31 16:05:45'),
-(50, 'profesores', 'profesores', 'Profesor', 'Profesores', 'voyager-person', 'App\\Models\\Profesor', NULL, NULL, NULL, 1, 0, '{\"order_column\":null,\"order_display_column\":null,\"order_direction\":\"asc\",\"default_search_key\":null}', '2023-06-01 17:44:24', '2023-06-01 17:44:24'),
-(52, 'via_aplicaciones', 'via-aplicaciones', 'Vía Aplicación', 'Via Aplicaciones', NULL, 'App\\Models\\ViaAplicacion', NULL, NULL, NULL, 1, 0, '{\"order_column\":null,\"order_display_column\":\"nombre\",\"order_direction\":\"asc\",\"default_search_key\":null}', '2023-06-01 22:08:31', '2023-06-01 22:08:31'),
+(45, 'simulaciones', 'simulaciones', 'Simulacion', 'Simulaciones', NULL, 'App\\Models\\Simulacion', NULL, NULL, NULL, 1, 0, '{\"order_column\":null,\"order_display_column\":null,\"order_direction\":\"asc\",\"default_search_key\":null,\"scope\":null}', '2023-05-22 16:16:11', '2023-07-25 17:15:38'),
+(50, 'profesores', 'profesores', 'Profesor', 'Profesores', 'voyager-person', 'App\\Models\\Profesor', NULL, NULL, NULL, 1, 0, '{\"order_column\":null,\"order_display_column\":null,\"order_direction\":\"asc\",\"default_search_key\":null,\"scope\":null}', '2023-06-01 17:44:24', '2023-08-18 20:02:20'),
+(52, 'via_aplicaciones', 'via-aplicaciones', 'Vía Aplicación', 'Via Aplicaciones', 'voyager-brush', 'App\\Models\\ViaAplicacion', NULL, NULL, NULL, 1, 0, '{\"order_column\":null,\"order_display_column\":\"nombre\",\"order_direction\":\"asc\",\"default_search_key\":null,\"scope\":null}', '2023-06-01 22:08:31', '2023-07-28 18:47:45'),
 (55, 'respuesta_simulaciones', 'respuesta-simulaciones', 'Respuesta Simulación', 'Respuesta Simulaciones', 'voyager-list', 'App\\Models\\RespuestaSimulacion', NULL, NULL, NULL, 1, 0, '{\"order_column\":null,\"order_display_column\":null,\"order_direction\":\"asc\",\"default_search_key\":null,\"scope\":null}', '2023-06-01 23:11:37', '2023-06-01 23:15:12'),
-(56, 'examenes', 'examenes', 'Examen', 'Examenes', 'voyager-edit', 'App\\Models\\Examen', NULL, NULL, NULL, 1, 0, '{\"order_column\":null,\"order_display_column\":null,\"order_direction\":\"asc\",\"default_search_key\":null,\"scope\":null}', '2023-06-01 23:28:11', '2023-06-02 00:01:31'),
+(56, 'examenes', 'examenes', 'Examen', 'Examenes', 'voyager-edit', 'App\\Models\\Examen', NULL, NULL, NULL, 1, 0, '{\"order_column\":null,\"order_display_column\":null,\"order_direction\":\"asc\",\"default_search_key\":null,\"scope\":null}', '2023-06-01 23:28:11', '2023-08-08 16:00:03'),
 (58, 'grupos', 'grupos', 'Grupo', 'Grupos', 'voyager-group', 'App\\Models\\Grupo', NULL, NULL, NULL, 1, 0, '{\"order_column\":null,\"order_display_column\":null,\"order_direction\":\"asc\",\"default_search_key\":null,\"scope\":null}', '2023-06-01 23:51:32', '2023-06-12 23:22:09'),
-(61, 'campos', 'campos', 'Campo', 'Campos', 'voyager-milestone', 'App\\Models\\Campo', NULL, NULL, NULL, 1, 0, '{\"order_column\":null,\"order_display_column\":\"nombre\",\"order_direction\":\"asc\",\"default_search_key\":null,\"scope\":null}', '2023-06-02 13:41:33', '2023-06-02 16:58:51'),
+(61, 'campos', 'campos', 'Campo', 'Campos', 'voyager-milestone', 'App\\Models\\Campo', NULL, NULL, NULL, 1, 0, '{\"order_column\":null,\"order_display_column\":\"nombre\",\"order_direction\":\"asc\",\"default_search_key\":null,\"scope\":null}', '2023-06-02 13:41:33', '2023-07-25 18:02:41'),
 (63, 'recursos', 'recursos', 'Recurso', 'Recursos', 'voyager-tree', 'App\\Models\\Recurso', NULL, NULL, NULL, 1, 0, '{\"order_column\":\"nombre\",\"order_display_column\":\"nombre\",\"order_direction\":\"asc\",\"default_search_key\":null,\"scope\":null}', '2023-06-02 15:41:21', '2023-06-23 10:53:53'),
 (64, 'preguntas_simulaciones', 'preguntas-simulaciones', 'Preguntas Simulación', 'Preguntas Simulaciones', 'voyager-hook', 'App\\Models\\PreguntaSimulacion', NULL, NULL, NULL, 1, 0, '{\"order_column\":null,\"order_display_column\":\"pregunta\",\"order_direction\":\"asc\",\"default_search_key\":null,\"scope\":null}', '2023-06-02 17:20:37', '2023-06-25 22:49:50');
 
@@ -351,10 +342,13 @@ CREATE TABLE `escenarios_simulaciones` (
 --
 
 INSERT INTO `escenarios_simulaciones` (`id`, `nombre`, `descripcion`, `imagen`, `created_at`, `updated_at`) VALUES
-(1, 'Caso 1', 'Niño de 4 meses de edad asiste al consultorio de vacunación, se revisa el carné encontrando que tiene las primeras dosis de vacuna que fueron aplicadas a los 2 meses de edad.', 'escenarios-simulaciones/June2023/kxQxtifKzIxgnwaMJtA6.jpeg', '2023-02-03 12:01:38', '2023-06-23 08:52:16'),
-(2, 'Caso 2', 'Niño de 12 meses de edad asiste al consultorio de vacunación, se revisa el carné encontrando que tiene el esquema regular completo para hasta los seis meses.', 'escenarios-simulaciones/June2023/uuge1RVn3MKEZHPUanf4.jpeg', '2023-02-03 12:02:32', '2023-06-23 08:52:27'),
-(3, 'Caso 3', 'Niño de 6 años de edad asiste al consultorio de vacunación, se revisa el carné encontrando que no le han aplicado ninguna vacuna.', 'escenarios-simulaciones/June2023/nKOeEMUW5AkhYg8WPHWi.jpeg', '2023-02-03 12:02:51', '2023-06-23 08:53:20'),
-(23, 'Caso 4', 'Niña de 5 años de edad con esquema regular completo hasta 18 meses de edad, asiste a programa de vacunación.', 'escenarios-simulaciones/June2023/DriiovHtE2aEX2ebuDoM.jpeg', '2023-05-31 16:47:18', '2023-06-23 08:53:37');
+(1, 'Caso 1', 'Niño de 4 meses de edad asiste al consultorio de vacunación, se revisa el carné encontrando que tiene las primeras dosis de vacuna que fueron aplicadas a los 2 meses de edad.', 'escenarios-simulaciones\\July2023\\OS4RoqajPP6yYdNa4tAM.jpeg', '2023-02-03 12:01:38', '2023-07-17 01:50:23'),
+(2, 'Caso 2', 'Niño de 12 meses de edad asiste al consultorio de vacunación, se revisa el carné encontrando que tiene el esquema regular completo para hasta los seis meses.', 'escenarios-simulaciones\\July2023\\Nm6FHy78AB3OYcWihZBR.jpeg', '2023-02-03 12:02:32', '2023-07-17 01:50:39'),
+(3, 'Caso 3', 'Niño de 6 años de edad asiste al consultorio de vacunación, se revisa el carné encontrando que no le han aplicado ninguna vacuna.', 'escenarios-simulaciones\\July2023\\CTAFwYfjk7n3lrOC3wRH.jpeg', '2023-02-03 12:02:51', '2023-07-17 01:50:55'),
+(23, 'Caso 4', 'Niña de 5 años de edad con esquema regular completo hasta 18 meses de edad, asiste a programa de vacunación. ¿Qué vacunas le corresponde administrar a la menor?', 'escenarios-simulaciones\\July2023\\uVCy8nXni5grGfN1j6U8.jpeg', '2023-05-31 16:47:18', '2023-08-18 18:43:11'),
+(24, 'Caso 5', 'Rosita tiene 6 meses de edad, asiste al consultorio de vacunación, al revisar el carné tiene registrada vacuna BCG, Hepatitis B, dos dosis de Rotavirus, dos dosis de Neumococo, dos dosis de Pentavalente, dos dosis de Polio IM. ¿Qué vacunas se le deben administrar?', 'escenarios-simulaciones\\August2023\\7QgkVNWTPWPW72jGAdD3.jpeg', '2023-08-18 18:43:36', '2023-08-18 18:43:36'),
+(25, 'Caso 6', 'Llega a consultorio de vacunación Esteban de 6 años de edad en compañía de la madre, quien refiere `”no le he colocado las vacunas de los 5 años”. Según la edad del menor que le corresponde administrar, ¿Qué vacunas se le deben administrar?', 'escenarios-simulaciones\\August2023\\QMvglrifSWU64YS4XLrK.jpeg', '2023-08-18 18:43:55', '2023-08-18 18:43:55'),
+(26, 'Caso 7', 'Florecita es una niña de 16 meses de edad quien a la valoración por el profesional de enfermería se evidencia el siguiente esquema de vacunación: 1 dosis de BCG, 2 dosis de Neumococo, 2 dosis de Pentavalente, 2 dosis de Rotavirus, 1 dosis de Hepatitis b, 2 dosis de Pentavalente. ¿Con qué vacunas se le completa el esquema?', 'escenarios-simulaciones\\August2023\\o5JkcZp2U8EQ1lMqBIkT.jpeg', '2023-08-18 18:44:23', '2023-08-18 18:44:23');
 
 -- --------------------------------------------------------
 
@@ -376,7 +370,10 @@ CREATE TABLE `estudiantes` (
 --
 
 INSERT INTO `estudiantes` (`id`, `codigo_estudiante`, `created_at`, `updated_at`, `usuario_id`, `grupo_id`) VALUES
-(1, 160003749, '2023-01-31 17:17:03', '2023-06-12 23:23:11', 4, 1);
+(4, 160001001, '2023-08-18 19:59:34', '2023-08-18 19:59:34', 11, 1),
+(5, 160001002, '2023-08-18 20:11:16', '2023-08-18 20:11:16', 13, 1),
+(6, 160001003, '2023-08-18 20:11:42', '2023-08-18 20:11:42', 10, 1),
+(7, 160001004, '2023-08-18 20:12:03', '2023-08-18 20:12:03', 12, 1);
 
 -- --------------------------------------------------------
 
@@ -393,8 +390,18 @@ CREATE TABLE `examenes` (
   `estado` char(1) NOT NULL DEFAULT 's',
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
-  `profesor_id` int(11) DEFAULT NULL
+  `profesor_id` int(11) NOT NULL,
+  `duracion` int(11) NOT NULL,
+  `n_pregunta` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Volcado de datos para la tabla `examenes`
+--
+
+INSERT INTO `examenes` (`id`, `nombre`, `descripcion`, `fecha_inicial`, `fecha_final`, `estado`, `created_at`, `updated_at`, `profesor_id`, `duracion`, `n_pregunta`) VALUES
+(5, 'Examen 1', NULL, '2023-08-18 23:00:00', '2023-08-19 02:00:00', 'f', '2023-08-18 23:12:37', '2023-08-20 08:21:04', 2, 10, 5),
+(6, 'Examen 2', NULL, '2023-08-21 15:00:00', '2023-08-21 16:55:00', 'f', '2023-08-21 15:10:35', '2023-08-21 15:15:58', 2, 10, 5);
 
 -- --------------------------------------------------------
 
@@ -406,12 +413,21 @@ CREATE TABLE `examen_estudiantes` (
   `id` int(10) UNSIGNED NOT NULL,
   `examen_id` int(11) DEFAULT NULL,
   `estudiante_id` int(11) DEFAULT NULL,
-  `nota` int(11) DEFAULT NULL,
-  `tiempo` datetime DEFAULT NULL,
-  `estado` char(1) DEFAULT NULL,
+  `nota` double DEFAULT NULL,
+  `tiempo` time DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Volcado de datos para la tabla `examen_estudiantes`
+--
+
+INSERT INTO `examen_estudiantes` (`id`, `examen_id`, `estudiante_id`, `nota`, `tiempo`, `created_at`, `updated_at`) VALUES
+(1, 5, 5, 12, '00:00:46', '2023-08-20 08:21:04', '2023-08-20 08:21:04'),
+(2, 5, 4, 13, '00:00:54', '2023-08-20 08:21:04', '2023-08-20 08:21:04'),
+(3, 5, 7, 10, '00:00:50', '2023-08-20 08:21:04', '2023-08-20 08:21:04'),
+(4, 6, 4, 8.8, '00:01:13', '2023-08-21 15:15:58', '2023-08-21 15:15:58');
 
 -- --------------------------------------------------------
 
@@ -426,6 +442,28 @@ CREATE TABLE `examen_preguntas` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Volcado de datos para la tabla `examen_preguntas`
+--
+
+INSERT INTO `examen_preguntas` (`id`, `examen_id`, `pregunta_id`, `created_at`, `updated_at`) VALUES
+(16, 5, 56, '2023-08-18 23:12:37', '2023-08-18 23:12:37'),
+(17, 5, 63, '2023-08-18 23:12:37', '2023-08-18 23:12:37'),
+(18, 5, 51, '2023-08-18 23:12:37', '2023-08-18 23:12:37'),
+(19, 5, 54, '2023-08-18 23:12:37', '2023-08-18 23:12:37'),
+(20, 5, 57, '2023-08-18 23:12:37', '2023-08-18 23:12:37'),
+(21, 5, 52, '2023-08-18 23:12:37', '2023-08-18 23:12:37'),
+(22, 5, 55, '2023-08-18 23:12:37', '2023-08-18 23:12:37'),
+(23, 5, 58, '2023-08-18 23:12:37', '2023-08-18 23:12:37'),
+(24, 5, 50, '2023-08-18 23:12:37', '2023-08-18 23:12:37'),
+(25, 5, 53, '2023-08-18 23:12:37', '2023-08-18 23:12:37'),
+(26, 6, 56, '2023-08-21 15:10:35', '2023-08-21 15:10:35'),
+(27, 6, 63, '2023-08-21 15:10:35', '2023-08-21 15:10:35'),
+(28, 6, 54, '2023-08-21 15:10:35', '2023-08-21 15:10:35'),
+(29, 6, 57, '2023-08-21 15:10:35', '2023-08-21 15:10:35'),
+(30, 6, 52, '2023-08-21 15:10:35', '2023-08-21 15:10:35'),
+(31, 6, 55, '2023-08-21 15:10:35', '2023-08-21 15:10:35');
 
 -- --------------------------------------------------------
 
@@ -461,8 +499,8 @@ CREATE TABLE `grupos` (
 --
 
 INSERT INTO `grupos` (`id`, `nombre`, `descripcion`, `annio`) VALUES
-(1, 'Grupo A', NULL, '2023'),
-(2, 'Grupo B', NULL, '2023');
+(1, 'Grupo A', NULL, 2023),
+(2, 'Grupo B', NULL, 2023);
 
 -- --------------------------------------------------------
 
@@ -477,13 +515,6 @@ CREATE TABLE `medicos` (
   `updated_at` timestamp NULL DEFAULT NULL,
   `usuario_id` bigint(20) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Volcado de datos para la tabla `medicos`
---
-
-INSERT INTO `medicos` (`id`, `registro_medico`, `created_at`, `updated_at`, `usuario_id`) VALUES
-(1, '2222', '2023-01-31 17:18:48', '2023-01-31 17:18:48', 7);
 
 -- --------------------------------------------------------
 
@@ -520,7 +551,9 @@ CREATE TABLE `menus` (
 --
 
 INSERT INTO `menus` (`id`, `name`, `created_at`, `updated_at`) VALUES
-(1, 'admin', '2023-01-28 09:13:25', '2023-02-28 16:25:16');
+(1, 'admin', '2023-01-28 09:13:25', '2023-02-28 16:25:16'),
+(4, 'profesor', '2023-08-22 23:15:51', '2023-08-22 23:15:51'),
+(5, 'estudiante', '2023-08-22 23:16:02', '2023-08-22 23:16:02');
 
 -- --------------------------------------------------------
 
@@ -552,40 +585,34 @@ INSERT INTO `menu_items` (`id`, `menu_id`, `title`, `url`, `target`, `icon_class
 (1, 1, 'Dashboard', '', '_self', 'voyager-home', '#000000', NULL, 1, '2023-01-28 09:13:25', '2023-01-31 16:27:16', 'voyager.dashboard', 'null'),
 (2, 1, 'Media', '', '_self', 'voyager-images', NULL, 5, 2, '2023-01-28 09:13:25', '2023-05-22 16:51:55', 'voyager.media.index', NULL),
 (3, 1, 'Usuarios', '', '_self', 'voyager-person', '#000000', 18, 1, '2023-01-28 09:13:25', '2023-07-08 00:37:51', 'voyager.users.index', 'null'),
-(4, 1, 'Roles', '', '_self', 'voyager-lock', NULL, 27, 7, '2023-01-28 09:13:25', '2023-07-08 00:37:47', 'voyager.roles.index', NULL),
-(5, 1, 'Herramientas', '', '_self', 'voyager-tools', '#000000', NULL, 9, '2023-01-28 09:13:25', '2023-07-16 18:48:41', NULL, ''),
+(4, 1, 'Roles', '', '_self', 'voyager-lock', NULL, 18, 4, '2023-01-28 09:13:25', '2023-08-18 23:01:17', 'voyager.roles.index', NULL),
+(5, 1, 'Herramientas', '', '_self', 'voyager-tools', '#000000', NULL, 10, '2023-01-28 09:13:25', '2023-08-21 01:21:44', NULL, ''),
 (6, 1, 'Menu Builder', '', '_self', 'voyager-list', NULL, 5, 1, '2023-01-28 09:13:25', '2023-05-22 16:51:55', 'voyager.menus.index', NULL),
 (7, 1, 'Database', '', '_self', 'voyager-data', NULL, 5, 3, '2023-01-28 09:13:25', '2023-05-22 16:51:55', 'voyager.database.index', NULL),
 (8, 1, 'Compass', '', '_self', 'voyager-compass', NULL, 5, 4, '2023-01-28 09:13:25', '2023-05-22 16:51:55', 'voyager.compass.index', NULL),
 (9, 1, 'BREAD', '', '_self', 'voyager-bread', NULL, 5, 5, '2023-01-28 09:13:25', '2023-05-22 16:51:55', 'voyager.bread.index', NULL),
 (10, 1, 'Ajustes', '', '_self', 'voyager-settings', '#000000', 5, 6, '2023-01-28 09:13:25', '2023-05-22 16:51:55', 'voyager.settings.index', 'null'),
-(15, 1, 'Tipo Documentos', '', '_self', 'voyager-categories', '#000000', 27, 8, '2023-01-30 23:16:47', '2023-07-08 00:37:47', 'voyager.tipo-documentos.index', 'null'),
+(15, 1, 'Tipo Documentos', '', '_self', 'voyager-categories', '#000000', 27, 8, '2023-01-30 23:16:47', '2023-08-22 22:42:44', 'voyager.tipo-documentos.index', 'null'),
 (16, 1, 'Estudiantes', '', '_self', 'voyager-study', NULL, 18, 2, '2023-01-31 16:19:20', '2023-07-08 00:37:51', 'voyager.estudiantes.index', NULL),
-(17, 1, 'Medicos', '', '_self', 'fa fa-user-md', NULL, 18, 4, '2023-01-31 16:26:02', '2023-07-08 00:37:51', 'voyager.medicos.index', NULL),
-(18, 1, 'Usuarios', '', '_self', 'voyager-people', '#000000', NULL, 7, '2023-01-31 16:37:09', '2023-07-16 18:48:41', NULL, ''),
-(19, 1, 'Pacientes', '', '_self', 'fa fa-heartbeat', '#000000', 18, 5, '2023-01-31 16:42:40', '2023-07-08 00:37:51', 'voyager.pacientes.index', 'null'),
-(27, 1, 'Parametros', '', '_self', 'voyager-params', '#000000', NULL, 8, '2023-01-31 21:24:18', '2023-07-16 18:48:41', NULL, ''),
-(35, 1, 'Escenarios Simulaciones', '', '_self', 'voyager-play', '#000000', 37, 2, '2023-02-02 23:46:49', '2023-07-03 18:42:46', 'voyager.escenarios-simulaciones.index', 'null'),
-(36, 1, 'Mensajes Simulaciones', '', '_self', 'voyager-bubble', '#000000', 37, 3, '2023-02-02 23:50:46', '2023-07-03 18:42:46', 'voyager.mensajes-simulaciones.index', 'null'),
-(37, 1, 'Simulación', '', '_self', 'voyager-activity', '#000000', NULL, 6, '2023-02-03 00:04:23', '2023-07-16 18:48:41', NULL, ''),
-(41, 1, 'Niveles', '', '_self', 'voyager-paint-bucket', NULL, 27, 6, '2023-04-12 03:09:15', '2023-07-08 00:37:47', 'voyager.niveles.index', NULL),
-(42, 1, 'Categorias', '', '_self', 'voyager-categories', NULL, 27, 1, '2023-04-12 03:18:14', '2023-06-01 18:08:38', 'voyager.categorias.index', NULL),
-(43, 1, 'Calificaciones', '', '_self', 'voyager-certificate', NULL, 27, 3, '2023-05-20 14:19:20', '2023-07-03 18:42:43', 'voyager.calificaciones.index', NULL),
-(48, 1, 'Simulaciones', '', '_self', 'voyager-fire', '#000000', 37, 1, '2023-05-22 16:16:12', '2023-05-22 17:03:41', 'voyager.simulaciones.index', 'null'),
-(50, 1, 'Tipo Preguntas', '', '_self', 'voyager-question', NULL, 27, 9, '2023-05-30 15:57:56', '2023-07-16 18:48:34', 'voyager.tipo-preguntas.index', NULL),
-(52, 1, 'Profesores', '', '_self', 'voyager-person', NULL, 18, 3, '2023-06-01 17:44:24', '2023-07-08 00:37:51', 'voyager.profesores.index', NULL),
-(54, 1, 'Via Aplicaciones', '', '_self', 'voyager-brush', '#000000', 27, 13, '2023-06-01 22:08:31', '2023-07-16 18:48:34', 'voyager.via-aplicaciones.index', 'null'),
-(56, 1, 'Respuesta Simulaciones', '', '_self', 'voyager-list', NULL, 27, 11, '2023-06-01 23:11:37', '2023-07-16 18:48:34', 'voyager.respuesta-simulaciones.index', NULL),
-(57, 1, 'Examenes', '', '_self', 'voyager-edit', NULL, 27, 4, '2023-06-01 23:28:11', '2023-07-08 00:37:47', 'voyager.examenes.index', NULL),
-(58, 1, 'Grupos', '', '_self', 'voyager-group', NULL, 27, 5, '2023-06-01 23:51:33', '2023-07-08 00:37:47', 'voyager.grupos.index', NULL),
-(60, 1, 'Campos', '', '_self', 'voyager-milestone', NULL, 27, 2, '2023-06-02 13:41:33', '2023-06-02 13:43:02', 'voyager.campos.index', NULL),
-(61, 1, 'Tipo Recursos', '/tipo-recursos', '_self', 'voyager-thumb-tack', '#000000', 27, 10, '2023-06-02 13:48:16', '2023-07-16 18:48:34', NULL, ''),
-(63, 1, 'Recursos', '', '_self', 'voyager-tree', '#000000', 27, 12, '2023-06-02 15:41:21', '2023-07-16 18:48:34', 'voyager.recursos.index', 'null'),
-(65, 1, 'Preguntas Simulaciones', '', '_self', 'voyager-hook', NULL, 37, 4, '2023-06-02 17:20:37', '2023-07-03 18:42:46', 'voyager.preguntas-simulaciones.index', NULL),
-(66, 1, 'Vacunación', '/vacunacion', '_self', 'voyager-lab', '#000000', NULL, 2, '2023-07-03 18:42:22', '2023-07-03 18:42:46', NULL, ''),
-(67, 1, 'Preguntas', '/preguntas', '_self', 'voyager-question', '#000000', NULL, 3, '2023-07-03 19:03:23', '2023-07-03 19:03:43', NULL, ''),
-(68, 1, 'Usuarios', '/usuarios', '_self', 'voyager-people', '#000000', NULL, 5, '2023-07-08 00:37:28', '2023-07-16 18:48:41', NULL, ''),
-(69, 1, 'Simulación', '/lab-simulacion', '_self', 'voyager-controller', '#000000', NULL, 4, '2023-07-16 18:48:17', '2023-07-16 18:48:41', NULL, '');
+(18, 1, 'Usuarios', '', '_self', 'voyager-people', '#000000', NULL, 8, '2023-01-31 16:37:09', '2023-08-21 01:21:44', NULL, ''),
+(27, 1, 'Parametros', '', '_self', 'voyager-params', '#000000', NULL, 9, '2023-01-31 21:24:18', '2023-08-21 01:21:44', NULL, ''),
+(35, 1, 'Escenarios Simulaciones', '', '_self', 'voyager-play', '#000000', 27, 2, '2023-02-02 23:46:49', '2023-08-22 22:42:44', 'voyager.escenarios-simulaciones.index', 'null'),
+(41, 1, 'Niveles', '', '_self', 'voyager-paint-bucket', NULL, 27, 7, '2023-04-12 03:09:15', '2023-08-22 22:42:44', 'voyager.niveles.index', NULL),
+(42, 1, 'Categorias', '', '_self', 'voyager-categories', NULL, 27, 3, '2023-04-12 03:18:14', '2023-08-22 22:42:44', 'voyager.categorias.index', NULL),
+(43, 1, 'Calificaciones', '', '_self', 'voyager-certificate', NULL, 27, 5, '2023-05-20 14:19:20', '2023-08-22 22:42:44', 'voyager.calificaciones.index', NULL),
+(48, 1, 'Simulaciones', '', '_self', 'voyager-fire', '#000000', 27, 1, '2023-05-22 16:16:12', '2023-08-22 22:42:36', 'voyager.simulaciones.index', 'null'),
+(52, 1, 'Profesores', '', '_self', 'voyager-person', NULL, 18, 3, '2023-06-01 17:44:24', '2023-08-09 18:23:40', 'voyager.profesores.index', NULL),
+(54, 1, 'Via Aplicaciones', '', '_self', 'voyager-brush', '#000000', 27, 10, '2023-06-01 22:08:31', '2023-08-22 22:42:44', 'voyager.via-aplicaciones.index', 'null'),
+(57, 1, 'Examen', '/examen', '_self', 'voyager-edit', '#000000', NULL, 2, '2023-06-01 23:28:11', '2023-08-22 22:42:15', NULL, ''),
+(58, 1, 'Grupos', '', '_self', 'voyager-group', NULL, 27, 6, '2023-06-01 23:51:33', '2023-08-22 22:42:44', 'voyager.grupos.index', NULL),
+(60, 1, 'Campos', '', '_self', 'voyager-milestone', NULL, 27, 4, '2023-06-02 13:41:33', '2023-08-22 22:42:44', 'voyager.campos.index', NULL),
+(63, 1, 'Recursos', '', '_self', 'voyager-tree', '#000000', 27, 9, '2023-06-02 15:41:21', '2023-08-22 22:42:44', 'voyager.recursos.index', 'null'),
+(66, 1, 'Vacunación', '/vacunacion', '_self', 'voyager-lab', '#000000', NULL, 6, '2023-07-03 18:42:22', '2023-08-22 22:42:25', NULL, ''),
+(67, 1, 'Preguntas', '/preguntas', '_self', 'voyager-question', '#000000', NULL, 4, '2023-07-03 19:03:23', '2023-08-22 22:42:25', NULL, ''),
+(69, 1, 'Simulación', '/lab-simulacion', '_self', 'voyager-controller', '#000000', NULL, 5, '2023-07-16 18:48:17', '2023-08-22 22:42:25', NULL, ''),
+(70, 1, 'Estadistica', '', '_self', 'voyager-bar-chart', '#000000', NULL, 3, '2023-07-31 19:40:09', '2023-08-22 22:42:18', NULL, ''),
+(72, 1, 'Participación', '/estadistica/intentos', '_self', 'voyager-bar-chart', '#000000', 70, 1, '2023-08-21 01:20:42', '2023-08-21 01:21:44', NULL, ''),
+(73, 1, 'Preguntas', '/estadistica/preguntas', '_self', 'voyager-pie-graph', '#000000', 70, 2, '2023-08-21 01:21:15', '2023-08-21 01:21:46', NULL, '');
 
 -- --------------------------------------------------------
 
@@ -643,17 +670,18 @@ CREATE TABLE `niveles` (
   `id` int(10) UNSIGNED NOT NULL,
   `nombre` varchar(255) NOT NULL,
   `descripcion` text DEFAULT NULL,
-  `color` varchar(255) NOT NULL
+  `color` varchar(255) NOT NULL,
+  `categoria_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Volcado de datos para la tabla `niveles`
 --
 
-INSERT INTO `niveles` (`id`, `nombre`, `descripcion`, `color`) VALUES
-(1, 'Fácil', NULL, '#19c844'),
-(2, 'Medio', NULL, '#ffc800'),
-(3, 'Difícil', NULL, '#ff0000');
+INSERT INTO `niveles` (`id`, `nombre`, `descripcion`, `color`, `categoria_id`) VALUES
+(1, 'Fácil', NULL, '#19c844', 2),
+(2, 'Medio', NULL, '#ffc800', 2),
+(3, 'Difícil', NULL, '#ff0000', 2);
 
 -- --------------------------------------------------------
 
@@ -672,13 +700,6 @@ CREATE TABLE `pacientes` (
   `updated_at` timestamp NULL DEFAULT NULL,
   `usuario_id` bigint(20) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Volcado de datos para la tabla `pacientes`
---
-
-INSERT INTO `pacientes` (`id`, `tipo_paciente`, `fecha_nacimiento`, `peso`, `nombre_acudiente`, `documento_acudiente`, `created_at`, `updated_at`, `usuario_id`) VALUES
-(2, 'Hospitalizado', '2022-07-15', 10, 'Santiago', '112195', '2023-01-31 17:14:23', '2023-01-31 17:14:23', 6);
 
 -- --------------------------------------------------------
 
@@ -796,11 +817,6 @@ INSERT INTO `permissions` (`id`, `key`, `table_name`, `created_at`, `updated_at`
 (188, 'edit_vacunacion', 'vacunacion', '2023-05-29 19:18:20', '2023-05-29 19:18:20'),
 (189, 'add_vacunacion', 'vacunacion', '2023-05-29 19:18:20', '2023-05-29 19:18:20'),
 (190, 'delete_vacunacion', 'vacunacion', '2023-05-29 19:18:20', '2023-05-29 19:18:20'),
-(191, 'browse_tipo_preguntas', 'tipo_preguntas', '2023-05-30 15:57:56', '2023-05-30 15:57:56'),
-(192, 'read_tipo_preguntas', 'tipo_preguntas', '2023-05-30 15:57:56', '2023-05-30 15:57:56'),
-(193, 'edit_tipo_preguntas', 'tipo_preguntas', '2023-05-30 15:57:56', '2023-05-30 15:57:56'),
-(194, 'add_tipo_preguntas', 'tipo_preguntas', '2023-05-30 15:57:56', '2023-05-30 15:57:56'),
-(195, 'delete_tipo_preguntas', 'tipo_preguntas', '2023-05-30 15:57:56', '2023-05-30 15:57:56'),
 (201, 'browse_profesores', 'profesores', '2023-06-01 17:44:24', '2023-06-01 17:44:24'),
 (202, 'read_profesores', 'profesores', '2023-06-01 17:44:24', '2023-06-01 17:44:24'),
 (203, 'edit_profesores', 'profesores', '2023-06-01 17:44:24', '2023-06-01 17:44:24'),
@@ -860,9 +876,6 @@ CREATE TABLE `permission_role` (
 INSERT INTO `permission_role` (`permission_id`, `role_id`) VALUES
 (1, 1),
 (1, 2),
-(1, 3),
-(1, 4),
-(1, 5),
 (1, 6),
 (2, 1),
 (3, 1),
@@ -918,10 +931,8 @@ INSERT INTO `permission_role` (`permission_id`, `role_id`) VALUES
 (129, 1),
 (130, 1),
 (136, 1),
-(136, 2),
 (136, 6),
 (137, 1),
-(137, 2),
 (137, 6),
 (138, 1),
 (138, 6),
@@ -963,11 +974,6 @@ INSERT INTO `permission_role` (`permission_id`, `role_id`) VALUES
 (188, 1),
 (189, 1),
 (190, 1),
-(191, 1),
-(192, 1),
-(193, 1),
-(194, 1),
-(195, 1),
 (201, 1),
 (202, 1),
 (203, 1),
@@ -1051,10 +1057,20 @@ CREATE TABLE `preguntas_simulaciones` (
 --
 
 INSERT INTO `preguntas_simulaciones` (`id`, `pregunta`, `created_at`, `updated_at`, `escenario_id`, `nivel_id`, `categoria_id`, `campo_id`, `abierta`) VALUES
-(39, 'Cerrada nombre pentavalente polio rotavirus', '2023-07-04 00:01:36', '2023-07-04 00:01:36', 1, 1, 2, 1, 'n'),
-(40, 'Cerrada calibre neumococo triple viral', '2023-07-04 00:02:21', '2023-07-04 00:02:21', 1, 1, 2, 2, 'n'),
-(41, 'Cerrada via aplicacion hepatitis c y a', '2023-07-04 00:02:57', '2023-07-04 00:02:57', 1, 1, 2, 3, 'n'),
-(42, 'Abierta - Nombre del proyecto', '2023-07-04 00:03:32', '2023-07-04 00:03:32', 1, 1, 2, NULL, 's');
+(50, '¿Cuáles vacunas aplica el profesional de enfermería?', '2023-08-18 19:06:43', '2023-08-18 19:06:43', 1, 1, 2, 1, 'n'),
+(51, '¿Cuál es el calibre de las agujas para aplicar estas vacunas?', '2023-08-18 19:07:23', '2023-08-18 19:07:23', 1, 1, 2, 2, 'n'),
+(52, '¿Cuál es la vía de aplicación de estas vacunas?', '2023-08-18 19:08:04', '2023-08-18 19:08:04', 1, 1, 2, 3, 'n'),
+(53, '¿Cuáles vacunas aplica el profesional de enfermería?', '2023-08-18 19:08:51', '2023-08-18 19:08:51', 2, 1, 2, 1, 'n'),
+(54, '¿Cuál es el calibre de las agujas para aplicar estas vacunas?', '2023-08-18 19:33:04', '2023-08-18 19:33:04', 2, 1, 2, 2, 'n'),
+(55, '¿Cuál es la vía de aplicación de estas vacunas?', '2023-08-18 19:33:43', '2023-08-18 19:33:43', 2, 1, 2, 3, 'n'),
+(56, 'Este día ¿Cuáles vacunas aplica el profesional de enfermería?', '2023-08-18 19:35:36', '2023-08-18 19:35:36', 3, 2, 2, 1, 'n'),
+(57, '¿Cuál es el calibre de las agujas para aplicar estas vacunas?', '2023-08-18 19:36:31', '2023-08-18 19:36:31', 3, 2, 2, 2, 'n'),
+(58, '¿Cuál es la vía de aplicación de estas vacunas?', '2023-08-18 19:37:36', '2023-08-18 19:37:36', 3, 2, 2, 3, 'n'),
+(59, '¿En cuántas semanas cita al niño para continuar completando el esquema de vacunación?', '2023-08-18 19:38:24', '2023-08-18 19:38:24', 3, 2, 2, NULL, 's'),
+(60, '¿Qué vacunas le corresponde administrar a la menor?', '2023-08-18 19:39:11', '2023-08-18 19:39:11', 23, 3, 2, 1, 'n'),
+(61, '¿Qué vacunas se le deben administrar?', '2023-08-18 19:40:31', '2023-08-18 19:40:31', 24, 3, 2, 1, 'n'),
+(62, '¿Qué vacunas se le deben administrar?', '2023-08-18 19:41:03', '2023-08-18 19:41:03', 25, 3, 2, 1, 'n'),
+(63, '¿Con qué vacunas se le completa el esquema?', '2023-08-18 19:42:09', '2023-08-18 19:42:09', 26, 3, 2, 1, 'n');
 
 -- --------------------------------------------------------
 
@@ -1068,6 +1084,13 @@ CREATE TABLE `profesores` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Volcado de datos para la tabla `profesores`
+--
+
+INSERT INTO `profesores` (`id`, `usuario_id`, `created_at`, `updated_at`) VALUES
+(2, 9, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -1097,8 +1120,10 @@ INSERT INTO `recursos` (`id`, `created_at`, `updated_at`, `nombre`, `categoria_i
 (12, '2023-06-02 17:27:49', '2023-06-02 17:27:49', 'Hepatitis A', 2),
 (13, '2023-06-02 18:49:06', '2023-06-02 18:49:06', 'Influenza Estacional', 2),
 (14, '2023-06-16 15:35:41', '2023-06-16 15:35:41', 'Fiebre Amarilla', 2),
-(17, '2023-06-23 10:15:00', '2023-06-23 10:53:18', 'Hepatitis C', 2),
-(18, '2023-06-23 10:56:09', '2023-06-23 10:56:09', 'Acetaminofen', 1);
+(18, '2023-06-23 10:56:09', '2023-06-23 10:56:09', 'Acetaminofen', 1),
+(21, '2023-08-18 18:37:59', '2023-08-18 18:37:59', 'DPT', 2),
+(22, '2023-08-18 18:39:31', '2023-08-18 18:39:31', 'Polio Oral', 2),
+(23, '2023-08-18 19:47:02', '2023-08-18 19:47:02', 'Hepatitis B', 2);
 
 -- --------------------------------------------------------
 
@@ -1145,9 +1170,15 @@ INSERT INTO `recurso_campos` (`id`, `recurso_id`, `campo_id`, `valor`) VALUES
 (25, 14, 1, 'Fiebre Amarilla'),
 (26, 14, 2, '25'),
 (27, 14, 3, '2'),
-(34, 17, 1, 'Hepatitis B'),
-(35, 17, 2, '25'),
-(36, 17, 3, '2');
+(43, 21, 1, 'DPT'),
+(44, 21, 2, '23'),
+(45, 21, 3, '1'),
+(46, 22, 1, 'Polio Oral'),
+(47, 22, 2, NULL),
+(48, 22, 3, '3'),
+(49, 23, 1, 'Hepatitis B'),
+(50, 23, 2, '25'),
+(51, 23, 3, '2');
 
 -- --------------------------------------------------------
 
@@ -1169,14 +1200,73 @@ CREATE TABLE `respuesta_preguntas` (
 --
 
 INSERT INTO `respuesta_preguntas` (`id`, `valor`, `recurso_id`, `pregunta_id`, `created_at`, `updated_at`) VALUES
-(66, '6', NULL, 39, '2023-07-04 00:01:36', '2023-07-04 00:01:36'),
-(67, '7', NULL, 39, '2023-07-04 00:01:36', '2023-07-04 00:01:36'),
-(68, '8', NULL, 39, '2023-07-04 00:01:36', '2023-07-04 00:01:36'),
-(69, '9', NULL, 40, '2023-07-04 00:02:21', '2023-07-04 00:02:21'),
-(70, '10', NULL, 40, '2023-07-04 00:02:21', '2023-07-04 00:02:21'),
-(71, '17', NULL, 41, '2023-07-04 00:02:57', '2023-07-04 00:02:57'),
-(72, '12', NULL, 41, '2023-07-04 00:02:57', '2023-07-04 00:02:57'),
-(73, 'sofmedip', NULL, 42, '2023-07-04 00:03:32', '2023-07-04 00:03:32');
+(107, '6', NULL, 50, '2023-08-18 19:06:43', '2023-08-18 19:06:43'),
+(108, '7', NULL, 50, '2023-08-18 19:06:43', '2023-08-18 19:06:43'),
+(109, '8', NULL, 50, '2023-08-18 19:06:43', '2023-08-18 19:06:43'),
+(110, '9', NULL, 50, '2023-08-18 19:06:43', '2023-08-18 19:06:43'),
+(111, '6', NULL, 51, '2023-08-18 19:07:23', '2023-08-18 19:07:23'),
+(112, '7', NULL, 51, '2023-08-18 19:07:23', '2023-08-18 19:07:23'),
+(113, '9', NULL, 51, '2023-08-18 19:07:23', '2023-08-18 19:07:23'),
+(114, '6', NULL, 52, '2023-08-18 19:08:04', '2023-08-18 19:08:04'),
+(115, '7', NULL, 52, '2023-08-18 19:08:04', '2023-08-18 19:08:04'),
+(116, '8', NULL, 52, '2023-08-18 19:08:04', '2023-08-18 19:08:04'),
+(117, '9', NULL, 52, '2023-08-18 19:08:04', '2023-08-18 19:08:04'),
+(118, '9', NULL, 53, '2023-08-18 19:08:51', '2023-08-18 19:08:51'),
+(119, '10', NULL, 53, '2023-08-18 19:08:51', '2023-08-18 19:08:51'),
+(120, '11', NULL, 53, '2023-08-18 19:08:51', '2023-08-18 19:08:51'),
+(121, '12', NULL, 53, '2023-08-18 19:08:51', '2023-08-18 19:08:51'),
+(122, '13', NULL, 53, '2023-08-18 19:08:51', '2023-08-18 19:08:51'),
+(123, '14', NULL, 53, '2023-08-18 19:08:51', '2023-08-18 19:08:51'),
+(124, '9', NULL, 54, '2023-08-18 19:33:04', '2023-08-18 19:33:04'),
+(125, '10', NULL, 54, '2023-08-18 19:33:04', '2023-08-18 19:33:04'),
+(126, '11', NULL, 54, '2023-08-18 19:33:04', '2023-08-18 19:33:04'),
+(127, '12', NULL, 54, '2023-08-18 19:33:04', '2023-08-18 19:33:04'),
+(128, '13', NULL, 54, '2023-08-18 19:33:04', '2023-08-18 19:33:04'),
+(129, '14', NULL, 54, '2023-08-18 19:33:04', '2023-08-18 19:33:04'),
+(130, '9', NULL, 55, '2023-08-18 19:33:43', '2023-08-18 19:33:43'),
+(131, '10', NULL, 55, '2023-08-18 19:33:43', '2023-08-18 19:33:43'),
+(132, '11', NULL, 55, '2023-08-18 19:33:43', '2023-08-18 19:33:43'),
+(133, '12', NULL, 55, '2023-08-18 19:33:43', '2023-08-18 19:33:43'),
+(134, '13', NULL, 55, '2023-08-18 19:33:43', '2023-08-18 19:33:43'),
+(135, '14', NULL, 55, '2023-08-18 19:33:43', '2023-08-18 19:33:43'),
+(136, '7', NULL, 56, '2023-08-18 19:35:36', '2023-08-18 19:35:36'),
+(137, '10', NULL, 56, '2023-08-18 19:35:36', '2023-08-18 19:35:36'),
+(138, '11', NULL, 56, '2023-08-18 19:35:36', '2023-08-18 19:35:36'),
+(139, '12', NULL, 56, '2023-08-18 19:35:36', '2023-08-18 19:35:36'),
+(140, '14', NULL, 56, '2023-08-18 19:35:36', '2023-08-18 19:35:36'),
+(141, '21', NULL, 56, '2023-08-18 19:35:36', '2023-08-18 19:35:36'),
+(142, '7', NULL, 57, '2023-08-18 19:36:31', '2023-08-18 19:36:31'),
+(143, '10', NULL, 57, '2023-08-18 19:36:31', '2023-08-18 19:36:31'),
+(144, '11', NULL, 57, '2023-08-18 19:36:31', '2023-08-18 19:36:31'),
+(145, '12', NULL, 57, '2023-08-18 19:36:31', '2023-08-18 19:36:31'),
+(146, '14', NULL, 57, '2023-08-18 19:36:31', '2023-08-18 19:36:31'),
+(147, '21', NULL, 57, '2023-08-18 19:36:31', '2023-08-18 19:36:31'),
+(148, '7', NULL, 58, '2023-08-18 19:37:36', '2023-08-18 19:37:36'),
+(149, '10', NULL, 58, '2023-08-18 19:37:36', '2023-08-18 19:37:36'),
+(150, '11', NULL, 58, '2023-08-18 19:37:36', '2023-08-18 19:37:36'),
+(151, '12', NULL, 58, '2023-08-18 19:37:36', '2023-08-18 19:37:36'),
+(152, '14', NULL, 58, '2023-08-18 19:37:36', '2023-08-18 19:37:36'),
+(153, '21', NULL, 58, '2023-08-18 19:37:36', '2023-08-18 19:37:36'),
+(154, '4', NULL, 59, '2023-08-18 19:38:24', '2023-08-18 19:38:24'),
+(155, '10', NULL, 60, '2023-08-18 19:39:11', '2023-08-18 19:39:11'),
+(156, '11', NULL, 60, '2023-08-18 19:39:11', '2023-08-18 19:39:11'),
+(157, '21', NULL, 60, '2023-08-18 19:39:11', '2023-08-18 19:39:11'),
+(158, '22', NULL, 60, '2023-08-18 19:39:11', '2023-08-18 19:39:11'),
+(159, '6', NULL, 61, '2023-08-18 19:40:31', '2023-08-18 19:40:31'),
+(160, '7', NULL, 61, '2023-08-18 19:40:31', '2023-08-18 19:40:31'),
+(161, '13', NULL, 61, '2023-08-18 19:40:31', '2023-08-18 19:40:31'),
+(162, '7', NULL, 62, '2023-08-18 19:41:03', '2023-08-18 19:41:03'),
+(163, '10', NULL, 62, '2023-08-18 19:41:03', '2023-08-18 19:41:03'),
+(164, '11', NULL, 62, '2023-08-18 19:41:03', '2023-08-18 19:41:03'),
+(182, '7', NULL, 63, '2023-08-18 19:47:25', '2023-08-18 19:47:25'),
+(183, '9', NULL, 63, '2023-08-18 19:47:25', '2023-08-18 19:47:25'),
+(184, '10', NULL, 63, '2023-08-18 19:47:25', '2023-08-18 19:47:25'),
+(185, '11', NULL, 63, '2023-08-18 19:47:25', '2023-08-18 19:47:25'),
+(186, '12', NULL, 63, '2023-08-18 19:47:25', '2023-08-18 19:47:25'),
+(187, '13', NULL, 63, '2023-08-18 19:47:25', '2023-08-18 19:47:25'),
+(188, '14', NULL, 63, '2023-08-18 19:47:25', '2023-08-18 19:47:25'),
+(189, '21', NULL, 63, '2023-08-18 19:47:25', '2023-08-18 19:47:25'),
+(190, '23', NULL, 63, '2023-08-18 19:47:25', '2023-08-18 19:47:25');
 
 -- --------------------------------------------------------
 
@@ -1192,6 +1282,111 @@ CREATE TABLE `respuesta_simulaciones` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Volcado de datos para la tabla `respuesta_simulaciones`
+--
+
+INSERT INTO `respuesta_simulaciones` (`id`, `valor`, `recurso_id`, `simulacion_id`, `created_at`, `updated_at`) VALUES
+(114, '1', 7, 73, '2023-08-18 23:05:24', '2023-08-18 23:05:24'),
+(115, '1', 10, 73, '2023-08-18 23:05:24', '2023-08-18 23:05:24'),
+(116, '2', 11, 73, '2023-08-18 23:05:24', '2023-08-18 23:05:24'),
+(117, '1', 12, 73, '2023-08-18 23:05:24', '2023-08-18 23:05:24'),
+(118, '2', 14, 73, '2023-08-18 23:05:24', '2023-08-18 23:05:24'),
+(119, '1', 21, 73, '2023-08-18 23:05:24', '2023-08-18 23:05:24'),
+(120, '6', NULL, 74, '2023-08-18 23:05:34', '2023-08-18 23:05:34'),
+(121, '7', 1, 74, '2023-08-18 23:05:34', '2023-08-18 23:05:34'),
+(122, '10', 2, 74, '2023-08-18 23:05:34', '2023-08-18 23:05:34'),
+(123, '8', NULL, 75, '2023-08-18 23:05:42', '2023-08-18 23:05:42'),
+(124, '9', 1, 75, '2023-08-18 23:05:42', '2023-08-18 23:05:42'),
+(125, '25', 9, 76, '2023-08-18 23:06:00', '2023-08-18 23:06:00'),
+(126, '25', 10, 76, '2023-08-18 23:06:00', '2023-08-18 23:06:00'),
+(127, '25', 11, 76, '2023-08-18 23:06:00', '2023-08-18 23:06:00'),
+(128, '25', 12, 76, '2023-08-18 23:06:00', '2023-08-18 23:06:00'),
+(129, '25', 13, 76, '2023-08-18 23:06:00', '2023-08-18 23:06:00'),
+(130, '25', 14, 76, '2023-08-18 23:06:00', '2023-08-18 23:06:00'),
+(131, '2', 9, 77, '2023-08-18 23:06:15', '2023-08-18 23:06:15'),
+(132, '1', 10, 77, '2023-08-18 23:06:15', '2023-08-18 23:06:15'),
+(133, '1', 11, 77, '2023-08-18 23:06:15', '2023-08-18 23:06:15'),
+(134, '2', 12, 77, '2023-08-18 23:06:15', '2023-08-18 23:06:15'),
+(135, '1', 13, 77, '2023-08-18 23:06:15', '2023-08-18 23:06:15'),
+(136, '2', 14, 77, '2023-08-18 23:06:15', '2023-08-18 23:06:15'),
+(137, '1', 6, 78, '2023-08-18 23:14:07', '2023-08-18 23:14:07'),
+(138, '1', 7, 78, '2023-08-18 23:14:07', '2023-08-18 23:14:07'),
+(139, '1', 8, 78, '2023-08-18 23:14:07', '2023-08-18 23:14:07'),
+(140, '2', 9, 78, '2023-08-18 23:14:07', '2023-08-18 23:14:07'),
+(141, '23', 6, 79, '2023-08-18 23:14:17', '2023-08-18 23:14:17'),
+(142, '25', 7, 79, '2023-08-18 23:14:17', '2023-08-18 23:14:17'),
+(143, '25', 9, 79, '2023-08-18 23:14:17', '2023-08-18 23:14:17'),
+(144, '6', NULL, 80, '2023-08-18 23:14:25', '2023-08-18 23:14:25'),
+(145, '8', 1, 80, '2023-08-18 23:14:25', '2023-08-18 23:14:25'),
+(146, '10', 2, 80, '2023-08-18 23:14:25', '2023-08-18 23:14:25'),
+(147, '7', NULL, 81, '2023-08-18 23:14:35', '2023-08-18 23:14:35'),
+(148, '8', 1, 81, '2023-08-18 23:14:35', '2023-08-18 23:14:35'),
+(149, '9', 2, 81, '2023-08-18 23:14:35', '2023-08-18 23:14:35'),
+(150, '10', 3, 81, '2023-08-18 23:14:35', '2023-08-18 23:14:35'),
+(151, '8', NULL, 82, '2023-08-18 23:14:42', '2023-08-18 23:14:42'),
+(152, '10', 1, 82, '2023-08-18 23:14:42', '2023-08-18 23:14:42'),
+(153, '1', 9, 83, '2023-08-18 23:15:24', '2023-08-18 23:15:24'),
+(154, '1', 10, 83, '2023-08-18 23:15:24', '2023-08-18 23:15:24'),
+(155, '1', 11, 83, '2023-08-18 23:15:24', '2023-08-18 23:15:24'),
+(156, '2', 12, 83, '2023-08-18 23:15:24', '2023-08-18 23:15:24'),
+(157, '3', 13, 83, '2023-08-18 23:15:24', '2023-08-18 23:15:24'),
+(158, '1', 14, 83, '2023-08-18 23:15:24', '2023-08-18 23:15:24'),
+(159, '7', NULL, 84, '2023-08-18 23:15:32', '2023-08-18 23:15:32'),
+(160, '9', 1, 84, '2023-08-18 23:15:32', '2023-08-18 23:15:32'),
+(161, '10', 2, 84, '2023-08-18 23:15:32', '2023-08-18 23:15:32'),
+(162, '1', 6, 85, '2023-08-18 23:15:45', '2023-08-18 23:15:45'),
+(163, '3', 7, 85, '2023-08-18 23:15:45', '2023-08-18 23:15:45'),
+(164, '1', 8, 85, '2023-08-18 23:15:45', '2023-08-18 23:15:45'),
+(165, '1', 9, 85, '2023-08-18 23:15:45', '2023-08-18 23:15:45'),
+(166, '6', NULL, 86, '2023-08-18 23:15:56', '2023-08-18 23:15:56'),
+(167, '8', 1, 86, '2023-08-18 23:15:56', '2023-08-18 23:15:56'),
+(168, '9', 2, 86, '2023-08-18 23:15:56', '2023-08-18 23:15:56'),
+(169, '10', 3, 86, '2023-08-18 23:15:56', '2023-08-18 23:15:56'),
+(170, '8', NULL, 87, '2023-08-18 23:16:02', '2023-08-18 23:16:02'),
+(171, '7', NULL, 88, '2023-08-18 23:16:38', '2023-08-18 23:16:38'),
+(172, '8', 1, 88, '2023-08-18 23:16:38', '2023-08-18 23:16:38'),
+(173, '10', 2, 88, '2023-08-18 23:16:38', '2023-08-18 23:16:38'),
+(174, '25', 7, 89, '2023-08-18 23:16:54', '2023-08-18 23:16:54'),
+(175, '25', 10, 89, '2023-08-18 23:16:54', '2023-08-18 23:16:54'),
+(176, '25', 11, 89, '2023-08-18 23:16:54', '2023-08-18 23:16:54'),
+(177, '25', 12, 89, '2023-08-18 23:16:54', '2023-08-18 23:16:54'),
+(178, '25', 14, 89, '2023-08-18 23:16:54', '2023-08-18 23:16:54'),
+(179, '25', 21, 89, '2023-08-18 23:16:54', '2023-08-18 23:16:54'),
+(180, '25', 6, 90, '2023-08-18 23:17:01', '2023-08-18 23:17:01'),
+(181, '25', 7, 90, '2023-08-18 23:17:01', '2023-08-18 23:17:01'),
+(182, '25', 9, 90, '2023-08-18 23:17:01', '2023-08-18 23:17:01'),
+(183, '7', NULL, 91, '2023-08-18 23:17:09', '2023-08-18 23:17:09'),
+(184, '9', 1, 91, '2023-08-18 23:17:09', '2023-08-18 23:17:09'),
+(185, '10', 2, 91, '2023-08-18 23:17:09', '2023-08-18 23:17:09'),
+(186, '25', 9, 92, '2023-08-18 23:17:19', '2023-08-18 23:17:19'),
+(187, '25', 10, 92, '2023-08-18 23:17:19', '2023-08-18 23:17:19'),
+(188, '25', 11, 92, '2023-08-18 23:17:19', '2023-08-18 23:17:19'),
+(189, '25', 12, 92, '2023-08-18 23:17:19', '2023-08-18 23:17:19'),
+(190, '25', 13, 92, '2023-08-18 23:17:19', '2023-08-18 23:17:19'),
+(191, '25', 14, 92, '2023-08-18 23:17:19', '2023-08-18 23:17:19'),
+(192, '7', NULL, 93, '2023-08-21 15:13:43', '2023-08-21 15:13:43'),
+(193, '9', 1, 93, '2023-08-21 15:13:43', '2023-08-21 15:13:43'),
+(194, '11', 2, 93, '2023-08-21 15:13:43', '2023-08-21 15:13:43'),
+(195, '1', 9, 94, '2023-08-21 15:14:08', '2023-08-21 15:14:08'),
+(196, '2', 10, 94, '2023-08-21 15:14:08', '2023-08-21 15:14:08'),
+(197, '2', 11, 94, '2023-08-21 15:14:08', '2023-08-21 15:14:08'),
+(198, '1', 12, 94, '2023-08-21 15:14:08', '2023-08-21 15:14:08'),
+(199, '1', 13, 94, '2023-08-21 15:14:08', '2023-08-21 15:14:08'),
+(200, '2', 14, 94, '2023-08-21 15:14:08', '2023-08-21 15:14:08'),
+(201, '1', 6, 95, '2023-08-21 15:14:19', '2023-08-21 15:14:19'),
+(202, '1', 7, 95, '2023-08-21 15:14:19', '2023-08-21 15:14:19'),
+(203, '1', 8, 95, '2023-08-21 15:14:19', '2023-08-21 15:14:19'),
+(204, '2', 9, 95, '2023-08-21 15:14:19', '2023-08-21 15:14:19'),
+(205, '25', 9, 96, '2023-08-21 15:14:30', '2023-08-21 15:14:30'),
+(206, '25', 10, 96, '2023-08-21 15:14:30', '2023-08-21 15:14:30'),
+(207, '25', 11, 96, '2023-08-21 15:14:30', '2023-08-21 15:14:30'),
+(208, '25', 12, 96, '2023-08-21 15:14:30', '2023-08-21 15:14:30'),
+(209, '25', 13, 96, '2023-08-21 15:14:30', '2023-08-21 15:14:30'),
+(210, '25', 14, 96, '2023-08-21 15:14:30', '2023-08-21 15:14:30'),
+(211, '8', NULL, 97, '2023-08-21 15:14:40', '2023-08-21 15:14:40'),
+(212, '11', 1, 97, '2023-08-21 15:14:40', '2023-08-21 15:14:40');
 
 -- --------------------------------------------------------
 
@@ -1215,9 +1410,6 @@ CREATE TABLE `roles` (
 INSERT INTO `roles` (`id`, `name`, `display_name`, `created_at`, `updated_at`, `description`) VALUES
 (1, 'admin', 'Administrador', '2023-01-28 09:13:25', '2023-01-29 18:48:27', NULL),
 (2, 'student', 'Estudiante', '2023-01-28 09:13:25', '2023-01-29 19:04:29', NULL),
-(3, 'doctor', 'Médico', '2023-01-29 19:00:08', '2023-01-29 19:03:17', NULL),
-(4, 'patient', 'Paciente', '2023-01-29 19:00:48', '2023-01-29 19:03:52', NULL),
-(5, 'nurse', 'Enfermero', '2023-01-29 19:01:09', '2023-01-29 23:10:45', 'Profesional de enfermeria'),
 (6, 'teacher', 'Profesor', '2023-01-29 19:01:35', '2023-01-29 19:04:00', NULL);
 
 -- --------------------------------------------------------
@@ -1242,15 +1434,15 @@ CREATE TABLE `settings` (
 --
 
 INSERT INTO `settings` (`id`, `key`, `display_name`, `value`, `details`, `type`, `order`, `group`) VALUES
-(1, 'site.title', 'Site Title', 'sofvap', '', 'text', 1, 'Site'),
-(2, 'site.description', 'Site Description', 'Administración de Medicamentos en Pediatría', '', 'text', 2, 'Site'),
+(1, 'site.title', 'Site Title', 'softvap 1.0', '', 'text', 1, 'Site'),
+(2, 'site.description', 'Site Description', 'Suministro de vacunación en pediatría - Unillanos® 2023', '', 'text', 2, 'Site'),
 (3, 'site.logo', 'Site Logo', 'settings/June2023/7ONKKfOPzftyzC9NXjrV.png', '', 'image', 3, 'Site'),
 (4, 'site.google_analytics_tracking_id', 'Google Analytics Tracking ID', NULL, '', 'text', 4, 'Site'),
-(5, 'admin.bg_image', 'Admin Background Image', 'settings/June2023/nvJf0LPXLSINM16h1IC0.jpg', '', 'image', 5, 'Admin'),
-(6, 'admin.title', 'Admin Title', 'sofvap', '', 'text', 1, 'Admin'),
-(7, 'admin.description', 'Admin Description', 'Administración de Medicamentos en Pediatría', '', 'text', 2, 'Admin'),
+(5, 'admin.bg_image', 'Admin Background Image', 'settings\\August2023\\acAjIvAvsV3ONdhknInr.jpg', '', 'image', 5, 'Admin'),
+(6, 'admin.title', 'Admin Title', 'softvap 1.0', '', 'text', 1, 'Admin'),
+(7, 'admin.description', 'Admin Description', 'Suministro de vacunación en pediatría - Unillanos® 2023', '', 'text', 2, 'Admin'),
 (8, 'admin.loader', 'Admin Loader', '', '', 'image', 3, 'Admin'),
-(9, 'admin.icon_image', 'Admin Icon Image', 'settings/June2023/WX3Iw4Bzc6u08zGdFGRQ.png', '', 'image', 4, 'Admin'),
+(9, 'admin.icon_image', 'Admin Icon Image', 'settings\\July2023\\CjxejdddaAT56i77CioA.png', '', 'image', 4, 'Admin'),
 (10, 'admin.google_analytics_client_id', 'Google Analytics Client ID (used for admin dashboard)', NULL, '', 'text', 1, 'Admin');
 
 -- --------------------------------------------------------
@@ -1267,8 +1459,35 @@ CREATE TABLE `simulaciones` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `tiempo` time DEFAULT NULL,
-  `campo_id` int(11) DEFAULT NULL
+  `campo_id` int(11) DEFAULT NULL,
+  `examen_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Volcado de datos para la tabla `simulaciones`
+--
+
+INSERT INTO `simulaciones` (`id`, `nota`, `pregunta_id`, `estudiante_id`, `created_at`, `updated_at`, `tiempo`, `campo_id`, `examen_id`) VALUES
+(78, 0, 52, 5, '2023-08-18 23:14:07', '2023-08-18 23:14:07', '00:00:11', 3, 5),
+(79, 0, 51, 5, '2023-08-18 23:14:17', '2023-08-18 23:14:17', '00:00:10', 2, 5),
+(80, 17, 53, 5, '2023-08-18 23:14:25', '2023-08-18 23:14:25', '00:00:08', 1, 5),
+(81, 33, 56, 5, '2023-08-18 23:14:35', '2023-08-18 23:14:35', '00:00:10', 1, 5),
+(82, 11, 63, 5, '2023-08-18 23:14:42', '2023-08-18 23:14:42', '00:00:07', 1, 5),
+(83, 0, 55, 4, '2023-08-18 23:15:24', '2023-08-18 23:15:24', '00:00:17', 3, 5),
+(84, 50, 50, 4, '2023-08-18 23:15:32', '2023-08-18 23:15:32', '00:00:08', 1, 5),
+(85, 0, 52, 4, '2023-08-18 23:15:45', '2023-08-18 23:15:45', '00:00:12', 3, 5),
+(86, 17, 56, 4, '2023-08-18 23:15:56', '2023-08-18 23:15:56', '00:00:11', 1, 5),
+(87, 0, 53, 4, '2023-08-18 23:16:02', '2023-08-18 23:16:02', '00:00:06', 1, 5),
+(88, 17, 53, 7, '2023-08-18 23:16:38', '2023-08-18 23:16:38', '00:00:11', 1, 5),
+(89, 0, 57, 7, '2023-08-18 23:16:54', '2023-08-18 23:16:54', '00:00:16', 2, 5),
+(90, 0, 51, 7, '2023-08-18 23:17:01', '2023-08-18 23:17:01', '00:00:07', 2, 5),
+(91, 33, 56, 7, '2023-08-18 23:17:09', '2023-08-18 23:17:09', '00:00:07', 1, 5),
+(92, 0, 54, 7, '2023-08-18 23:17:19', '2023-08-18 23:17:19', '00:00:09', 2, 5),
+(93, 33, 56, 4, '2023-08-21 15:13:43', '2023-08-21 15:13:43', '00:00:18', 1, 6),
+(94, 0, 55, 4, '2023-08-21 15:14:08', '2023-08-21 15:14:08', '00:00:24', 3, 6),
+(95, 0, 52, 4, '2023-08-21 15:14:19', '2023-08-21 15:14:19', '00:00:11', 3, 6),
+(96, 0, 54, 4, '2023-08-21 15:14:30', '2023-08-21 15:14:30', '00:00:11', 2, 6),
+(97, 11, 63, 4, '2023-08-21 15:14:40', '2023-08-21 15:14:40', '00:00:09', 1, 6);
 
 -- --------------------------------------------------------
 
@@ -1297,16 +1516,24 @@ INSERT INTO `tipo_documentos` (`id`, `nombre`, `descripcion`, `created_at`, `upd
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `tipo_preguntas`
+-- Estructura de tabla para la tabla `tipo_estados`
 --
 
-CREATE TABLE `tipo_preguntas` (
+CREATE TABLE `tipo_estados` (
   `id` int(10) UNSIGNED NOT NULL,
-  `nombre` varchar(255) NOT NULL,
-  `descripcion` text DEFAULT NULL,
-  `multiple` binary(255) DEFAULT NULL,
-  `entrada` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL CHECK (json_valid(`entrada`))
+  `acronimo` char(1) NOT NULL,
+  `nombre` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Volcado de datos para la tabla `tipo_estados`
+--
+
+INSERT INTO `tipo_estados` (`id`, `acronimo`, `nombre`) VALUES
+(1, 's', 'Activo'),
+(2, 'n', 'Inactivo'),
+(3, 'c', 'Cancelado'),
+(4, 'f', 'Finalizado');
 
 -- --------------------------------------------------------
 
@@ -1388,10 +1615,13 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `name`, `email`, `avatar`, `email_verified_at`, `password`, `remember_token`, `settings`, `created_at`, `updated_at`, `surname`, `identification`, `tipo_documento`) VALUES
-(1, 'Admin', 'admin@admin.com', 'users/June2023/ZhujmQtm7waih3ptn2lo.jpeg', NULL, '$2y$10$Nn1Om.H24Pk9IO0RA9jMYed.qBeymevgcZ2t0UTzixH6llogLlz/a', 'LwdTh7LColeExgywKnD3m663djHprckujdTXxhewedRpVj9dCQi9fUdIGmxY', '{\"locale\":\"es\"}', '2023-01-28 09:14:11', '2023-06-23 02:21:41', 'Admin', '1', 2),
-(4, 'Candido', 'candido@gmail.com', 'users/June2023/Mx5Bz2TIHrKPo3U1Ns9g.png', NULL, '$2y$10$OdTZfAeqUFcpaGQ9bAbSi.CLIkrfYjwubANo.5QOGRl3oWJ87F5hq', NULL, '{\"locale\":\"es\"}', '2023-01-30 20:03:21', '2023-06-23 02:22:38', 'Moreno', '333', 2),
-(6, 'Bruno', 'bruno@gmail.com', 'users/June2023/38Fb8ntpjUS2bgr1Hr2Y.png', NULL, '$2y$10$Cpr89S.C3O1Iv.K47pVSAez55Vwt6tz2/rMcZAlI67kCP9rA8p.Wm', NULL, '{\"locale\":\"es\"}', '2023-01-30 21:17:47', '2023-06-23 02:22:48', 'Roncancio', '111', 3),
-(7, 'Sebastian', 'sebastian@gmail.com', 'users/June2023/rx1ZmG6dkvyfplcuq2M2.png', NULL, '$2y$10$Bzzk0NVCxATaI1Dwxlt4geKRBlzCHFH8/rAA/bDbB.IpbvbPpE0OO', NULL, '{\"locale\":\"es\"}', '2023-01-31 20:49:43', '2023-06-23 02:22:55', 'Mosquera', '222', 3);
+(9, 'Felipe', 'felipe@softvap.com', 'users\\August2023\\INB9ydh7ONg3pWwEAumA.jpeg', NULL, '$2y$10$H3wTK7BiEXULbEnAoycFeetFvuCp/I0/CSmeXTOAtAXGYr6CzDpT.', NULL, NULL, '2023-08-18 17:38:06', '2023-08-21 15:39:21', 'Corredor', '1121000001', 2),
+(10, 'Candido', 'candido@softvap.com', 'users/default.png', NULL, '$2y$10$0ehnWaOk3ID5qZ01Aum5H.YBmKmyHd8uhGJa/kK3BfdPrypOC6QYq', NULL, NULL, '2023-08-18 17:39:27', '2023-08-18 17:39:27', 'Moreno', '1121956543', 2),
+(11, 'Luisa', 'luisa@softvap.com', 'users/default.png', NULL, '$2y$10$OCfMamiPY9zEDviHUoboZuZpY30p7N79Rn7tiQaYDM4AVBTemIOf2', NULL, NULL, '2023-08-18 17:56:37', '2023-08-18 17:56:37', 'Rojas', '1006826950', 2),
+(12, 'Santiago', 'santiago@softvap.com', 'users/default.png', NULL, '$2y$10$B1iYCHH5JQwM02AsK3f2f.M7C10iX69TD4wHEzxqoWOn8lmoTFxw.', NULL, NULL, '2023-08-18 17:58:03', '2023-08-18 17:58:03', 'Roncancio', '1121956650', 2),
+(13, 'Sebastian', 'sebastian@softvap.com', 'users/default.png', NULL, '$2y$10$o81VS0NrS8Mk5At8kV68purtMLodxuB.GzKDXLBvb7L5YPnh9tHiC', NULL, NULL, '2023-08-18 18:00:04', '2023-08-18 18:00:04', 'Rojas', '1121578144', 2),
+(14, 'MeryLuz', 'mery@softvap.com', 'users\\August2023\\AeBWLCljR34MHlpwZLtX.jpg', NULL, '$2y$10$rCg2CvGg54TxtMtqmCIaTO6K5hft9xHz39Y7M6t0zLDrdgfEBPAB6', '8NnhV161McenKeBaztRNDfvTH38kOXcapI3fmfiyRDPzsdkQ7s5yDntVdYRD', NULL, '2023-08-22 21:01:57', '2023-08-22 22:22:37', 'Valderrama', '87663245', 2),
+(15, 'Javier Eduardo', 'javier@softvap.com', 'users\\August2023\\1vBOfZZbaQzjRqNDtp90.jpg', NULL, '$2y$10$TgfBKPC1EbWfpPHUYUc32ObT.awgt6Td8lqj2MWTM8B2xnHlIUG.6', NULL, NULL, '2023-08-22 22:37:04', '2023-08-22 22:37:04', 'Martinez', '543456543', 2);
 
 -- --------------------------------------------------------
 
@@ -1409,10 +1639,14 @@ CREATE TABLE `user_roles` (
 --
 
 INSERT INTO `user_roles` (`user_id`, `role_id`) VALUES
-(1, 1),
-(4, 2),
-(6, 2),
-(7, 6);
+(9, 1),
+(10, 2),
+(11, 2),
+(12, 2),
+(13, 2),
+(14, 1),
+(14, 6),
+(15, 6);
 
 -- --------------------------------------------------------
 
@@ -1566,7 +1800,8 @@ ALTER TABLE `migrations`
 -- Indices de la tabla `niveles`
 --
 ALTER TABLE `niveles`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `niveles_categoria_id_index` (`categoria_id`);
 
 --
 -- Indices de la tabla `pacientes`
@@ -1672,7 +1907,8 @@ ALTER TABLE `simulaciones`
   ADD PRIMARY KEY (`id`),
   ADD KEY `simulaciones_pregunta_id_index` (`pregunta_id`),
   ADD KEY `simulaciones_estudiante_id_index` (`estudiante_id`),
-  ADD KEY `simulaciones_campo_id_index` (`campo_id`);
+  ADD KEY `simulaciones_campo_id_index` (`campo_id`),
+  ADD KEY `simulaciones_examen_id_index` (`examen_id`);
 
 --
 -- Indices de la tabla `tipo_documentos`
@@ -1681,9 +1917,9 @@ ALTER TABLE `tipo_documentos`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indices de la tabla `tipo_preguntas`
+-- Indices de la tabla `tipo_estados`
 --
-ALTER TABLE `tipo_preguntas`
+ALTER TABLE `tipo_estados`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -1742,7 +1978,7 @@ ALTER TABLE `categorias`
 -- AUTO_INCREMENT de la tabla `data_rows`
 --
 ALTER TABLE `data_rows`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=374;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=382;
 
 --
 -- AUTO_INCREMENT de la tabla `data_types`
@@ -1754,31 +1990,31 @@ ALTER TABLE `data_types`
 -- AUTO_INCREMENT de la tabla `escenarios_simulaciones`
 --
 ALTER TABLE `escenarios_simulaciones`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
 
 --
 -- AUTO_INCREMENT de la tabla `estudiantes`
 --
 ALTER TABLE `estudiantes`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT de la tabla `examenes`
 --
 ALTER TABLE `examenes`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT de la tabla `examen_estudiantes`
 --
 ALTER TABLE `examen_estudiantes`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT de la tabla `examen_preguntas`
 --
 ALTER TABLE `examen_preguntas`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
 
 --
 -- AUTO_INCREMENT de la tabla `failed_jobs`
@@ -1808,13 +2044,13 @@ ALTER TABLE `mensajes_simulaciones`
 -- AUTO_INCREMENT de la tabla `menus`
 --
 ALTER TABLE `menus`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT de la tabla `menu_items`
 --
 ALTER TABLE `menu_items`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=70;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=74;
 
 --
 -- AUTO_INCREMENT de la tabla `migrations`
@@ -1850,37 +2086,37 @@ ALTER TABLE `personal_access_tokens`
 -- AUTO_INCREMENT de la tabla `preguntas_simulaciones`
 --
 ALTER TABLE `preguntas_simulaciones`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=43;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=64;
 
 --
 -- AUTO_INCREMENT de la tabla `profesores`
 --
 ALTER TABLE `profesores`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT de la tabla `recursos`
 --
 ALTER TABLE `recursos`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 
 --
 -- AUTO_INCREMENT de la tabla `recurso_campos`
 --
 ALTER TABLE `recurso_campos`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=43;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=52;
 
 --
 -- AUTO_INCREMENT de la tabla `respuesta_preguntas`
 --
 ALTER TABLE `respuesta_preguntas`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=74;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=191;
 
 --
 -- AUTO_INCREMENT de la tabla `respuesta_simulaciones`
 --
 ALTER TABLE `respuesta_simulaciones`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=213;
 
 --
 -- AUTO_INCREMENT de la tabla `roles`
@@ -1898,7 +2134,7 @@ ALTER TABLE `settings`
 -- AUTO_INCREMENT de la tabla `simulaciones`
 --
 ALTER TABLE `simulaciones`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=98;
 
 --
 -- AUTO_INCREMENT de la tabla `tipo_documentos`
@@ -1907,10 +2143,10 @@ ALTER TABLE `tipo_documentos`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
--- AUTO_INCREMENT de la tabla `tipo_preguntas`
+-- AUTO_INCREMENT de la tabla `tipo_estados`
 --
-ALTER TABLE `tipo_preguntas`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+ALTER TABLE `tipo_estados`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT de la tabla `translations`
@@ -1922,7 +2158,7 @@ ALTER TABLE `translations`
 -- AUTO_INCREMENT de la tabla `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT de la tabla `via_aplicaciones`
