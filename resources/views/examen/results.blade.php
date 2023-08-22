@@ -128,7 +128,7 @@
     $('#tableResultados').DataTable({
         destroy: true,
         pageLength: 10,
-        lengthChange: false,
+        lengthChange: true,
         paging: true,
         searching: true,
         ordering: true,
@@ -142,7 +142,7 @@
     $('#tablaPreguntas').DataTable({
         destroy: true,
         pageLength: 10,
-        lengthChange: false,
+        lengthChange: true,
         paging: true,
         searching: true,
         ordering: true,
