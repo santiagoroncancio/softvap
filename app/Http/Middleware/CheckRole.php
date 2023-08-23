@@ -15,13 +15,15 @@ class CheckRole
             return redirect(route('login'));
         }
 
-        $id = Auth::user()->id;
-        foreach ($roles as $role) {
-            if (User::find($id)->roles) {
-                return $next($request);
-            }
+        if (Auth::user()->roles->contains(function ($valor, $clave) use ($roles) {
+            return in_array($valor['name'], $roles);
+        })) {
+            return $next($request);
         }
 
-        return abort(403, 'No tienes permiso para acceder a esta página.');
+        return redirect()->route('voyager.dashboard')->with([
+            'message'    => 'Error del sistema: No tienes permiso para acceder a esta página, Por favor comunicarse con el administrador',
+            'alert-type' => 'error',
+        ]);
     }
 }

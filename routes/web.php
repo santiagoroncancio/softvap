@@ -25,27 +25,32 @@ use TCG\Voyager\Facades\Voyager;
 // });
 
 Route::middleware(['auth'])->group(function () {
-    Route::get('examen/results/{id}', [ExamenController::class, 'resultados'])->name('examen.results');
+    Route::middleware(['checkRole:admin,teacher'])->group(function () {
+        Route::post('examen/finish/{id}', [ExamenController::class, 'finish'])->name('examen.finish');
+        Route::post('examen/state/{id}', [ExamenController::class, 'state'])->name('examen.state');
+
+        Route::resource('vacunacion', VacunacionController::class);
+        Route::resource('preguntas', PreguntasController::class);
+        Route::resource('usuarios', UsuarioController::class);
+    });
+
+    // Rutas de examen
     Route::get('examen/play', [ExamenController::class, 'indexPlay'])->name('examen.indexPlay');
     Route::get('examen/play/{id}', [ExamenController::class, 'play'])->name('examen.play');
     Route::post('examen/savePlay', [ExamenController::class, 'savePlay'])->name('examen.savePlay');
-    Route::post('examen/finish/{id}', [ExamenController::class, 'finish'])->name('examen.finish');
-    Route::post('examen/state/{id}', [ExamenController::class, 'state'])->name('examen.state');
+    Route::get('examen/results/{id}', [ExamenController::class, 'resultados'])->name('examen.results');
     Route::resource('examen', ExamenController::class);
 
+    // Rutas de Simulacion
     Route::get('lab-simulacion/random', [SimulacionController::class, 'random'])->name('lab-simulacion.random');
     Route::get('lab-simulacion/resultados', [SimulacionController::class, 'results'])->name('lab-simulacion.results');
     Route::resource('lab-simulacion', SimulacionController::class);
 
-
+    // Rutas de estadisticas
     Route::get('estadistica/intentos', [EstadisticaController::class, 'intentos'])->name('estadistica.intentos');
     Route::get('estadistica/preguntas', [EstadisticaController::class, 'preguntas'])->name('estadistica.preguntas');
     Route::get('estadistica/preguntas/{id}', [EstadisticaController::class, 'cPregunta'])->name('estadistica.preguntas');
     Route::resource('estadistica', EstadisticaController::class);
-
-    Route::resource('vacunacion', VacunacionController::class);
-    Route::resource('preguntas', PreguntasController::class);
-    Route::resource('usuarios', UsuarioController::class);
 });
 
 Route::group(['prefix' => '/'], function () {
