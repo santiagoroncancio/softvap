@@ -102,7 +102,9 @@
                                         @endif
                                     </div>
                                 </div>
-                                @if ($role->contains('name', 'admin'))
+                                @if ($role->contains(function ($valor, $clave) {
+                                return in_array($valor['name'], ['admin']);
+                                }))
                                 <div class="col-md-4">
                                     <div class="form-group {{ $errors->has('profesor') ? 'has-error' : '' }}">
                                         <label for="profesor" class="is-required">Profesor</label>
@@ -117,7 +119,9 @@
                                         @endif
                                     </div>
                                 </div>
-                                @elseif ($role->contains('name', 'teacher'))
+                                @elseif ($role->contains(function ($valor, $clave) {
+                                return in_array($valor['name'], ['teacher']);
+                                }))
                                 <input type="hidden" name="profesor" value="{{ $profesor }}">
                                 @endif
                             </div>

@@ -98,10 +98,13 @@ class ExamenController extends Controller
         $usuario = Auth::user()->id;
         $role = User::find($usuario)->roles;
 
-        $profesor = Profesor::all();
-        if ($role->contains('name', 'teacher')) {
-            $profesor = Profesor::where('usuario_id', '=', $usuario);
+        $profesor = Profesor::where('usuario_id', '=', $usuario);
+        if ($role->contains(function ($valor, $clave) {
+            return in_array($valor['name'], ['admin']);
+        })) {
+            $profesor = Profesor::all();
         }
+
         $pregunta = PreguntaSimulacion::all();
         return view('examen.create', compact('profesor', 'pregunta', 'role'));
     }
@@ -117,17 +120,14 @@ class ExamenController extends Controller
         try {
             DB::beginTransaction();
 
-            $fechai = Carbon::createFromFormat('d/m/Y g:i A', $request->fecha_inicial);
-            $fechaiF = $fechai->format('Y-m-d H:i:s');
-
-            $fechaf = Carbon::createFromFormat('d/m/Y g:i A', $request->fecha_final);
-            $fechafF = $fechaf->format('Y-m-d H:i:s');
+            $fechai = Carbon::createFromFormat('m/d/Y g:i A', $request->fecha_inicial)->format('Y-m-d H:i:s');
+            $fechaf = Carbon::createFromFormat('m/d/Y g:i A', $request->fecha_final)->format('Y-m-d H:i:s');
 
             $examen = Examen::create([
                 'nombre' => $request->nombre,
                 'descripcion' => $request->descripcion,
-                'fecha_inicial' => $fechaiF,
-                'fecha_final' => $fechafF,
+                'fecha_inicial' => $fechai,
+                'fecha_final' => $fechaf,
                 'estado' => $request->estado,
                 'profesor_id' => $request->profesor,
                 'duracion' => $request->duracion,
