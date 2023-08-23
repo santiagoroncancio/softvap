@@ -30,6 +30,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('examen/play/{id}', [ExamenController::class, 'play'])->name('examen.play');
     Route::post('examen/savePlay', [ExamenController::class, 'savePlay'])->name('examen.savePlay');
     Route::post('examen/finish/{id}', [ExamenController::class, 'finish'])->name('examen.finish');
+    Route::post('examen/state/{id}', [ExamenController::class, 'state'])->name('examen.state');
     Route::resource('examen', ExamenController::class);
 
     Route::get('lab-simulacion/random', [SimulacionController::class, 'random'])->name('lab-simulacion.random');

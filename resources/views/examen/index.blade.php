@@ -41,7 +41,7 @@
                             <tr>
                                 <td>{{ $d->nombre }}</td>
                                 <td>{{ $d->tipoEstado->nombre }}</td>
-                                <td>{{ $d->profesor->user->identification }} - {{ $d->profesor->user->name }} {{ $d->profesor->user->surname }}</td>
+                                <td>{{ $d->profesor != null ? $d->profesor->user->getName() : '' }}</td>
                                 <td>{{ $d->duracion }}</td>
                                 <td>{{ count($d->preguntas) }}</td>
                                 <td>
@@ -51,17 +51,34 @@
                                         }))
 
                                         @if ($d->estado == 's' || $d->estado == 'n')
+
+                                        @if ($d->estado == 's')
+                                        <div>
+                                            <form action="{{ route('examen.state', $d->id) }}" id="state{{ $d->id }}" method="POST">
+                                                @csrf
+                                                <input type="submit" value="Inactivar" class="btn btn-sm btn-warning" onclick="verificarEstado('{{$d->id}}')">
+                                            </form>
+                                        </div>
+                                        @elseif ($d->estado == 'n')
+                                        <div>
+                                            <form action="{{ route('examen.state', $d->id) }}" id="state{{ $d->id }}" method="POST">
+                                                @csrf
+                                                <input type="submit" value="Activar" class="btn btn-sm btn-success" onclick="verificarEstado('{{$d->id}}')">
+                                            </form>
+                                        </div>
+                                        @endif
+
                                         <div>
                                             <form action="{{ route('examen.destroy', $d->id) }}" id="delete{{ $d->id }}" method="POST">
                                                 @csrf
                                                 {{ method_field('DELETE') }}
-                                                <input type="submit" value="Anular" class="btn btn-sm btn-danger" onclick="verificar('{{$d->id}}')">
+                                                <input type="submit" value="Anular" class="btn btn-sm btn-danger" onclick="verificarAnulacion('{{$d->id}}')">
                                             </form>
                                         </div>
                                         <div>
                                             <form action="{{ route('examen.finish', $d->id) }}" id="finish{{ $d->id }}" method="POST">
                                                 @csrf
-                                                <input type="submit" value="Finalizar" class="btn btn-sm btn-success" onclick="finalizar('{{$d->id}}')">
+                                                <input type="submit" value="Finalizar" class="btn btn-sm btn-primary" onclick="finalizar('{{$d->id}}')">
                                             </form>
                                         </div>
                                         @elseif ($d->estado == 'f')
@@ -78,7 +95,7 @@
                                         return in_array($valor['name'], ['student']);
                                         }))
 
-                                        @if ($d->disponible == true)
+                                        @if ($d->estado == 's')
                                         <div>
                                             <a href="{{ route('examen.play', $d->id) }}" class="btn btn-sm btn-primary pull-right edit">
                                                 <i class="voyager-play" aria-hidden="true"></i>
@@ -139,7 +156,27 @@
         }
     });
 
-    function verificar(id) {
+    function verificarEstado(id) {
+        event.preventDefault();
+        event.stopPropagation();
+        Swal.fire({
+                title: '¿Deseas Cambiar el estado?',
+                text: 'El registro del examen cambiara su estado',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3c8dbc',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Confirmar',
+                cancelButtonText: 'Cancelar'
+            })
+            .then((result) => {
+                if (result.isConfirmed) {
+                    $('#state' + id).submit();
+                }
+            });
+    }
+
+    function verificarAnulacion(id) {
         event.preventDefault();
         event.stopPropagation();
         Swal.fire({

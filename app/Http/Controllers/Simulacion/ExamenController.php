@@ -249,6 +249,44 @@ class ExamenController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
+    public function state($id)
+    {
+        try {
+            DB::beginTransaction();
+
+            $exam = Examen::findOrFail($id);
+            if ($exam == null || !(($exam->estado == 's') || ($exam->estado == 'n'))) {
+                return redirect()->route('examen.index')->with([
+                    'message'    => 'Estado examen no valido: Por favor comunicarse con el administrador',
+                    'alert-type' => 'error',
+                ]);
+            }
+
+            Examen::find($id)->update([
+                'estado' => $exam->estado == 's' ? 'n' : 's'
+            ]);
+
+            DB::commit();
+        } catch (Exception $ex) {
+            Log::debug($ex->getMessage() . ' - ' . $ex->getLine() . ' - ' . $ex->getFile());
+            DB::rollBack();
+            return redirect()->route('examen.index')->with([
+                'message'    => 'Error del sistema: Por favor comunicarse con el administrador',
+                'alert-type' => 'error',
+            ]);
+        }
+        return redirect()->route('examen.index')->with([
+            'message'    => 'Examen ',
+            'alert-type' => 'success',
+        ]);
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
     public function finish($id)
     {
         try {
@@ -390,6 +428,14 @@ class ExamenController extends Controller
         $estu = Estudiante::where('usuario_id', '=', $usuario)->first();
 
         $examen = Examen::find($id);
+
+        if ($examen->estado != 's') {
+            return redirect()->route('examen.index')->with([
+                'message'    => 'Examen no disponible: Por favor comunicarse con el administrador',
+                'alert-type' => 'error',
+            ]);
+        }
+
         $preguntas = $examen->preguntas;
 
         $lim = (date('Y-m-d H:i:s') >= $examen->fecha_inicial && $examen->fecha_final >= date('Y-m-d H:i:s')) ? true : false;
@@ -421,6 +467,16 @@ class ExamenController extends Controller
      */
     public function savePlay(Request $request)
     {
+
+        $exam = Examen::find($request->examen);
+
+        if ($exam->estado != 's') {
+            return redirect()->route('examen.index')->with([
+                'message'    => 'Examen no disponible: Por favor comunicarse con el administrador',
+                'alert-type' => 'error',
+            ]);
+        }
+
         try {
             DB::beginTransaction();
             $estudiante = Estudiante::where('usuario_id', '=', auth()->id())->first();
