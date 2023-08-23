@@ -6,26 +6,20 @@ use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Response;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\VacunacionRequest;
-use App\Models\Categoria;
 use App\Models\Estudiante;
 use App\Models\Examen;
 use App\Models\ExamenEstudiante;
 use App\Models\ExamenPregunta;
 use App\Models\PreguntaSimulacion;
 use App\Models\Profesor;
-use App\Models\Recurso;
-use App\Models\RecursoCampo;
 use App\Models\RespuestaSimulacion;
 use App\Models\Simulacion;
 use App\Models\User;
-use App\Models\ViaAplicacion;
 use App\Repositories\Simulacion\ExamenRepository;
 use App\Repositories\Simulacion\SimulacionRepository;
 use Carbon\Carbon;
-use DateTime;
 use Illuminate\Support\Facades\Auth;
 
 /**
