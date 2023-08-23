@@ -82,6 +82,13 @@ class SimulacionController extends Controller
         try {
             DB::beginTransaction();
             $estudiante = Estudiante::where('usuario_id', '=', auth()->id())->first();
+            if ($estudiante == null) {
+                return redirect()->route('lab-simulacion.index')->with([
+                    'message'    => 'Estudiante no valido: Por favor comunicarse con el administrador',
+                    'alert-type' => 'error',
+                ]);
+            }
+
             $sim = Simulacion::create([
                 'nota' => $this->simulacionRepository->calcNota($request->question, $request->answer, $request->recurso),
                 'tiempo' => $this->simulacionRepository->calcTime($request->ti),
@@ -105,7 +112,7 @@ class SimulacionController extends Controller
             return redirect()->route('lab-simulacion.index')->with([
                 'message'    => 'Error del sistema: Por favor comunicarse con el administrador',
                 'alert-type' => 'error',
-            ]);;
+            ]);
         }
         return redirect()->route('lab-simulacion.results', ['id' => $sim->id]);
     }

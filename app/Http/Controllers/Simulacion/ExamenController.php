@@ -430,6 +430,13 @@ class ExamenController extends Controller
             ]);
         }
 
+        if ($estu == null) {
+            return redirect()->route('lab-simulacion.index')->with([
+                'message'    => 'Estudiante no valido: Por favor comunicarse con el administrador',
+                'alert-type' => 'error',
+            ]);
+        }
+
         $preguntas = $examen->preguntas;
 
         $lim = (date('Y-m-d H:i:s') >= $examen->fecha_inicial && $examen->fecha_final >= date('Y-m-d H:i:s')) ? true : false;
@@ -463,6 +470,7 @@ class ExamenController extends Controller
     {
 
         $exam = Examen::find($request->examen);
+        $estudiante = Estudiante::where('usuario_id', '=', auth()->id())->first();
 
         if ($exam->estado != 's') {
             return redirect()->route('examen.index')->with([
@@ -471,9 +479,15 @@ class ExamenController extends Controller
             ]);
         }
 
+        if ($estudiante == null) {
+            return redirect()->route('lab-simulacion.index')->with([
+                'message'    => 'Estudiante no valido: Por favor comunicarse con el administrador',
+                'alert-type' => 'error',
+            ]);
+        }
+
         try {
             DB::beginTransaction();
-            $estudiante = Estudiante::where('usuario_id', '=', auth()->id())->first();
             $sim = Simulacion::create([
                 'nota' => $this->simulacionRepository->calcNota($request->question, $request->answer, $request->recurso),
                 'tiempo' => $this->simulacionRepository->calcTime($request->ti),
