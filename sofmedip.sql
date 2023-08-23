@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 23-08-2023 a las 01:29:59
+-- Tiempo de generación: 23-08-2023 a las 18:18:21
 -- Versión del servidor: 10.4.27-MariaDB
 -- Versión de PHP: 8.2.0
 
@@ -401,7 +401,8 @@ CREATE TABLE `examenes` (
 
 INSERT INTO `examenes` (`id`, `nombre`, `descripcion`, `fecha_inicial`, `fecha_final`, `estado`, `created_at`, `updated_at`, `profesor_id`, `duracion`, `n_pregunta`) VALUES
 (5, 'Examen 1', NULL, '2023-08-18 23:00:00', '2023-08-19 02:00:00', 'f', '2023-08-18 23:12:37', '2023-08-20 08:21:04', 2, 10, 5),
-(6, 'Examen 2', NULL, '2023-08-21 15:00:00', '2023-08-21 16:55:00', 'f', '2023-08-21 15:10:35', '2023-08-21 15:15:58', 2, 10, 5);
+(6, 'Examen 2', NULL, '2023-08-21 15:00:00', '2023-08-21 16:55:00', 'f', '2023-08-21 15:10:35', '2023-08-21 15:15:58', 2, 10, 5),
+(11, 'Examen 3', NULL, '2023-08-23 13:00:00', '2023-08-23 15:00:00', 'n', '2023-08-23 14:03:25', '2023-08-23 15:44:00', 3, 10, 2);
 
 -- --------------------------------------------------------
 
@@ -463,7 +464,11 @@ INSERT INTO `examen_preguntas` (`id`, `examen_id`, `pregunta_id`, `created_at`, 
 (28, 6, 54, '2023-08-21 15:10:35', '2023-08-21 15:10:35'),
 (29, 6, 57, '2023-08-21 15:10:35', '2023-08-21 15:10:35'),
 (30, 6, 52, '2023-08-21 15:10:35', '2023-08-21 15:10:35'),
-(31, 6, 55, '2023-08-21 15:10:35', '2023-08-21 15:10:35');
+(31, 6, 55, '2023-08-21 15:10:35', '2023-08-21 15:10:35'),
+(32, 11, 56, '2023-08-23 14:03:25', '2023-08-23 14:03:25'),
+(33, 11, 63, '2023-08-23 14:03:25', '2023-08-23 14:03:25'),
+(34, 11, 51, '2023-08-23 14:03:25', '2023-08-23 14:03:25'),
+(35, 11, 54, '2023-08-23 14:03:25', '2023-08-23 14:03:25');
 
 -- --------------------------------------------------------
 
@@ -586,7 +591,7 @@ INSERT INTO `menu_items` (`id`, `menu_id`, `title`, `url`, `target`, `icon_class
 (2, 1, 'Media', '', '_self', 'voyager-images', NULL, 5, 2, '2023-01-28 09:13:25', '2023-05-22 16:51:55', 'voyager.media.index', NULL),
 (3, 1, 'Usuarios', '', '_self', 'voyager-person', '#000000', 18, 1, '2023-01-28 09:13:25', '2023-07-08 00:37:51', 'voyager.users.index', 'null'),
 (4, 1, 'Roles', '', '_self', 'voyager-lock', NULL, 18, 4, '2023-01-28 09:13:25', '2023-08-18 23:01:17', 'voyager.roles.index', NULL),
-(5, 1, 'Herramientas', '', '_self', 'voyager-tools', '#000000', NULL, 10, '2023-01-28 09:13:25', '2023-08-21 01:21:44', NULL, ''),
+(5, 1, 'Herramientas', '', '_self', 'voyager-tools', '#000000', NULL, 9, '2023-01-28 09:13:25', '2023-08-23 15:51:16', NULL, ''),
 (6, 1, 'Menu Builder', '', '_self', 'voyager-list', NULL, 5, 1, '2023-01-28 09:13:25', '2023-05-22 16:51:55', 'voyager.menus.index', NULL),
 (7, 1, 'Database', '', '_self', 'voyager-data', NULL, 5, 3, '2023-01-28 09:13:25', '2023-05-22 16:51:55', 'voyager.database.index', NULL),
 (8, 1, 'Compass', '', '_self', 'voyager-compass', NULL, 5, 4, '2023-01-28 09:13:25', '2023-05-22 16:51:55', 'voyager.compass.index', NULL),
@@ -594,8 +599,8 @@ INSERT INTO `menu_items` (`id`, `menu_id`, `title`, `url`, `target`, `icon_class
 (10, 1, 'Ajustes', '', '_self', 'voyager-settings', '#000000', 5, 6, '2023-01-28 09:13:25', '2023-05-22 16:51:55', 'voyager.settings.index', 'null'),
 (15, 1, 'Tipo Documentos', '', '_self', 'voyager-categories', '#000000', 27, 8, '2023-01-30 23:16:47', '2023-08-22 22:42:44', 'voyager.tipo-documentos.index', 'null'),
 (16, 1, 'Estudiantes', '', '_self', 'voyager-study', NULL, 18, 2, '2023-01-31 16:19:20', '2023-07-08 00:37:51', 'voyager.estudiantes.index', NULL),
-(18, 1, 'Usuarios', '', '_self', 'voyager-people', '#000000', NULL, 8, '2023-01-31 16:37:09', '2023-08-21 01:21:44', NULL, ''),
-(27, 1, 'Parametros', '', '_self', 'voyager-params', '#000000', NULL, 9, '2023-01-31 21:24:18', '2023-08-21 01:21:44', NULL, ''),
+(18, 1, 'Usuarios', '', '_self', 'voyager-people', '#000000', NULL, 7, '2023-01-31 16:37:09', '2023-08-23 15:51:16', NULL, ''),
+(27, 1, 'Parametros', '', '_self', 'voyager-params', '#000000', NULL, 8, '2023-01-31 21:24:18', '2023-08-23 15:51:16', NULL, ''),
 (35, 1, 'Escenarios Simulaciones', '', '_self', 'voyager-play', '#000000', 27, 2, '2023-02-02 23:46:49', '2023-08-22 22:42:44', 'voyager.escenarios-simulaciones.index', 'null'),
 (41, 1, 'Niveles', '', '_self', 'voyager-paint-bucket', NULL, 27, 7, '2023-04-12 03:09:15', '2023-08-22 22:42:44', 'voyager.niveles.index', NULL),
 (42, 1, 'Categorias', '', '_self', 'voyager-categories', NULL, 27, 3, '2023-04-12 03:18:14', '2023-08-22 22:42:44', 'voyager.categorias.index', NULL),
@@ -603,16 +608,30 @@ INSERT INTO `menu_items` (`id`, `menu_id`, `title`, `url`, `target`, `icon_class
 (48, 1, 'Simulaciones', '', '_self', 'voyager-fire', '#000000', 27, 1, '2023-05-22 16:16:12', '2023-08-22 22:42:36', 'voyager.simulaciones.index', 'null'),
 (52, 1, 'Profesores', '', '_self', 'voyager-person', NULL, 18, 3, '2023-06-01 17:44:24', '2023-08-09 18:23:40', 'voyager.profesores.index', NULL),
 (54, 1, 'Via Aplicaciones', '', '_self', 'voyager-brush', '#000000', 27, 10, '2023-06-01 22:08:31', '2023-08-22 22:42:44', 'voyager.via-aplicaciones.index', 'null'),
-(57, 1, 'Examen', '/examen', '_self', 'voyager-edit', '#000000', NULL, 2, '2023-06-01 23:28:11', '2023-08-22 22:42:15', NULL, ''),
+(57, 1, 'Examen', '/examen', '_self', 'voyager-book', '#000000', NULL, 2, '2023-06-01 23:28:11', '2023-08-23 15:40:57', NULL, ''),
 (58, 1, 'Grupos', '', '_self', 'voyager-group', NULL, 27, 6, '2023-06-01 23:51:33', '2023-08-22 22:42:44', 'voyager.grupos.index', NULL),
 (60, 1, 'Campos', '', '_self', 'voyager-milestone', NULL, 27, 4, '2023-06-02 13:41:33', '2023-08-22 22:42:44', 'voyager.campos.index', NULL),
 (63, 1, 'Recursos', '', '_self', 'voyager-tree', '#000000', 27, 9, '2023-06-02 15:41:21', '2023-08-22 22:42:44', 'voyager.recursos.index', 'null'),
 (66, 1, 'Vacunación', '/vacunacion', '_self', 'voyager-lab', '#000000', NULL, 6, '2023-07-03 18:42:22', '2023-08-22 22:42:25', NULL, ''),
 (67, 1, 'Preguntas', '/preguntas', '_self', 'voyager-question', '#000000', NULL, 4, '2023-07-03 19:03:23', '2023-08-22 22:42:25', NULL, ''),
-(69, 1, 'Simulación', '/lab-simulacion', '_self', 'voyager-controller', '#000000', NULL, 5, '2023-07-16 18:48:17', '2023-08-22 22:42:25', NULL, ''),
-(70, 1, 'Estadistica', '', '_self', 'voyager-bar-chart', '#000000', NULL, 3, '2023-07-31 19:40:09', '2023-08-22 22:42:18', NULL, ''),
+(69, 1, 'Simulación', '/lab-simulacion', '_self', 'voyager-barbell', '#000000', NULL, 5, '2023-07-16 18:48:17', '2023-08-23 16:13:24', NULL, ''),
+(70, 1, 'Estadistica', '', '_self', 'fa fa-line-chart', '#000000', NULL, 3, '2023-07-31 19:40:09', '2023-08-23 15:47:09', NULL, ''),
 (72, 1, 'Participación', '/estadistica/intentos', '_self', 'voyager-bar-chart', '#000000', 70, 1, '2023-08-21 01:20:42', '2023-08-21 01:21:44', NULL, ''),
-(73, 1, 'Preguntas', '/estadistica/preguntas', '_self', 'voyager-pie-graph', '#000000', 70, 2, '2023-08-21 01:21:15', '2023-08-21 01:21:46', NULL, '');
+(73, 1, 'Preguntas', '/estadistica/preguntas', '_self', 'voyager-pie-graph', '#000000', 70, 2, '2023-08-21 01:21:15', '2023-08-21 01:21:46', NULL, ''),
+(74, 4, 'Examen', '/examen', '_self', 'voyager-book', '#000000', NULL, 1, '2023-08-23 15:41:54', '2023-08-23 15:48:39', NULL, ''),
+(75, 5, 'Examen', '/examen', '_self', 'voyager-book', '#000000', NULL, 1, '2023-08-23 15:42:08', '2023-08-23 15:48:54', NULL, ''),
+(76, 4, 'Estadistica', '', '_self', 'fa fa-line-chart', '#000000', NULL, 2, '2023-08-23 15:47:25', '2023-08-23 15:48:39', NULL, ''),
+(77, 5, 'Estadistica', '', '_self', 'fa fa-line-chart', '#000000', NULL, 2, '2023-08-23 15:47:39', '2023-08-23 15:48:54', NULL, ''),
+(78, 4, 'Participación', '/estadistica/intentos', '_self', 'voyager-bar-chart', '#000000', 76, 1, '2023-08-23 15:48:34', '2023-08-23 15:48:39', NULL, ''),
+(79, 5, 'Participación', '/estadistica/intentos', '_self', 'voyager-bar-chart', '#000000', 77, 1, '2023-08-23 15:48:51', '2023-08-23 15:48:54', NULL, ''),
+(80, 4, 'Preguntas', '/estadistica/preguntas', '_self', 'voyager-pie-graph', '#000000', 76, 2, '2023-08-23 15:49:18', '2023-08-23 15:49:21', NULL, ''),
+(81, 5, 'Preguntas', '/estadistica/preguntas', '_self', 'voyager-pie-graph', '#000000', 77, 2, '2023-08-23 15:49:35', '2023-08-23 15:49:38', NULL, ''),
+(82, 4, 'Preguntas', '/preguntas', '_self', 'voyager-question', '#000000', NULL, 10, '2023-08-23 15:51:37', '2023-08-23 15:51:37', NULL, ''),
+(83, 4, 'Simulación', '/lab-simulacion', '_self', 'voyager-barbell', '#000000', NULL, 11, '2023-08-23 15:52:59', '2023-08-23 16:14:03', NULL, ''),
+(84, 5, 'Simulación', '/lab-simulacion', '_self', 'voyager-barbell', '#000000', NULL, 12, '2023-08-23 15:53:11', '2023-08-23 16:13:52', NULL, ''),
+(85, 4, 'Vacunación', '/vacunacion', '_self', 'voyager-lab', '#000000', NULL, 13, '2023-08-23 15:53:58', '2023-08-23 15:53:58', NULL, ''),
+(86, 4, 'Usuarios', '', '_self', 'voyager-person', '#000000', NULL, 14, '2023-08-23 15:55:12', '2023-08-23 15:55:12', 'voyager.users.index', 'null'),
+(87, 4, 'Estudiantes', '', '_self', 'voyager-study', '#000000', NULL, 15, '2023-08-23 15:55:52', '2023-08-23 15:55:52', 'voyager.estudiantes.index', 'null');
 
 -- --------------------------------------------------------
 
@@ -1090,7 +1109,8 @@ CREATE TABLE `profesores` (
 --
 
 INSERT INTO `profesores` (`id`, `usuario_id`, `created_at`, `updated_at`) VALUES
-(2, 9, NULL, NULL);
+(3, 14, NULL, NULL),
+(4, 15, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -1620,7 +1640,7 @@ INSERT INTO `users` (`id`, `name`, `email`, `avatar`, `email_verified_at`, `pass
 (11, 'Luisa', 'luisa@softvap.com', 'users/default.png', NULL, '$2y$10$OCfMamiPY9zEDviHUoboZuZpY30p7N79Rn7tiQaYDM4AVBTemIOf2', NULL, NULL, '2023-08-18 17:56:37', '2023-08-18 17:56:37', 'Rojas', '1006826950', 2),
 (12, 'Santiago', 'santiago@softvap.com', 'users/default.png', NULL, '$2y$10$B1iYCHH5JQwM02AsK3f2f.M7C10iX69TD4wHEzxqoWOn8lmoTFxw.', NULL, NULL, '2023-08-18 17:58:03', '2023-08-18 17:58:03', 'Roncancio', '1121956650', 2),
 (13, 'Sebastian', 'sebastian@softvap.com', 'users/default.png', NULL, '$2y$10$o81VS0NrS8Mk5At8kV68purtMLodxuB.GzKDXLBvb7L5YPnh9tHiC', NULL, NULL, '2023-08-18 18:00:04', '2023-08-18 18:00:04', 'Rojas', '1121578144', 2),
-(14, 'MeryLuz', 'mery@softvap.com', 'users\\August2023\\AeBWLCljR34MHlpwZLtX.jpg', NULL, '$2y$10$rCg2CvGg54TxtMtqmCIaTO6K5hft9xHz39Y7M6t0zLDrdgfEBPAB6', '8NnhV161McenKeBaztRNDfvTH38kOXcapI3fmfiyRDPzsdkQ7s5yDntVdYRD', NULL, '2023-08-22 21:01:57', '2023-08-22 22:22:37', 'Valderrama', '87663245', 2),
+(14, 'MeryLuz', 'mery@softvap.com', 'users\\August2023\\AeBWLCljR34MHlpwZLtX.jpg', NULL, '$2y$10$rCg2CvGg54TxtMtqmCIaTO6K5hft9xHz39Y7M6t0zLDrdgfEBPAB6', 'XzT87b8UicqvKsw4ABK1knRuVRc0bLUsEgX6198fGvJsuqNQvAjcP43w8XD6', NULL, '2023-08-22 21:01:57', '2023-08-22 22:22:37', 'Valderrama', '87663245', 2),
 (15, 'Javier Eduardo', 'javier@softvap.com', 'users\\August2023\\1vBOfZZbaQzjRqNDtp90.jpg', NULL, '$2y$10$TgfBKPC1EbWfpPHUYUc32ObT.awgt6Td8lqj2MWTM8B2xnHlIUG.6', NULL, NULL, '2023-08-22 22:37:04', '2023-08-22 22:37:04', 'Martinez', '543456543', 2);
 
 -- --------------------------------------------------------
@@ -2002,7 +2022,7 @@ ALTER TABLE `estudiantes`
 -- AUTO_INCREMENT de la tabla `examenes`
 --
 ALTER TABLE `examenes`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT de la tabla `examen_estudiantes`
@@ -2014,7 +2034,7 @@ ALTER TABLE `examen_estudiantes`
 -- AUTO_INCREMENT de la tabla `examen_preguntas`
 --
 ALTER TABLE `examen_preguntas`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
 
 --
 -- AUTO_INCREMENT de la tabla `failed_jobs`
@@ -2050,7 +2070,7 @@ ALTER TABLE `menus`
 -- AUTO_INCREMENT de la tabla `menu_items`
 --
 ALTER TABLE `menu_items`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=74;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=88;
 
 --
 -- AUTO_INCREMENT de la tabla `migrations`
@@ -2092,7 +2112,7 @@ ALTER TABLE `preguntas_simulaciones`
 -- AUTO_INCREMENT de la tabla `profesores`
 --
 ALTER TABLE `profesores`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT de la tabla `recursos`
