@@ -5,7 +5,7 @@
 @section('page_header')
 <div class="container-fluid">
     <h1 class="page-title">
-        <i class="voyager-pie-graph"></i> Estadística
+        <i class="voyager-bar-chart"></i> Estadística
     </h1>
 </div>
 @stop

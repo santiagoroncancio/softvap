@@ -5,7 +5,7 @@
 @section('page_header')
 <div class="container-fluid">
     <h1 class="page-title">
-        <i class="voyager-news"></i>
+        <i class="voyager-question"></i>
         Preguntas de Simulación
     </h1>
     <a href="{{ route('preguntas.create') }}" class="btn btn-success">

@@ -5,7 +5,7 @@
 @section('page_header')
 <div class="container-fluid">
     <h1 class="page-title">
-        <i class="voyager-barbell"></i> Resultado de Simulación Examen
+        <i class="voyager-book"></i> Resultado de Simulación Examen
     </h1>
 </div>
 @stop

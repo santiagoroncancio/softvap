@@ -1,12 +1,12 @@
 @extends('voyager::master')
 
-@section('page_title', 'Vacunación')
+@section('page_title', 'Nuevo Usuario')
 
 @section('page_header')
 <div class="container-fluid">
     <h1 class="page-title">
-        <i class="voyager-news"></i>
-        Vacunación
+        <i class="voyager-person"></i>
+        Nuevo Usuario
     </h1>
 </div>
 @stop

@@ -5,7 +5,7 @@
 @section('page_header')
 <div class="container-fluid">
     <h1 class="page-title">
-        <i class="voyager-news"></i>
+        <i class="voyager-book"></i>
         Simulación Examen
     </h1>
     @if ($role->contains(function ($valor, $clave) {
