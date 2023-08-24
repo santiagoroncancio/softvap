@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 23-08-2023 a las 18:18:21
+-- Tiempo de generación: 24-08-2023 a las 16:49:40
 -- Versión del servidor: 10.4.27-MariaDB
 -- Versión de PHP: 8.2.0
 
@@ -105,12 +105,12 @@ CREATE TABLE `data_rows` (
 
 INSERT INTO `data_rows` (`id`, `data_type_id`, `field`, `type`, `display_name`, `required`, `browse`, `read`, `edit`, `add`, `delete`, `details`, `order`) VALUES
 (1, 1, 'id', 'number', 'ID', 1, 0, 0, 0, 0, 0, '{}', 1),
-(3, 1, 'email', 'text', 'Correo electrónico', 1, 1, 1, 1, 1, 1, '{\"validation\":{\"rule\":\"required|unique:users\",\"messages\":{\"required\":\"El campo Correo Eletr\\u00f3nico es requerido\",\"unique\":\"El campo Correo Eletr\\u00f3nico debe ser unico\"}}}', 3),
-(4, 1, 'password', 'password', 'Contraseña', 1, 0, 0, 1, 1, 0, '{}', 7),
-(5, 1, 'remember_token', 'text', 'Remember Token', 0, 0, 0, 0, 0, 0, '{}', 8),
-(6, 1, 'created_at', 'timestamp', 'Creado', 0, 0, 1, 0, 0, 0, '{}', 9),
-(7, 1, 'updated_at', 'timestamp', 'Actualizado', 0, 0, 1, 0, 0, 0, '{}', 10),
-(8, 1, 'avatar', 'image', 'Avatar', 0, 1, 1, 1, 1, 1, '{}', 11),
+(3, 1, 'email', 'text', 'Correo electrónico', 1, 1, 1, 1, 1, 1, '{\"validation\":{\"rule\":\"required|unique:users\",\"messages\":{\"required\":\"El campo Correo Eletr\\u00f3nico es requerido\",\"unique\":\"El campo Correo Eletr\\u00f3nico debe ser unico\"}}}', 5),
+(4, 1, 'password', 'password', 'Contraseña', 1, 0, 0, 1, 1, 0, '{}', 9),
+(5, 1, 'remember_token', 'text', 'Remember Token', 0, 0, 0, 0, 0, 0, '{}', 10),
+(6, 1, 'created_at', 'timestamp', 'Creado', 0, 0, 1, 0, 0, 0, '{}', 11),
+(7, 1, 'updated_at', 'timestamp', 'Actualizado', 0, 0, 1, 0, 0, 0, '{}', 12),
+(8, 1, 'avatar', 'image', 'Avatar', 0, 1, 1, 1, 1, 1, '{}', 13),
 (11, 1, 'settings', 'hidden', 'Settings', 0, 0, 0, 0, 0, 0, '{}', 14),
 (12, 2, 'id', 'number', 'ID', 1, 0, 0, 0, 0, 0, NULL, 1),
 (13, 2, 'name', 'text', 'Name', 1, 1, 1, 1, 1, 1, NULL, 2),
@@ -121,12 +121,12 @@ INSERT INTO `data_rows` (`id`, `data_type_id`, `field`, `type`, `display_name`, 
 (18, 3, 'created_at', 'timestamp', 'Created At', 0, 0, 0, 0, 0, 0, '{}', 4),
 (19, 3, 'updated_at', 'timestamp', 'Updated At', 0, 0, 0, 0, 0, 0, '{}', 5),
 (20, 3, 'display_name', 'text', 'Nombre', 1, 1, 1, 1, 1, 1, '{\"validation\":{\"rule\":\"required\",\"messages\":{\"required\":\"El campo Nombre para mostrar es obligatorio.\"}}}', 3),
-(56, 1, 'email_verified_at', 'timestamp', 'Verificado', 0, 1, 1, 1, 1, 1, '{}', 6),
+(56, 1, 'email_verified_at', 'timestamp', 'Verificado', 0, 0, 1, 1, 1, 1, '{}', 8),
 (60, 3, 'description', 'text', 'Descripción', 0, 1, 1, 1, 1, 1, '{}', 6),
-(61, 1, 'name', 'text', 'Nombre', 1, 1, 1, 1, 1, 1, '{\"validation\":{\"rule\":\"required\",\"messages\":{\"required\":\"El campo Nombre es requerido\"}}}', 4),
-(62, 1, 'surname', 'text', 'Apellido', 1, 1, 1, 1, 1, 1, '{\"validation\":{\"rule\":\"required\",\"messages\":{\"required\":\"El campo Apellido es requerido\"}}}', 5),
-(63, 1, 'identification', 'text', 'Identificación', 1, 1, 1, 1, 1, 1, '{\"validation\":{\"rule\":\"required|unique:users\",\"messages\":{\"required\":\"El campo Identificaci\\u00f3n es requerido\",\"unique\":\"El campo Identificaci\\u00f3n debe ser unico\"}}}', 2),
-(65, 1, 'tipo_documento', 'select_dropdown', 'Tipo Documento', 1, 1, 1, 1, 1, 1, '{\"validation\":{\"rule\":\"required\",\"messages\":{\"required\":\"El campo Tipo Documento es requerido\"}}}', 13),
+(61, 1, 'name', 'text', 'Nombre', 1, 1, 1, 1, 1, 1, '{\"validation\":{\"rule\":\"required\",\"messages\":{\"required\":\"El campo Nombre es requerido\"}}}', 6),
+(62, 1, 'surname', 'text', 'Apellido', 1, 1, 1, 1, 1, 1, '{\"validation\":{\"rule\":\"required\",\"messages\":{\"required\":\"El campo Apellido es requerido\"}}}', 7),
+(63, 1, 'identification', 'text', 'Identificación', 1, 1, 1, 1, 1, 1, '{\"validation\":{\"rule\":\"required|unique:users\",\"messages\":{\"required\":\"El campo Identificaci\\u00f3n es requerido\",\"unique\":\"El campo Identificaci\\u00f3n debe ser unico\"}}}', 4),
+(65, 1, 'tipo_documento', 'select_dropdown', 'Tipo Documento', 1, 1, 1, 1, 1, 1, '{\"validation\":{\"rule\":\"required\",\"messages\":{\"required\":\"El campo Tipo Documento es requerido\"}}}', 3),
 (69, 8, 'id', 'text', 'Id', 1, 0, 0, 0, 0, 0, '{}', 1),
 (70, 8, 'nombre', 'text', 'Nombre', 1, 1, 1, 1, 1, 1, '{\"validation\":{\"rule\":\"required\",\"messages\":{\"required\":\"El campo nombre es requerido\"}}}', 2),
 (71, 8, 'descripcion', 'text_area', 'Descripción', 0, 1, 1, 1, 1, 1, '{}', 3),
@@ -152,7 +152,7 @@ INSERT INTO `data_rows` (`id`, `data_type_id`, `field`, `type`, `display_name`, 
 (93, 11, 'paciente_belongsto_user_relationship', 'relationship', 'Usuario', 1, 1, 1, 1, 1, 1, '{\"model\":\"\\\\App\\\\Models\\\\User\",\"table\":\"users\",\"type\":\"belongsTo\",\"column\":\"usuario_id\",\"key\":\"id\",\"label\":\"identification\",\"pivot_table\":\"data_rows\",\"pivot\":\"0\",\"taggable\":\"0\"}', 9),
 (94, 11, 'usuario_id', 'text', 'Usuario Id', 0, 1, 1, 1, 1, 1, '{}', 9),
 (95, 11, 'fecha_nacimiento', 'date', 'Fecha Nacimiento', 0, 1, 1, 1, 1, 1, '{\"validation\":{\"rule\":\"required|date|date_format:Y-m-d|before:tomorrow\",\"messages\":{\"required\":\"El campo Fecha Nacimiento es requerido\",\"date\":\"El campo Fecha Nacimiento debe ser de tipo fecha\",\"date_format\":\"El campo Fecha Nacimiento debe tener el formato: a\\u00f1o-mes-dia\",\"before\":\"El campo Fecha Nacimiento no debe ser mayor a hoy\"}}}', 3),
-(96, 1, 'user_belongsto_tipo_documento_relationship', 'relationship', 'Tipo documento', 0, 1, 1, 1, 1, 1, '{\"model\":\"\\\\App\\\\Models\\\\TipoDocumento\",\"table\":\"tipo_documentos\",\"type\":\"belongsTo\",\"column\":\"tipo_documento\",\"key\":\"id\",\"label\":\"nombre\",\"pivot_table\":\"calificaciones\",\"pivot\":\"0\",\"taggable\":\"0\"}', 12),
+(96, 1, 'user_belongsto_tipo_documento_relationship', 'relationship', 'Tipo documento', 0, 1, 1, 1, 1, 1, '{\"model\":\"\\\\App\\\\Models\\\\TipoDocumento\",\"table\":\"tipo_documentos\",\"type\":\"belongsTo\",\"column\":\"tipo_documento\",\"key\":\"id\",\"label\":\"nombre\",\"pivot_table\":\"calificaciones\",\"pivot\":\"0\",\"taggable\":\"0\"}', 2),
 (113, 1, 'user_belongstomany_role_relationship', 'relationship', 'Roles', 1, 1, 1, 1, 1, 1, '{\"model\":\"TCG\\\\Voyager\\\\Models\\\\Role\",\"table\":\"roles\",\"type\":\"belongsToMany\",\"column\":\"id\",\"key\":\"id\",\"label\":\"display_name\",\"pivot_table\":\"user_roles\",\"pivot\":\"1\",\"taggable\":\"0\"}', 15),
 (141, 8, 'created_at', 'timestamp', 'Creado', 0, 0, 1, 0, 0, 0, '{}', 4),
 (142, 8, 'updated_at', 'timestamp', 'Actualizado', 0, 0, 1, 0, 0, 0, '{}', 5),
@@ -299,7 +299,7 @@ CREATE TABLE `data_types` (
 --
 
 INSERT INTO `data_types` (`id`, `name`, `slug`, `display_name_singular`, `display_name_plural`, `icon`, `model_name`, `policy_name`, `controller`, `description`, `generate_permissions`, `server_side`, `details`, `created_at`, `updated_at`) VALUES
-(1, 'users', 'users', 'Usuario', 'Usuarios', 'voyager-person', 'TCG\\Voyager\\Models\\User', 'TCG\\Voyager\\Policies\\UserPolicy', '\\App\\Http\\Controllers\\VoyagerUserController', NULL, 1, 0, '{\"order_column\":\"identification\",\"order_display_column\":null,\"order_direction\":\"asc\",\"default_search_key\":null,\"scope\":null}', '2023-01-28 09:13:25', '2023-08-18 18:20:19'),
+(1, 'users', 'users', 'Usuario', 'Usuarios', 'voyager-person', 'TCG\\Voyager\\Models\\User', 'TCG\\Voyager\\Policies\\UserPolicy', '\\App\\Http\\Controllers\\VoyagerUserController', NULL, 1, 0, '{\"order_column\":\"identification\",\"order_display_column\":null,\"order_direction\":\"asc\",\"default_search_key\":null,\"scope\":null}', '2023-01-28 09:13:25', '2023-08-23 18:10:40'),
 (2, 'menus', 'menus', 'Menu', 'Menus', 'voyager-list', 'TCG\\Voyager\\Models\\Menu', NULL, '', '', 1, 0, NULL, '2023-01-28 09:13:25', '2023-01-28 09:13:25'),
 (3, 'roles', 'roles', 'Role', 'Roles', 'voyager-lock', 'TCG\\Voyager\\Models\\Role', NULL, 'TCG\\Voyager\\Http\\Controllers\\VoyagerRoleController', NULL, 1, 0, '{\"order_column\":null,\"order_display_column\":null,\"order_direction\":\"asc\",\"default_search_key\":null,\"scope\":null}', '2023-01-28 09:13:25', '2023-01-31 23:33:55'),
 (8, 'tipo_documentos', 'tipo-documentos', 'Tipo Documento', 'Tipo Documentos', 'voyager-categories', 'App\\Models\\TipoDocumento', NULL, NULL, NULL, 1, 0, '{\"order_column\":\"nombre\",\"order_display_column\":null,\"order_direction\":\"asc\",\"default_search_key\":null,\"scope\":null}', '2023-01-30 23:16:47', '2023-01-31 23:38:10'),
@@ -402,7 +402,7 @@ CREATE TABLE `examenes` (
 INSERT INTO `examenes` (`id`, `nombre`, `descripcion`, `fecha_inicial`, `fecha_final`, `estado`, `created_at`, `updated_at`, `profesor_id`, `duracion`, `n_pregunta`) VALUES
 (5, 'Examen 1', NULL, '2023-08-18 23:00:00', '2023-08-19 02:00:00', 'f', '2023-08-18 23:12:37', '2023-08-20 08:21:04', 2, 10, 5),
 (6, 'Examen 2', NULL, '2023-08-21 15:00:00', '2023-08-21 16:55:00', 'f', '2023-08-21 15:10:35', '2023-08-21 15:15:58', 2, 10, 5),
-(11, 'Examen 3', NULL, '2023-08-23 13:00:00', '2023-08-23 15:00:00', 'n', '2023-08-23 14:03:25', '2023-08-23 15:44:00', 3, 10, 2);
+(11, 'Examen 3', NULL, '2023-08-23 13:00:00', '2023-08-23 15:00:00', 's', '2023-08-23 14:03:25', '2023-08-23 18:23:05', 3, 10, 2);
 
 -- --------------------------------------------------------
 
@@ -1406,7 +1406,29 @@ INSERT INTO `respuesta_simulaciones` (`id`, `valor`, `recurso_id`, `simulacion_i
 (209, '25', 13, 96, '2023-08-21 15:14:30', '2023-08-21 15:14:30'),
 (210, '25', 14, 96, '2023-08-21 15:14:30', '2023-08-21 15:14:30'),
 (211, '8', NULL, 97, '2023-08-21 15:14:40', '2023-08-21 15:14:40'),
-(212, '11', 1, 97, '2023-08-21 15:14:40', '2023-08-21 15:14:40');
+(212, '11', 1, 97, '2023-08-21 15:14:40', '2023-08-21 15:14:40'),
+(213, '7', NULL, 98, '2023-08-23 17:55:26', '2023-08-23 17:55:26'),
+(214, '10', 1, 98, '2023-08-23 17:55:26', '2023-08-23 17:55:26'),
+(215, '23', 6, 99, '2023-08-23 18:42:39', '2023-08-23 18:42:39'),
+(216, '23', 7, 99, '2023-08-23 18:42:39', '2023-08-23 18:42:39'),
+(217, '23', 9, 99, '2023-08-23 18:42:39', '2023-08-23 18:42:39'),
+(218, '23', 6, 102, '2023-08-23 19:11:49', '2023-08-23 19:11:49'),
+(219, '23', 7, 102, '2023-08-23 19:11:49', '2023-08-23 19:11:49'),
+(220, '23', 9, 102, '2023-08-23 19:11:49', '2023-08-23 19:11:49'),
+(221, '1', 6, 103, '2023-08-23 19:12:12', '2023-08-23 19:12:12'),
+(222, '1', 7, 103, '2023-08-23 19:12:12', '2023-08-23 19:12:12'),
+(223, '1', 8, 103, '2023-08-23 19:12:12', '2023-08-23 19:12:12'),
+(224, '1', 9, 103, '2023-08-23 19:12:12', '2023-08-23 19:12:12'),
+(225, '6', NULL, 104, '2023-08-23 19:12:46', '2023-08-23 19:12:46'),
+(226, '7', 1, 104, '2023-08-23 19:12:46', '2023-08-23 19:12:46'),
+(227, '8', 2, 104, '2023-08-23 19:12:46', '2023-08-23 19:12:46'),
+(228, '10', NULL, 105, '2023-08-23 19:13:08', '2023-08-23 19:13:08'),
+(229, '11', 1, 105, '2023-08-23 19:13:08', '2023-08-23 19:13:08'),
+(230, '10', NULL, 106, '2023-08-23 19:13:27', '2023-08-23 19:13:27'),
+(231, '11', 1, 106, '2023-08-23 19:13:27', '2023-08-23 19:13:27'),
+(232, '22', 2, 106, '2023-08-23 19:13:27', '2023-08-23 19:13:27'),
+(233, '6', NULL, 107, '2023-08-23 19:16:21', '2023-08-23 19:16:21'),
+(234, '4', NULL, 108, '2023-08-23 19:16:30', '2023-08-23 19:16:30');
 
 -- --------------------------------------------------------
 
@@ -1507,7 +1529,16 @@ INSERT INTO `simulaciones` (`id`, `nota`, `pregunta_id`, `estudiante_id`, `creat
 (94, 0, 55, 4, '2023-08-21 15:14:08', '2023-08-21 15:14:08', '00:00:24', 3, 6),
 (95, 0, 52, 4, '2023-08-21 15:14:19', '2023-08-21 15:14:19', '00:00:11', 3, 6),
 (96, 0, 54, 4, '2023-08-21 15:14:30', '2023-08-21 15:14:30', '00:00:11', 2, 6),
-(97, 11, 63, 4, '2023-08-21 15:14:40', '2023-08-21 15:14:40', '00:00:09', 1, 6);
+(97, 11, 63, 4, '2023-08-21 15:14:40', '2023-08-21 15:14:40', '00:00:09', 1, 6),
+(98, 25, 50, 8, '2023-08-23 17:55:26', '2023-08-23 17:55:26', '00:00:06', 1, NULL),
+(99, 0, 51, 7, '2023-08-23 18:42:39', '2023-08-23 18:42:39', '00:00:08', 2, NULL),
+(102, 100, 51, 7, '2023-08-23 19:11:49', '2023-08-23 19:11:49', '00:29:18', 2, NULL),
+(103, 75, 52, 7, '2023-08-23 19:12:12', '2023-08-23 19:12:12', '00:00:15', 3, NULL),
+(104, 0, 60, 7, '2023-08-23 19:12:46', '2023-08-23 19:12:46', '00:00:13', 1, NULL),
+(105, 50, 60, 7, '2023-08-23 19:13:08', '2023-08-23 19:13:08', '00:00:35', 1, NULL),
+(106, 75, 60, 7, '2023-08-23 19:13:27', '2023-08-23 19:13:27', '00:00:54', 1, NULL),
+(107, 0, 59, 7, '2023-08-23 19:16:21', '2023-08-23 19:16:21', '00:00:07', NULL, NULL),
+(108, 100, 59, 7, '2023-08-23 19:16:30', '2023-08-23 19:16:30', '00:00:16', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -2016,7 +2047,7 @@ ALTER TABLE `escenarios_simulaciones`
 -- AUTO_INCREMENT de la tabla `estudiantes`
 --
 ALTER TABLE `estudiantes`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT de la tabla `examenes`
@@ -2136,7 +2167,7 @@ ALTER TABLE `respuesta_preguntas`
 -- AUTO_INCREMENT de la tabla `respuesta_simulaciones`
 --
 ALTER TABLE `respuesta_simulaciones`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=213;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=235;
 
 --
 -- AUTO_INCREMENT de la tabla `roles`
@@ -2154,7 +2185,7 @@ ALTER TABLE `settings`
 -- AUTO_INCREMENT de la tabla `simulaciones`
 --
 ALTER TABLE `simulaciones`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=98;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=109;
 
 --
 -- AUTO_INCREMENT de la tabla `tipo_documentos`
