@@ -61,7 +61,7 @@ class SimulacionRepository
 
             foreach ($resp as $valor) {
                 $aux = $valor->recurso->campos->where('campo_id', '=', $ps->campo_id)->first()->valor;
-                if ($aux == $res->get($valor->id)) {
+                if ($aux == $res->get($valor->valor)) {
                     $puntos = $puntos + 1;
                 }
             }
