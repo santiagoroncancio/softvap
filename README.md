@@ -1,4 +1,4 @@
-# Proyecto de Cuestionarios de Vacunación en Pediatría
+# Suministros de Vacunación en Pediatría
 
 Este proyecto tiene como objetivo brindar una plataforma dedicada a la creación, gestión y resolución de cuestionarios relacionados con el suministro de vacunas en el ámbito de la pediatría. Los cuestionarios ofrecen una herramienta interactiva y educativa que facilita el aprendizaje sobre la inmunización infantil. Están diseñados con el propósito de evaluar y hacer seguimiento al proceso de aprendizaje.
 
