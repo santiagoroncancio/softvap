@@ -55,7 +55,7 @@
                                 @if ($role->contains(function ($valor, $clave) {
                                 return in_array($valor['name'], ['admin', 'teacher']);
                                 }))
-                                <td>{{$dato->estudiante->user->getName()}}</td>
+                                <td>{{$dato->estudiante != null ? $dato->estudiante->user->getName() : ''}}</td>
                                 @endif
                             </tr>
                             @endforeach
