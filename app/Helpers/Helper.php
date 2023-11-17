@@ -13,16 +13,4 @@ use ParseError;
  */
 class Helper
 {
-    /**
-     * Calcula la operacion en el sistema internacional
-     * @param float $valor
-     * @param int $unidad
-     * @return float
-     */
-    public static function calSi($valor, $unidad, $decimal = 10)
-    {
-        $um = UnidadMedida::find($unidad);
-        $data = $valor * $um->equivalencia;
-        return round($data, $decimal);
-    }
 }

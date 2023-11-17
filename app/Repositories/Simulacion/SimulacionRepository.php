@@ -43,7 +43,14 @@ class SimulacionRepository
         $ti = new DateTime($ti);
         $tf = new DateTime("now");
         $tiempo = $tf->diff($ti);
-        return $tiempo->format("%h:%i:%s");
+
+        // Obtener la diferencia total en segundos
+        $diasEnSegundos = $tiempo->days * 86400;
+        $horasEnSegundos = $tiempo->h * 3600;
+        $minutosEnSegundos = $tiempo->i * 60;
+        $segundos = $tiempo->s;
+
+        return $diasEnSegundos + $horasEnSegundos + $minutosEnSegundos + $segundos;
     }
 
     public function calcNota($question_id, $answer, $recurso)
@@ -51,7 +58,8 @@ class SimulacionRepository
         $ps = PreguntaSimulacion::find($question_id);
         $respuestas = $ps->respuestas;
 
-        $valorPunto = 100 / $respuestas->count();
+        // La maxima nota es 5
+        $valorPunto = 5 / $respuestas->count();
         $puntos = 0;
         $puntosNegativos = 0;
 
@@ -66,6 +74,7 @@ class SimulacionRepository
                 }
             }
         } else {
+            // Pregunta abierta
             // Transfomar respuestas correctas sin espacios y minusculas
             $respuestasTransformadas = $respuestas->pluck('valor')->map(function ($valor) {
                 return strtolower(str_replace(' ', '', $valor));
@@ -85,7 +94,7 @@ class SimulacionRepository
 
         $nota = ($puntos * $valorPunto) - ($puntosNegativos * $valorPunto);
         $nota = $nota >= 0 ? $nota : 0;
-        return round($nota, 0);
+        return round($nota, 2);
     }
 
     public function aprobado($calificaciones)

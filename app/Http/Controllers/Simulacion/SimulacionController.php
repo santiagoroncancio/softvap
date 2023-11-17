@@ -81,6 +81,7 @@ class SimulacionController extends Controller
     {
         try {
             DB::beginTransaction();
+
             $estudiante = Estudiante::where('usuario_id', '=', auth()->id())->first();
             if ($estudiante == null) {
                 return redirect()->route('lab-simulacion.index')->with([
