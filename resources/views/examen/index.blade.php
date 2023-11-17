@@ -33,6 +33,11 @@
                                 <th scope="col">Profesor</th>
                                 <th scope="col">Duración (Minutos)</th>
                                 <th scope="col">N Preguntas</th>
+                                @if ($role->contains(function ($valor, $clave) {
+                                return in_array($valor['name'], ['admin', 'teacher']);
+                                }))
+                                <th scope="col">Creación</th>
+                                @endif
                                 <th scope="col">Acción</th>
                             </tr>
                         </thead>
@@ -44,6 +49,11 @@
                                 <td>{{ $d->profesor != null ? $d->profesor->user->getName() : '' }}</td>
                                 <td>{{ $d->duracion }}</td>
                                 <td>{{ count($d->preguntas) }}</td>
+                                @if ($role->contains(function ($valor, $clave) {
+                                return in_array($valor['name'], ['admin', 'teacher']);
+                                }))
+                                <td>{{ $d->created_at }}</td>
+                                @endif
                                 <td>
                                     <div class="actions">
                                         @if ($role->contains(function ($valor, $clave) {

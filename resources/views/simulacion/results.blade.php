@@ -17,6 +17,9 @@
         <div class="col-md-12">
             <div class="card">
                 <div class="card-body">
+                    <a href="{{ route('lab-simulacion.random') }}" class="btn btn-primary float-right">
+                        <i class="voyager-wand"></i> <span>Al Azar</span>
+                    </a>
                     <h5 class="card-title">
                         Resultados
                     </h5>
@@ -26,7 +29,7 @@
                                 <th scope="col">Pregunta</th>
                                 <th class="col">Respuesta Correcta</th>
                                 <th scope="col">Respuesta Digitada</th>
-                                <th scope="col">Tiempo</th>
+                                <th scope="col">Tiempo (seg)</th>
                                 <th scope="col">Nota</th>
                             </tr>
                         </thead>

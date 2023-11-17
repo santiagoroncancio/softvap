@@ -71,7 +71,14 @@ class ExamenController extends Controller
     {
         $usuario = Auth::user()->id;
         $role = User::find($usuario)->roles;
+
         $examen = Examen::all();
+        if ($role->contains(function ($valor, $clave) {
+            return in_array($valor['name'], ['student']);
+        })) {
+            $examen = Examen::where('estado', '<>', 'c')
+                ->get();
+        }
 
         $examen = $examen->map(function ($examen) {
             $examen->disponible = (date('Y-m-d H:i:s') >= $examen->fecha_inicial && $examen->fecha_final >= date('Y-m-d H:i:s')) ? true : false; // Agregar el atributo
