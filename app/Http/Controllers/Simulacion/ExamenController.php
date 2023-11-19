@@ -288,7 +288,7 @@ class ExamenController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function finish($id)
+    public function finish($id, $notaMaxima = 5)
     {
         try {
             DB::beginTransaction();
@@ -297,27 +297,31 @@ class ExamenController extends Controller
                 'estado' => 'f'
             ]);
 
-            $examen = Examen::find($id);
             $simu = Simulacion::where('examen_id', '=', $id)
                 ->get()
                 ->groupBy('estudiante_id');
 
             foreach ($simu as $sm) {
-                $suma = 0;
+                $tiempo = 0;
+                $puntuacionTotal = 0;
+                $puntuacion = 0;
+
                 foreach ($sm as $s) {
-                    $duracionSegundos = strtotime($s->tiempo) - strtotime('00:00:00');
-                    $suma += $duracionSegundos;
+                    $tiempo += $s->tiempo;
+                    $nivel = $s->pregunta->nivel;
+
+                    $aux = $this->examenRepository->calcMultiplicador($s->tiempo, $nivel->tiempo_maximo, $nivel->multiplicador);
+                    $puntuacion += ($s->nota * $aux);
+                    $puntuacionTotal += ($notaMaxima * $nivel->multiplicador);
                 }
 
-                $cc = Carbon::parse($suma);
-                $sum = $sm->sum('nota');
-                $avg = $sum / $examen->n_pregunta;
+                $nota = ($puntuacion * $notaMaxima) / $puntuacionTotal;
 
                 ExamenEstudiante::create([
-                    'examen_id' => $sm->first()->examen_id,
+                    'examen_id' => $id,
                     'estudiante_id' => $sm->first()->estudiante_id,
-                    'nota' => round($avg, 2),
-                    'tiempo' => $cc->format('H:i:s')
+                    'nota' => round($nota, 2),
+                    'tiempo' => $tiempo
                 ]);
             }
 

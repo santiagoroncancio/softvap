@@ -17,4 +17,16 @@ use Illuminate\Support\Facades\DB;
  */
 class ExamenRepository
 {
+
+    public function calcMultiplicador($tiempo, $tiempoMaximo, $multiplicador)
+    {
+        if ($tiempo >= $tiempoMaximo) {
+            return 0;
+        } elseif ($tiempo <= 1) {
+            return $multiplicador;
+        } else {
+            $aux = $multiplicador - (($tiempo - 1) / ($tiempoMaximo - 1)) * $multiplicador;
+            return max(0, $aux);
+        }
+    }
 }
