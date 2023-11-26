@@ -5,6 +5,7 @@ use App\Http\Controllers\Simulacion\PreguntasController;
 use App\Http\Controllers\Simulacion\SimulacionController;
 use App\Http\Controllers\Simulacion\VacunacionController;
 use App\Http\Controllers\Simulacion\ExamenController;
+use App\Http\Controllers\Usuario\EstudianteController;
 use App\Http\Controllers\Usuario\UsuarioController;
 use Illuminate\Support\Facades\Route;
 use TCG\Voyager\Facades\Voyager;
@@ -32,6 +33,7 @@ Route::middleware(['auth'])->group(function () {
         Route::resource('vacunacion', VacunacionController::class);
         Route::resource('preguntas', PreguntasController::class);
         Route::resource('usuarios', UsuarioController::class);
+        Route::resource('estudiantes', EstudianteController::class);
     });
 
     // Rutas de examen

@@ -13,12 +13,15 @@ class User extends \TCG\Voyager\Models\User
 {
     use HasApiTokens, HasFactory, Notifiable;
 
+    protected $primaryKey = 'id'; // or null
+
     /**
      * The attributes that are mass assignable.
      *
      * @var array<int, string>
      */
     protected $fillable = [
+        'tipo_documento',
         'identification',
         'name',
         'surname',

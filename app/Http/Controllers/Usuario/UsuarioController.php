@@ -6,23 +6,21 @@ use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Response;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\VacunacionRequest;
-use App\Models\Categoria;
-use App\Models\Recurso;
-use App\Models\RecursoCampo;
-use App\Models\ViaAplicacion;
-use App\Repositories\Usuario\UsuarioRepository;
-use App\Repositories\Vacunacion\VacunacionRepository;
+use App\Models\TipoDocumento;
+use App\Repositories\Simulacion\ExamenRepository;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Response;
 
 /**
- * Controlador Maneja Lógica de Usuario
+ * Controlador Maneja Lógica de Estudiante
  *
- * Controlador que maneja la lógica de Usuario.
+ * Controlador que maneja la lógica de Estudiante.
  *
  * @package    Controllers
- * @subpackage \Simulacion
+ * @subpackage \Usuario
  * @copyright  2023 softvap 1.0
  * @author     Santiago Roncancio <Sntgrncnc@gmail.com>
  * @version    v1.0
@@ -31,21 +29,46 @@ use App\Repositories\Vacunacion\VacunacionRepository;
 class UsuarioController extends Controller
 {
     /**
-     * Objeto vacunacionRepository.
-     *
-     * @var object
-     */
-    private $usuarioRepository;
-
-    /**
      * Constructor de la clase.
      *
      * @access public
-     * @param UsuarioRepository $usuarioRepository
+     * @param examenRepository $examenRepository
      */
-    public function __construct(UsuarioRepository $usuarioRepository)
+    public function __construct()
     {
-        $this->usuarioRepository = $usuarioRepository;
+        // $this->usuarioRepository = $usuarioRepository;
+        // $this->estudianteRepository = $estudianteRepository;
+    }
+
+    /**
+     * Devuelve los escenarios
+     *
+     * @param $string $term dato de entrada para busqueda.
+     * @param $int $page pagina de busqueda.
+     *
+     * @return array
+     */
+    public function selectEscenario(Request $request)
+    {
+        $term = trim($request->term) ?? '';
+        $page = $request->page ?? '1';
+
+        $um = TipoDocumento::where('nombre', 'LIKE', '%' . $term . '%')
+            ->select(
+                'id',
+                'nombre as text'
+            )
+            ->paginate(10);
+
+        $morePages = ($page * $um->perPage()) < $um->total();
+        $data  = [
+            'incomplete_results' => false,
+            'more' => $morePages,
+            'total_count' => $um->total(),
+            'results' => $um
+        ];
+
+        return Response::json($data, 200, [], JSON_PRETTY_PRINT);
     }
 
     /**
@@ -55,193 +78,131 @@ class UsuarioController extends Controller
      */
     public function index()
     {
-        // $data = $this->vacunacionRepository->index();
-        // return view('vacunacion.index', compact('data'));
+        // $usuario = Auth::user()->id;
+        // $role = User::find($usuario)->roles;
+        // $estudiante = Estudiante::all();
+        // return view('estudiante.index', compact('estudiante', 'role'));
     }
 
-    // /**
-    //  * Display the specified resource.
-    //  *
-    //  * @param  int  $id
-    //  * @return \Illuminate\Http\Response
-    //  */
-    // public function create()
-    // {
-    //     return view('vacunacion.create');
-    // }
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function create()
+    {
+        //     $usuario = Auth::user()->id;
+        //     $role = User::find($usuario)->roles;
 
-    // /**
-    //  * Store a newly created resource in storage.
-    //  *
-    //  * @param  \Illuminate\Http\Request  $request
-    //  * @return \Illuminate\Http\Response
-    //  */
-    // public function store(VacunacionRequest $request)
-    // {
-    //     try {
-    //         DB::beginTransaction();
+        //     return view('estudiante.create', compact('role'));
+    }
 
-    //         $vac = Categoria::where('nombre', 'LIKE', 'vacunacion')
-    //             ->first();
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store(Request $request)
+    {
 
-    //         $recurso = Recurso::create([
-    //             'nombre' => $request->nombre,
-    //             'categoria_id' => $vac->id
-    //         ]);
+        try {
+            DB::beginTransaction();
 
-    //         RecursoCampo::create([
-    //             'recurso_id' => $recurso->id,
-    //             'campo_id' => 1,
-    //             'valor' => $request->nombre
-    //         ]);
+            DB::commit();
+        } catch (Exception $ex) {
+            Log::debug($ex->getMessage() . ' - ' . $ex->getLine() . ' - ' . $ex->getFile());
+            DB::rollBack();
+            return redirect()->route('examen.index')->with([
+                'message'    => 'Error del sistema: Por favor comunicarse con el administrador',
+                'alert-type' => 'error',
+            ]);
+        }
+        return redirect()->route('examen.index')->with([
+            'message'    => 'Se registro el examen',
+            'alert-type' => 'success',
+        ]);
+    }
 
-    //         RecursoCampo::create([
-    //             'recurso_id' => $recurso->id,
-    //             'campo_id' => 2,
-    //             'valor' => $request->calibre
-    //         ]);
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function edit($id)
+    {
+    }
 
-    //         RecursoCampo::create([
-    //             'recurso_id' => $recurso->id,
-    //             'campo_id' => 3,
-    //             'valor' => $request->via_aplicacion
-    //         ]);
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function update(VacunacionRequest $request, $id)
+    {
+        // try {
+        //     DB::beginTransaction();
 
-    //         DB::commit();
-    //     } catch (Exception $ex) {
-    //         Log::debug($ex->getMessage() . ' - ' . $ex->getLine() . ' - ' . $ex->getFile());
-    //         DB::rollBack();
-    //         return redirect()->route('vacunacion.index')->with([
-    //             'message'    => 'Error del sistema: Por favor comunicarse con el administrador',
-    //             'alert-type' => 'error',
-    //         ]);
-    //     }
-    //     return redirect()->route('vacunacion.index')->with([
-    //         'message'    => 'Se registro la vacuna',
-    //         'alert-type' => 'success',
-    //     ]);
-    // }
+        //     DB::commit();
+        // } catch (Exception $ex) {
+        //     Log::debug($ex->getMessage() . ' - ' . $ex->getLine() . ' - ' . $ex->getFile());
+        //     DB::rollBack();
+        //     return redirect()->route('vacunacion.index')->with([
+        //         'message'    => 'Error del sistema: Por favor comunicarse con el administrador',
+        //         'alert-type' => 'error',
+        //     ]);
+        // }
+        // return redirect()->route('vacunacion.index')->with([
+        //     'message'    => 'Se Actualizo la vacuna',
+        //     'alert-type' => 'success',
+        // ]);
+    }
 
-    // /**
-    //  * Show the form for editing the specified resource.
-    //  *
-    //  * @param  int  $id
-    //  * @return \Illuminate\Http\Response
-    //  */
-    // public function edit($id)
-    // {
-    //     $data = $this->vacunacionRepository->show($id);
-    //     return view('vacunacion.edit', compact('data'));
-    // }
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function show($id)
+    {
+        // $usuario = Auth::user()->id;
+        // $role = User::find($usuario)->roles;
 
-    // /**
-    //  * Update the specified resource in storage.
-    //  *
-    //  * @param  \Illuminate\Http\Request  $request
-    //  * @param  int  $id
-    //  * @return \Illuminate\Http\Response
-    //  */
-    // public function update(VacunacionRequest $request, $id)
-    // {
-    //     try {
-    //         DB::beginTransaction();
+        // $profesor = Profesor::all();
+        // if ($role->contains('name', 'teacher')) {
+        //     $profesor = Profesor::where('usuario_id', '=', $usuario);
+        // }
+        // $pregunta = PreguntaSimulacion::all();
+        // return view('examen.create', compact('profesor', 'pregunta', 'role'));
+    }
 
-    //         Recurso::find($id)
-    //             ->where([
-    //                 'nombre' => $request->nombre
-    //             ]);
-
-    //         RecursoCampo::where('recurso_id', '=', $id)
-    //             ->where('campo_id', '=', 1)
-    //             ->update([
-    //                 'valor' => $request->nombre
-    //             ]);
-
-    //         RecursoCampo::where('recurso_id', '=', $id)
-    //             ->where('campo_id', '=', 2)
-    //             ->update([
-    //                 'valor' => $request->calibre
-    //             ]);
-
-    //         RecursoCampo::where('recurso_id', '=', $id)
-    //             ->where('campo_id', '=', 3)
-    //             ->update([
-    //                 'valor' => $request->via_aplicacion
-    //             ]);
-
-    //         DB::commit();
-    //     } catch (Exception $ex) {
-    //         Log::debug($ex->getMessage() . ' - ' . $ex->getLine() . ' - ' . $ex->getFile());
-    //         DB::rollBack();
-    //         return redirect()->route('vacunacion.index')->with([
-    //             'message'    => 'Error del sistema: Por favor comunicarse con el administrador',
-    //             'alert-type' => 'error',
-    //         ]);
-    //     }
-    //     return redirect()->route('vacunacion.index')->with([
-    //         'message'    => 'Se Actualizo la vacuna',
-    //         'alert-type' => 'success',
-    //     ]);
-    // }
-
-    // /**
-    //  * Remove the specified resource from storage.
-    //  *
-    //  * @param  int  $id
-    //  * @return \Illuminate\Http\Response
-    //  */
-    // public function destroy($id)
-    // {
-    //     try {
-    //         DB::beginTransaction();
-
-    //         Recurso::findOrFail($id)->delete();
-    //         RecursoCampo::where('recurso_id', '=', $id)->delete();
-
-    //         DB::commit();
-    //     } catch (Exception $ex) {
-    //         Log::debug($ex->getMessage() . ' - ' . $ex->getLine() . ' - ' . $ex->getFile());
-    //         DB::rollBack();
-    //         return redirect()->route('vacunacion.index')->with([
-    //             'message'    => 'Error del sistema: Por favor comunicarse con el administrador',
-    //             'alert-type' => 'error',
-    //         ]);
-    //     }
-    //     return redirect()->route('vacunacion.index')->with([
-    //         'message'    => 'Se Elimino la vacuna',
-    //         'alert-type' => 'success',
-    //     ]);
-    // }
-
-    // /**
-    //  * Devuelve los tipos de aplicacion
-    //  *
-    //  * @param $string $term dato de entrada para busqueda.
-    //  * @param $int $page pagina de busqueda.
-    //  *
-    //  * @return array
-    //  */
-    // public function selectTipoAplicacion(Request $request)
-    // {
-    //     $term = trim($request->term) ?? '';
-    //     $page = $request->page ?? '1';
-
-    //     $um = ViaAplicacion::where('nombre', 'LIKE', '%' . $term . '%')
-    //         ->orWhere('abreviatura', 'LIKE', '%' . $term . '%')
-    //         ->select(
-    //             'id',
-    //             'nombre as text'
-    //         )
-    //         ->paginate(10);
-
-    //     $morePages = ($page * $um->perPage()) < $um->total();
-    //     $data  = [
-    //         'incomplete_results' => false,
-    //         'more' => $morePages,
-    //         'total_count' => $um->total(),
-    //         'results' => $um
-    //     ];
-
-    //     return Response::json($data, 200, [], JSON_PRETTY_PRINT);
-    // }
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy($id)
+    {
+        try {
+            DB::beginTransaction();
+            DB::commit();
+        } catch (Exception $ex) {
+            Log::debug($ex->getMessage() . ' - ' . $ex->getLine() . ' - ' . $ex->getFile());
+            DB::rollBack();
+            return redirect()->route('examen.index')->with([
+                'message'    => 'Error del sistema: Por favor comunicarse con el administrador',
+                'alert-type' => 'error',
+            ]);
+        }
+        return redirect()->route('examen.index')->with([
+            'message'    => 'Examen anulado',
+            'alert-type' => 'success',
+        ]);
+    }
 }

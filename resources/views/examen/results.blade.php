@@ -26,7 +26,7 @@
                                 <th scope="col">Puesto</th>
                                 <th class="col">Estudiante</th>
                                 <th scope="col">Nota</th>
-                                <th scope="col">Tiempo</th>
+                                <th scope="col">Tiempo (seg)</th>
                             </tr>
                         </thead>
                         <tbody>

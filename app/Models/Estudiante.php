@@ -19,7 +19,9 @@ class Estudiante extends Model
      */
     protected $fillable = [
         'codigo_estudiante',
-        'usuario_id'
+        'usuario_id',
+        'grupo_id',
+        'estado'
     ];
 
     /**
@@ -33,11 +35,20 @@ class Estudiante extends Model
     ];
 
     /**
-     * Relacion con el modelo PreguntaSimulacion.
-     * @return mixed \App\Models\Database\PreguntaSimulacion
+     * Relacion con el modelo User.
+     * @return mixed \App\Models\User
      */
     public function user()
     {
         return $this->belongsTo(User::class, 'usuario_id', 'id');
+    }
+
+    /**
+     * Relacion con el modelo Grupo.
+     * @return mixed \App\Models\Grupo
+     */
+    public function grupo()
+    {
+        return $this->belongsTo(Grupo::class, 'grupo_id', 'id');
     }
 }

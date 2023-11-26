@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use TCG\Voyager\Facades\Voyager;
@@ -16,7 +17,7 @@ class VoyagerUserController extends VoyagerBaseController
         if (!$dataType && app('VoyagerGuard') == 'web') {
             $route = route('voyager.users.edit', Auth::user()->getKey());
         } elseif ($dataType) {
-            $route = route('voyager.'.$dataType->slug.'.edit', Auth::user()->getKey());
+            $route = route('voyager.' . $dataType->slug . '.edit', Auth::user()->getKey());
         }
 
         return Voyager::view('voyager::profile', compact('route'));

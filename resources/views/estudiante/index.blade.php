@@ -1,16 +1,20 @@
 @extends('voyager::master')
 
-@section('page_title', 'Usuario')
+@section('page_title', 'Estudiantes')
 
 @section('page_header')
 <div class="container-fluid">
     <h1 class="page-title">
-        <i class="voyager-person"></i>
-        Usuario
+        <i class="icon voyager-study"></i>
+        Listado de estudiantes
     </h1>
-    <a href="{{ route('usuario.create') }}" class="btn btn-success">
+    @if ($role->contains(function ($valor, $clave) {
+    return in_array($valor['name'], ['admin', 'teacher']);
+    }))
+    <a href="{{ route('estudiantes.create') }}" class="btn btn-success">
         <i class="voyager-plus"></i> <span>Nuevo</span>
     </a>
+    @endif
 </div>
 @stop
 
@@ -24,33 +28,32 @@
                     <table class="table table-striped" id="dataTable">
                         <thead>
                             <tr>
+                                <th scope="col">Documento</th>
+                                <th scope="col">Codigo</th>
                                 <th scope="col">Nombre</th>
-                                <th scope="col">Calibre Aguja</th>
-                                <th scope="col">Vía Aplicación</th>
+                                <th scope="col">Apellido</th>
+                                <th scope="col">Correo</th>
+                                <th scope="col">Grupo</th>
+                                <th scope="col">Estado</th>
                                 <th scope="col">Acción</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($data as $d)
+                            @foreach ($estudiante as $estu)
                             <tr>
-                                <td>{{ $d->nombre }}</td>
-                                <td>{{ $d->tipo_aplicacion }}</td>
-                                <td>{{ $d->via_aplicacion }}</td>
+                                <td>{{ $estu->user->identification }}</td>
+                                <td>{{ $estu->codigo_estudiante }}</td>
+                                <td>{{ $estu->user->name }}</td>
+                                <td>{{ $estu->user->surname }}</td>
+                                <td>{{ $estu->user->email }}</td>
+                                <td>{{ $estu->grupo->nombre }}</td>
+                                <td>{{ $estu->estado == 'i' ? 'Inactivo' : 'Activo'}}</td>
                                 <td>
                                     <div class="actions">
-                                        <div>
-                                            <a href="{{ route('vacunacion.edit', $d->id) }}" class="btn btn-sm btn-primary pull-right edit">
-                                                <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
-                                                <span class="hidden-xs hidden-sm">Editar</span>
-                                            </a>
-                                        </div>
-                                        <div>
-                                            <form action="{{ route('vacunacion.destroy', $d->id) }}" id="delete{{ $d->id }}" method="POST">
-                                                @csrf
-                                                {{ method_field('DELETE') }}
-                                                <input type="submit" value="Eliminar" class="btn btn-sm btn-danger" onclick="verificar('{{$d->id}}')">
-                                            </form>
-                                        </div>
+                                        <a href="{{ route('estudiantes.edit', $estu->id) }}" class="btn btn-sm btn-primary pull-right edit">
+                                            <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                                            <span class="hidden-xs hidden-sm">Editar</span>
+                                        </a>
                                     </div>
                                 </td>
                             </tr>
@@ -66,7 +69,7 @@
 
 @section('css')
 <style>
-    #dataTable .actions div a.btn {
+    #dataTable .actions a.btn {
         font-size: 12px;
         padding: 5px 10px;
     }
@@ -95,12 +98,12 @@
         }
     });
 
-    function verificar(id) {
+    function verificarSuspender(id) {
         event.preventDefault();
         event.stopPropagation();
         Swal.fire({
-                title: '¿Deseas borrar el registro?',
-                text: 'El registro de Usuario se borrara del sistema',
+                title: '¿Deseas supender al estudiante',
+                text: 'El perfil del estudiante no tendrá acceso.',
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#3c8dbc',
