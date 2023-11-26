@@ -6,6 +6,7 @@ use App\Http\Controllers\Simulacion\SimulacionController;
 use App\Http\Controllers\Simulacion\VacunacionController;
 use App\Http\Controllers\Simulacion\ExamenController;
 use App\Http\Controllers\Usuario\EstudianteController;
+use App\Http\Controllers\Usuario\ProfesorController;
 use App\Http\Controllers\Usuario\UsuarioController;
 use Illuminate\Support\Facades\Route;
 use TCG\Voyager\Facades\Voyager;
@@ -26,6 +27,10 @@ use TCG\Voyager\Facades\Voyager;
 // });
 
 Route::middleware(['auth'])->group(function () {
+    Route::middleware(['checkRole:admin'])->group(function () {
+        Route::resource('profesores', ProfesorController::class);
+    });
+
     Route::middleware(['checkRole:admin,teacher'])->group(function () {
         Route::post('examen/finish/{id}', [ExamenController::class, 'finish'])->name('examen.finish');
         Route::post('examen/state/{id}', [ExamenController::class, 'state'])->name('examen.state');

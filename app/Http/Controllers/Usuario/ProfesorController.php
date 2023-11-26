@@ -8,8 +8,11 @@ use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\EstudianteEditRequest;
 use App\Http\Requests\EstudianteRequest;
+use App\Http\Requests\ProfesorEditRequest;
+use App\Http\Requests\ProfesorRequest;
 use App\Models\Estudiante;
 use App\Models\Grupo;
+use App\Models\Profesor;
 use App\Models\TipoDocumento;
 use App\Models\User;
 use App\Repositories\Simulacion\ExamenRepository;
@@ -19,9 +22,9 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 
 /**
- * Controlador Maneja Lógica de Estudiante
+ * Controlador Maneja Lógica de Profesor
  *
- * Controlador que maneja la lógica de Estudiante.
+ * Controlador que maneja la lógica de Profesor.
  *
  * @package    Controllers
  * @subpackage \Usuario
@@ -30,7 +33,7 @@ use Illuminate\Support\Facades\Auth;
  * @version    v1.0
  */
 
-class EstudianteController extends Controller
+class ProfesorController extends Controller
 {
     /**
      * Objeto usuarioRepository.
@@ -40,22 +43,14 @@ class EstudianteController extends Controller
     private $usuarioRepository;
 
     /**
-     * Objeto estudianteRepository.
-     *
-     * @var object
-     */
-    private $estudianteRepository;
-
-    /**
      * Constructor de la clase.
      *
      * @access public
      * @param examenRepository $examenRepository
      */
-    public function __construct(UsuarioRepository $usuarioRepository, EstudianteRepository $estudianteRepository)
+    public function __construct(UsuarioRepository $usuarioRepository)
     {
         $this->usuarioRepository = $usuarioRepository;
-        $this->estudianteRepository = $estudianteRepository;
     }
 
     /**
@@ -67,8 +62,8 @@ class EstudianteController extends Controller
     {
         $usuario = Auth::user()->id;
         $role = User::find($usuario)->roles;
-        $estudiante = Estudiante::all();
-        return view('estudiante.index', compact('estudiante', 'role'));
+        $profesores = Profesor::all();
+        return view('profesor.index', compact('profesores', 'role'));
     }
 
     /**
@@ -83,9 +78,8 @@ class EstudianteController extends Controller
         $role = User::find($usuario)->roles;
 
         $tDocumento = TipoDocumento::all();
-        $grupo = Grupo::all();
 
-        return view('estudiante.create', compact('role', 'tDocumento', 'grupo'));
+        return view('profesor.create', compact('role', 'tDocumento'));
     }
 
     /**
@@ -94,7 +88,7 @@ class EstudianteController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(EstudianteRequest $request)
+    public function store(ProfesorRequest $request)
     {
         try {
             DB::beginTransaction();
@@ -105,13 +99,11 @@ class EstudianteController extends Controller
                 'name' => $request->name,
                 'surname' => $request->surname,
                 'email' => $request->email,
-                'password' => bcrypt($request->passw)
+                'password' => bcrypt($request->passw),
             ]);
 
-            Estudiante::create([
-                'codigo_estudiante' => $request->codigoEstudiante,
+            Profesor::create([
                 'usuario_id' => $uUser->id,
-                'grupo_id' => $request->grupo,
                 'estado' => $request->estado
             ]);
 
@@ -119,12 +111,12 @@ class EstudianteController extends Controller
         } catch (Exception $ex) {
             Log::debug($ex->getMessage() . ' - ' . $ex->getLine() . ' - ' . $ex->getFile());
             DB::rollBack();
-            return redirect()->route('estudiantes.index')->with([
+            return redirect()->route('profesores.index')->with([
                 'message'    => 'Error del sistema: Por favor comunicarse con el administrador',
                 'alert-type' => 'error',
             ]);
         }
-        return redirect()->route('estudiantes.index')->with([
+        return redirect()->route('profesores.index')->with([
             'message'    => 'Se registro el estudiante',
             'alert-type' => 'success',
         ]);
@@ -138,16 +130,13 @@ class EstudianteController extends Controller
      */
     public function edit($id)
     {
-        // $usuario = Auth::user()->id;
-        $estu = Estudiante::find($id);
-        $uUser = User::find($estu->usuario_id);
+        $prof = Profesor::find($id);
+        $uUser = User::find($prof->usuario_id);
 
-        $role = User::find($estu->usuario_id)->roles;
-
+        $role = User::find($prof->usuario_id)->roles;
         $tDocumento = TipoDocumento::all();
-        $grupo = Grupo::all();
 
-        return view('estudiante.edit', compact('role', 'tDocumento', 'grupo', 'uUser', 'estu'));
+        return view('profesor.edit', compact('role', 'tDocumento', 'uUser', 'prof'));
     }
 
     /**
@@ -157,13 +146,13 @@ class EstudianteController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(EstudianteEditRequest $request, $id)
+    public function update(ProfesorEditRequest $request, $id)
     {
         try {
             DB::beginTransaction();
 
-            $estu = Estudiante::find($id);
-            $user = User::find($estu->usuario_id);
+            $prof = Profesor::find($id);
+            $user = User::find($prof->usuario_id);
 
             $updateData = [
                 'tipo_documento' => $request->tidentification,
@@ -179,9 +168,7 @@ class EstudianteController extends Controller
             }
 
             $user->update($updateData);
-            $estu->update([
-                'codigo_estudiante' => $request->codigoEstudiante,
-                'grupo_id' => $request->grupo,
+            $prof->update([
                 'estado' => $request->estado
             ]);
 
@@ -189,12 +176,12 @@ class EstudianteController extends Controller
         } catch (Exception $ex) {
             Log::debug($ex->getMessage() . ' - ' . $ex->getLine() . ' - ' . $ex->getFile());
             DB::rollBack();
-            return redirect()->route('estudiantes.index')->with([
+            return redirect()->route('profesores.index')->with([
                 'message'    => 'Error del sistema: Por favor comunicarse con el administrador',
                 'alert-type' => 'error',
             ]);
         }
-        return redirect()->route('estudiantes.index')->with([
+        return redirect()->route('profesores.index')->with([
             'message'    => 'Se Actualizo el estudiante',
             'alert-type' => 'success',
         ]);

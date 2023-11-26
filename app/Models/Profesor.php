@@ -20,7 +20,8 @@ class Profesor extends Model
      * @var array
      */
     protected $fillable = [
-        'usuario_id'
+        'usuario_id',
+        'estado'
     ];
 
     /**
