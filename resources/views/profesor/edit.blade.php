@@ -5,7 +5,7 @@
 @section('page_header')
 <div class="container-fluid">
     <h1 class="page-title">
-        <i class="icon voyager-study"></i>
+        <i class="icon voyager-person"></i>
         Editar Profesor
     </h1>
 </div>
