@@ -24,8 +24,8 @@ class Examen extends Model
         'fecha_final',
         'estado',
         'profesor_id',
-        'duracion',
-        'n_pregunta'
+        'n_pregunta',
+        'grupo'
     ];
 
     /**

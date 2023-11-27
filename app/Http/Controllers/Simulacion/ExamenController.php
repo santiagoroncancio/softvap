@@ -12,6 +12,7 @@ use App\Models\Estudiante;
 use App\Models\Examen;
 use App\Models\ExamenEstudiante;
 use App\Models\ExamenPregunta;
+use App\Models\Grupo;
 use App\Models\PreguntaSimulacion;
 use App\Models\Profesor;
 use App\Models\RespuestaSimulacion;
@@ -76,7 +77,13 @@ class ExamenController extends Controller
         if ($role->contains(function ($valor, $clave) {
             return in_array($valor['name'], ['student']);
         })) {
+            $estu = Estudiante::where('usuario_id', '=', $usuario)
+                ->first();
             $examen = Examen::where('estado', '<>', 'c')
+                ->where(function ($query) use ($estu) {
+                    $query->where('grupo', $estu->grupo_id)
+                        ->orWhere('grupo', 0);
+                })
                 ->get();
         }
 
@@ -98,6 +105,7 @@ class ExamenController extends Controller
     {
         $usuario = Auth::user()->id;
         $role = User::find($usuario)->roles;
+        $grupo = Grupo::all();
 
         $profesor = Profesor::where('usuario_id', '=', $usuario);
         if ($role->contains(function ($valor, $clave) {
@@ -107,7 +115,7 @@ class ExamenController extends Controller
         }
 
         $pregunta = PreguntaSimulacion::all();
-        return view('examen.create', compact('profesor', 'pregunta', 'role'));
+        return view('examen.create', compact('profesor', 'pregunta', 'role', 'grupo'));
     }
 
     /**
@@ -131,7 +139,7 @@ class ExamenController extends Controller
                 'fecha_final' => $fechaf,
                 'estado' => $request->estado,
                 'profesor_id' => $request->profesor,
-                'duracion' => $request->duracion,
+                'grupo' => $request->grupo,
                 'n_pregunta' => $request->n_pregunta
             ]);
 

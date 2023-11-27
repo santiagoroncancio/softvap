@@ -69,11 +69,17 @@
                                     </div>
                                 </div>
                                 <div class="col-md-4">
-                                    <div class="form-group {{ $errors->has('duracion') ? 'has-error' : '' }}">
-                                        <label for="duracion" class="is-required">Duración (Minutos)</label>
-                                        <input type="number" min="0" name="duracion" id="duracion" value="{{ old('duracion', 0) }}" required class="form-control">
-                                        @if ($errors->has('duracion'))
-                                        <span class="form-validation">{{ $errors->first('duracion') }}</span>
+                                    <div class="form-group {{ $errors->has('grupo') ? 'has-error' : '' }}">
+                                        <label for="grupo" class="is-required">Grupo</label>
+                                        <select name="grupo" id="grupo" required class="form-control select2">
+                                            <option value="" selected disabled hidden>Seleccione una Opción</option>
+                                            <option value="0">Todos</option>
+                                            @foreach ($grupo as $grup)
+                                            <option value="{{$grup->id}}" @if(old('grupo')==$grup->id) selected @endif>{{$grup->nombre}} - {{$grup->annio}}</option>
+                                            @endforeach
+                                        </select>
+                                        @if ($errors->has('grupo'))
+                                        <span class="form-validation">{{ $errors->first('grupo') }}</span>
                                         @endif
                                     </div>
                                 </div>
