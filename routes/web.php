@@ -35,6 +35,9 @@ Route::middleware(['auth'])->group(function () {
         Route::post('examen/finish/{id}', [ExamenController::class, 'finish'])->name('examen.finish');
         Route::post('examen/state/{id}', [ExamenController::class, 'state'])->name('examen.state');
 
+        Route::get('estudiantes/masivos', [EstudianteController::class, 'getMasivo'])->name('estudiantes.masivo');
+        Route::post('estudiantes/masivos', [EstudianteController::class, 'storeMasivo'])->name('estudiantes.masivo');
+
         Route::resource('vacunacion', VacunacionController::class);
         Route::resource('preguntas', PreguntasController::class);
         Route::resource('usuarios', UsuarioController::class);

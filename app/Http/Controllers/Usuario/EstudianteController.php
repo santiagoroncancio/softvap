@@ -17,6 +17,7 @@ use App\Repositories\Simulacion\ExamenRepository;
 use App\Repositories\Usuario\EstudianteRepository;
 use App\Repositories\Usuario\UsuarioRepository;
 use Carbon\Carbon;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 /**
@@ -203,6 +204,73 @@ class EstudianteController extends Controller
         }
         return redirect()->route('estudiantes.index')->with([
             'message'    => 'Se Actualizo el estudiante',
+            'alert-type' => 'success',
+        ]);
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function getMasivo()
+    {
+        $usuario = Auth::user()->id;
+        $role = User::find($usuario)->roles;
+
+        $tDocumento = TipoDocumento::all();
+        $grupo = Grupo::all();
+
+        return view('estudiante.createMany', compact('role', 'tDocumento', 'grupo'));
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function storeMasivo(Request $request)
+    {
+        try {
+            DB::beginTransaction();
+
+            foreach ($request->email as $clave => $email) {
+                $uUser = User::create([
+                    'tipo_documento' => $request->tidentification[$clave],
+                    'identification' => $request->identification[$clave],
+                    'name' => $request->name[$clave],
+                    'surname' => $request->surname[$clave],
+                    'email' => $email,
+                    'password' => bcrypt($request->identification[$clave]),
+                    'avatar' => 'users/default.png'
+                ]);
+
+                UserRole::create([
+                    'user_id' => $uUser->id,
+                    'role_id' => 2
+                ]);
+
+                Estudiante::create([
+                    'codigo_estudiante' => $request->codigo[$clave],
+                    'usuario_id' => $uUser->id,
+                    'grupo_id' => $request->grupo[$clave],
+                    'estado' => 'a'
+                ]);
+            }
+
+            DB::commit();
+        } catch (Exception $ex) {
+            Log::debug($ex->getMessage() . ' - ' . $ex->getLine() . ' - ' . $ex->getFile());
+            DB::rollBack();
+            return redirect()->route('estudiantes.index')->with([
+                'message'    => 'Error del sistema: Por favor comunicarse con el administrador',
+                'alert-type' => 'error',
+            ]);
+        }
+        return redirect()->route('estudiantes.index')->with([
+            'message'    => 'Los estudiantes han sido registrados exitosamente.',
             'alert-type' => 'success',
         ]);
     }

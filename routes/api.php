@@ -21,7 +21,9 @@ use Illuminate\Support\Facades\Route;
 Route::get('datatable/preguntas', [PreguntasController::class, 'datatableIndex']);
 
 // Select
-Route::get('select/tipo-documento', [UsuarioController::class, 'selectIdentification']);
+Route::get('select/tipo-documento', [UsuarioController::class, 'selectTipoDocumento']);
+Route::get('select/grupo', [UsuarioController::class, 'selectGrupo']);
+
 Route::get('select/escenarios', [PreguntasController::class, 'selectEscenario']);
 Route::get('select/niveles', [PreguntasController::class, 'selectNivel']);
 Route::get('select/categorias', [PreguntasController::class, 'selectCategoria']);

@@ -14,6 +14,9 @@
     <a href="{{ route('estudiantes.create') }}" class="btn btn-success">
         <i class="voyager-plus"></i> <span>Nuevo</span>
     </a>
+    <a href="{{ route('estudiantes.masivo') }}" class="btn btn-primary">
+        <i class="voyager-group "></i> <span>Ingreso Masivo</span>
+    </a>
     @endif
 </div>
 @stop
