@@ -15,6 +15,7 @@ use App\Models\Grupo;
 use App\Models\Profesor;
 use App\Models\TipoDocumento;
 use App\Models\User;
+use App\Models\UserRole;
 use App\Repositories\Simulacion\ExamenRepository;
 use App\Repositories\Usuario\EstudianteRepository;
 use App\Repositories\Usuario\UsuarioRepository;
@@ -100,6 +101,12 @@ class ProfesorController extends Controller
                 'surname' => $request->surname,
                 'email' => $request->email,
                 'password' => bcrypt($request->passw),
+                'avatar' => 'users/default.png'
+            ]);
+
+            UserRole::create([
+                'user_id' => $uUser->id,
+                'role_id' => 6
             ]);
 
             Profesor::create([
