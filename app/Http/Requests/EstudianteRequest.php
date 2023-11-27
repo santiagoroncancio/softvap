@@ -26,12 +26,12 @@ class EstudianteRequest extends FormRequest
     {
         return [
             'tidentification' => 'required',
-            'identification' => 'required',
+            'identification' => 'required|unique:users,identification',
             'name' => 'required',
             'surname' => 'required',
-            'email' => 'required',
+            'email' => 'required|unique:users,email',
             'passw' => 'required',
-            'codigoEstudiante' => 'required',
+            'codigoEstudiante' => 'required|unique:estudiantes,codigo_estudiante',
             'grupo' => 'required'
         ];
     }
@@ -39,8 +39,8 @@ class EstudianteRequest extends FormRequest
     public function messages()
     {
         return [
-            'required'  => 'El campo :attribute es requerido'
-
+            'required'  => 'El campo :attribute es requerido',
+            'unique' => 'El campo :attribute debe ser unico.'
         ];
     }
 
