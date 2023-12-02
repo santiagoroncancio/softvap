@@ -2,14 +2,24 @@
 
 namespace App\Http\Controllers\Estadistica;
 
+use App\Exports\Estadistica\EstadisticaParticipacionExport;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Jobs\Estadistica\JobEstadistica;
 use App\Models\Estudiante;
 use App\Models\PreguntaSimulacion;
 use App\Models\Simulacion;
 use App\Models\User;
 use App\Repositories\Simulacion\SimulacionRepository;
+use Exception;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Response as FacadesResponse;
+use Illuminate\Support\Facades\Storage;
+use Maatwebsite\Excel\Facades\Excel;
+use Ramsey\Uuid\Uuid;
 
 /**
  * Controlador Maneja Lógica de Estadistica.
@@ -148,6 +158,45 @@ class EstadisticaController extends Controller
 
         return view('estadistica.preguntaGrafPie', compact('user', 'role', 'pregu', 'resCo', 'resDig', 'aprobado'));
     }
+
+
+    /**
+     * Genera reporte de Predios Dia
+     *
+     * @access public
+     * @param \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\Response
+     */
+    public function export(Request $request)
+    {
+        try {
+            // Llamamos al jobs.
+            // JobEstadistica::dispatch($request->all());
+
+            $uuid4 = Uuid::uuid4();
+            $documento = $uuid4->toString() . '.xlsx';
+            $url = Storage::disk('public')->url('excel/' . $documento);
+            Excel::store(new EstadisticaParticipacionExport($request->all()), 'excel/' . $documento, 'public');
+        } catch (Exception $ex) {
+            Log::debug($ex->getMessage() . ' - ' . $ex->getLine() . ' - ' . $ex->getFile());
+            return redirect()->route('estadistica.index')->with([
+                'message'    => 'Error del sistema: Por favor comunicarse con el administrador',
+                'alert-type' => 'error',
+            ]);
+        }
+
+        $file = public_path() . "/storage/excel/" . $documento;
+        $headers = array(
+            'Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', // Tipo de contenido para Excel
+        );
+
+        return FacadesResponse::download($file, $documento, $headers);
+        // return redirect()->route('estadistica.index')->with([
+        //     'message'    => 'Exportación exitosa.',
+        //     'alert-type' => 'success',
+        // ]);
+    }
+
 
     /**
      * Show the form for creating a new resource.

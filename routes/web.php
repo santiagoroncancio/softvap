@@ -42,6 +42,8 @@ Route::middleware(['auth'])->group(function () {
         Route::resource('preguntas', PreguntasController::class);
         Route::resource('usuarios', UsuarioController::class);
         Route::resource('estudiantes', EstudianteController::class);
+
+        Route::get('estadistica/export', [EstadisticaController::class, 'export'])->name('estadistica.export');
     });
 
     // Rutas de examen

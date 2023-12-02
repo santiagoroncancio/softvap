@@ -7,6 +7,15 @@
     <h1 class="page-title">
         <i class="voyager-bar-chart"></i> Estadística
     </h1>
+    @if ($role->contains(function ($valor, $clave) {
+    return in_array($valor['name'], ['admin', 'teacher']);
+    }))
+    <div class="float-right">
+        <a href="{{ route('estadistica.export') }}" class="btn btn-primary" download="Reporte.xlsx">
+            <i class="voyager-external"></i> <span>Exportar Excel</span>
+        </a>
+    </div>
+    @endif
 </div>
 @stop
 

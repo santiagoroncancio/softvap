@@ -132,4 +132,44 @@ class SimulacionRepository
         $vac = Recurso::find($id)->campos->where('campo_id', '=', 3)->first();
         return $this->nombreVacuna($vac->recurso_id) . ' - ' . $this->viaAplicacion($vac->valor);
     }
+
+    /**
+     * Mostrar una lista del reporte de predios
+     *
+     * @access public
+     * @param int $predial_vigencia
+     * @param int $predial_predio
+     * @param int $company
+     * @return \Illuminate\Database\Query\Builder
+     */
+    public function getReportsEstadistica($year = 0)
+    {
+
+        if ($year == 0) {
+            $year = date('Y');
+        }
+
+        $sql = "SELECT
+            est.codigo_estudiante,
+            CONCAT(u.name, ' ', u.surname) as nombre_estudiante,
+            gr.nombre as grupo_estudiante,
+            esc.nombre as escenario,
+            pre.pregunta,
+            niv.nombre as dificultad,
+            simu.created_at as fecha,
+            simu.tiempo,
+            simu.nota
+            FROM simulaciones simu
+            INNER JOIN estudiantes est ON est.id = simu.estudiante_id
+            INNER JOIN preguntas_simulaciones pre ON pre.id = simu.pregunta_id
+            INNER JOIN escenarios_simulaciones esc ON esc.id = pre.escenario_id
+            INNER JOIN users u ON u.id = est.usuario_id
+            INNER JOIN grupos gr ON gr.id = est.grupo_id
+            INNER JOIN niveles niv ON niv.id = pre.nivel_id
+            WHERE YEAR(simu.created_at) = :year;";
+
+        return DB::select($sql, [
+            "year" => $year
+        ]);
+    }
 }
