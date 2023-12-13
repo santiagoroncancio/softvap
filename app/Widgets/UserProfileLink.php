@@ -2,6 +2,7 @@
 
 namespace App\Widgets;
 
+use App\Models\Estudiante;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
@@ -27,7 +28,7 @@ class UserProfileLink extends AbstractWidget
         $role = User::find($user->id)->roles;
 
         if ($role->contains(function ($valor, $clave) {
-            return in_array($valor['name'], ['admin', 'teacher']);
+            return in_array($valor['name'], ['admin']);
         })) {
             $count = Voyager::model('User')->count();
             $string = trans_choice('voyager::dimmer.user', $count);
@@ -39,6 +40,22 @@ class UserProfileLink extends AbstractWidget
                 'button' => [
                     'text' => __('voyager::dimmer.user_link_text'),
                     'link' => route('voyager.users.index'),
+                ],
+                'image' => '/img/student.jpg',
+            ]));
+        } elseif ($role->contains(function ($valor, $clave) {
+            return in_array($valor['name'], ['teacher']);
+        })) {
+            $count = Estudiante::all()->count();
+            $string = trans_choice('voyager::dimmer.user', $count);
+
+            return view('voyager::dimmer', array_merge($this->config, [
+                'icon'   => 'voyager-group',
+                'title'  => "{$count} Estudiantes",
+                'text'   => __('voyager::dimmer.user_text', ['count' => $count, 'string' => Str::lower($string)]),
+                'button' => [
+                    'text' => __('voyager::dimmer.user_link_text'),
+                    'link' => route('estudiantes.index'),
                 ],
                 'image' => '/img/student.jpg',
             ]));
