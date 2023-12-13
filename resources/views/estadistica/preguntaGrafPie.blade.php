@@ -63,27 +63,28 @@
 <script src="{{ asset('js/chart.js') }}" defer></script>
 
 <script type="text/javascript">
-    $(document).ready(function() {
-        let fecha = [];
-        let pregunta = [];
-        let nota = [];
+    let fecha = [];
+    let pregunta = [];
+    let nota = [];
 
-        let TableResult = $('#dataTable').DataTable({
-            destroy: true,
-            pageLength: 10,
-            lengthChange: true,
-            paging: true,
-            searching: true,
-            ordering: true,
-            info: true,
-            responsive: true,
-            order: [
-                [0, 'desc']
-            ],
-            language: {
-                url: '//cdn.datatables.net/plug-ins/1.13.4/i18n/es-ES.json',
-            }
-        });
+    let TableResult = $('#dataTable').DataTable({
+        destroy: true,
+        pageLength: 10,
+        lengthChange: true,
+        paging: true,
+        searching: true,
+        ordering: true,
+        info: true,
+        responsive: true,
+        order: [
+            [0, 'desc']
+        ],
+        language: {
+            url: '//cdn.datatables.net/plug-ins/1.13.4/i18n/es-ES.json',
+        }
+    });
+
+    $(document).ready(function() {
 
         const gPregunta = new Chart(
             document.getElementById('gPregunta'), {

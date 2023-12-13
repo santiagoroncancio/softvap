@@ -54,20 +54,18 @@
 
 @section('javascript')
 <script type="text/javascript">
-    $(document).ready(function() {
-        let TableResult = $('#dataTable').DataTable({
-            destroy: true,
-            pageLength: 10,
-            lengthChange: true,
-            paging: true,
-            searching: true,
-            ordering: true,
-            info: true,
-            responsive: true,
-            language: {
-                url: '//cdn.datatables.net/plug-ins/1.13.4/i18n/es-ES.json',
-            }
-        });
+    let QuestionTable = $('#dataTable').DataTable({
+        destroy: true,
+        pageLength: 10,
+        lengthChange: false,
+        paging: true,
+        searching: true,
+        ordering: true,
+        info: true,
+        responsive: true,
+        language: {
+            url: '//cdn.datatables.net/plug-ins/1.13.4/i18n/es-ES.json',
+        }
     });
 </script>
 @stop
