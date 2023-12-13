@@ -107,7 +107,7 @@ class ExamenController extends Controller
         $role = User::find($usuario)->roles;
         $grupo = Grupo::all();
 
-        $profesor = Profesor::where('usuario_id', '=', $usuario);
+        $profesor = Profesor::where('usuario_id', '=', $usuario)->first();
         if ($role->contains(function ($valor, $clave) {
             return in_array($valor['name'], ['admin']);
         })) {

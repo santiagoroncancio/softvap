@@ -128,7 +128,7 @@
                                 @elseif ($role->contains(function ($valor, $clave) {
                                 return in_array($valor['name'], ['teacher']);
                                 }))
-                                <input type="hidden" name="profesor" value="{{ $profesor }}">
+                                <input type="hidden" name="profesor" value="{{ $profesor->id }}">
                                 @endif
                             </div>
                         </fieldset>
