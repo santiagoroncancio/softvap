@@ -142,7 +142,6 @@ class EstadisticaParticipacionExport implements
             $data->fecha,
             $data->tiempo,
             $data->nota,
-            $data->escenario,
         ];
     }
 

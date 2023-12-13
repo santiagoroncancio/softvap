@@ -39,7 +39,7 @@
                                 <tbody>
                                     <tr>
                                         <td>
-                                            <select name="tidentification[]" required class="form-control tdocumento" style="width: 100%;"></select>
+                                            <select id="idid" name="tidentification[]" required class="form-control tdocumento" style="width: 100%;"></select>
                                         </td>
                                         <td>
                                             <input type="text" name="identification[]" required class="form-control" style="width: 100%;">
@@ -57,10 +57,10 @@
                                             <input type="email" name="email[]" required class="form-control" style="width: 100%;">
                                         </td>
                                         <td>
-                                            <select name="grupo[]" required class="form-control grupo" style="width: 100%;"></select>
+                                            <select id="grupoid" name="grupo[]" required class="form-control grupo" style="width: 100%;"></select>
                                         </td>
                                         <td>
-                                            <button type="button" class="btn btn-danger">Eliminar</button>
+                                            <button type="button" class="btn btn-danger eliminarClean">Eliminar</button>
                                         </td>
                                     </tr>
                                 </tbody>
@@ -241,31 +241,57 @@
         });
     });
 
+    // Evento al hacer clic en el botón de Limpiar dentro de la tabla
+    $('#dataTable').on('click', '.eliminarClean', function() {
+        var fila = $(this).closest('tr');
+        fila.find('input').val('');
+
+        $('#idid').val([]).trigger('change');
+        $('#grupoid').val([]).trigger('change');
+    });
+
     // Evento al hacer clic en el botón de eliminar dentro de la tabla
     $('#dataTable').on('click', '.eliminar', function() {
         var fila = $(this).closest('tr');
         listEstudiantes.row(fila).remove().draw(false);
     });
 
+    function validarFormulario() {
+        var formulario = document.getElementById("formEstudiante");
+        var elementos = formulario.elements;
+
+        for (var i = 0; i < elementos.length; i++) {
+            if (elementos[i].type !== "submit" && elementos[i].type !== "button") {
+                if (elementos[i].value === "" && elementos[i].required) {
+                    alert("Por favor, completa todos los campos.");
+                    return false; // Evita que el formulario se envíe si falta algún campo
+                }
+            }
+        }
+        return true; // Envía el formulario
+    }
+
     $('#btnSave').on('click', function() {
         event.preventDefault();
         event.stopPropagation();
 
-        Swal.fire({
-                title: '¿Deseas guardar el listado de estudiante?',
-                text: 'Asegúrese de que toda la información este correcta.',
-                icon: 'question',
-                showCancelButton: true,
-                confirmButtonColor: '#3c8dbc',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Confirmar',
-                cancelButtonText: 'Cancelar'
-            })
-            .then((result) => {
-                if (result.isConfirmed) {
-                    $('#formEstudiante').submit();
-                }
-            });
+        if (validarFormulario()) {
+            Swal.fire({
+                    title: '¿Deseas guardar el listado de estudiante?',
+                    text: 'Asegúrese de que toda la información este correcta.',
+                    icon: 'question',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3c8dbc',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Confirmar',
+                    cancelButtonText: 'Cancelar'
+                })
+                .then((result) => {
+                    if (result.isConfirmed) {
+                        $('#formEstudiante').submit();
+                    }
+                });
+        }
     });
 </script>
 @stop
