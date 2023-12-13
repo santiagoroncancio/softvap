@@ -31,7 +31,7 @@
                                 <th scope="col">Nombre</th>
                                 <th scope="col">Estado</th>
                                 <th scope="col">Profesor</th>
-                                <th scope="col">Duración (Minutos)</th>
+                                <th scope="col">Grupo</th>
                                 <th scope="col">N Preguntas</th>
                                 @if ($role->contains(function ($valor, $clave) {
                                 return in_array($valor['name'], ['admin', 'teacher']);
@@ -47,7 +47,7 @@
                                 <td>{{ $d->nombre }}</td>
                                 <td>{{ $d->tipoEstado->nombre }}</td>
                                 <td>{{ $d->profesor != null ? $d->profesor->user->getName() : '' }}</td>
-                                <td>{{ $d->duracion }}</td>
+                                <td>{{ $d->grupo == 0 ? "Todos" : $d->grupos->nombre }}</td>
                                 <td>{{ count($d->preguntas) }}</td>
                                 @if ($role->contains(function ($valor, $clave) {
                                 return in_array($valor['name'], ['admin', 'teacher']);

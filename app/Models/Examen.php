@@ -48,6 +48,15 @@ class Examen extends Model
     }
 
     /**
+     * Relacion con el modelo Grupo.
+     * @return mixed \App\Models\Database\Grupo
+     */
+    public function grupos()
+    {
+        return $this->belongsTo(Grupo::class, 'grupo');
+    }
+
+    /**
      * Relacion con el modelo preguntas.
      * @return mixed \App\Models\Database\preguntas
      */

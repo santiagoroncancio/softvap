@@ -213,13 +213,17 @@ class ExamenController extends Controller
     {
         $usuario = Auth::user()->id;
         $role = User::find($usuario)->roles;
+        $grupo = Grupo::all();
 
-        $profesor = Profesor::all();
-        if ($role->contains('name', 'teacher')) {
-            $profesor = Profesor::where('usuario_id', '=', $usuario);
+        $profesor = Profesor::where('usuario_id', '=', $usuario);
+        if ($role->contains(function ($valor, $clave) {
+            return in_array($valor['name'], ['admin']);
+        })) {
+            $profesor = Profesor::all();
         }
+
         $pregunta = PreguntaSimulacion::all();
-        return view('examen.create', compact('profesor', 'pregunta', 'role'));
+        return view('examen.create', compact('profesor', 'pregunta', 'role', 'grupo'));
     }
 
     /**
