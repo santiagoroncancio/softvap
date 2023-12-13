@@ -35,6 +35,7 @@ Este proyecto tiene como objetivo brindar una plataforma dedicada a la creación
     ```bash
     cp .env.example .env
     php artisan key:generate
+    php artisan storage:link
     # Configura las variables de entorno en el archivo .env
     ```
 
