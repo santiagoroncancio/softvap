@@ -187,7 +187,7 @@ return [
 
     'primary_color' => '#fb1f04', //Blue crayola
 
-    'show_dev_tips' => true, // Show development tip "How To Use:" in Menu and Settings
+    'show_dev_tips' => false, // Show development tip "How To Use:" in Menu and Settings
 
     // Here you can specify additional assets you would like to be included in the master.blade
     'additional_css' => [

@@ -9,7 +9,7 @@
         </div>
     </div>
     @include('voyager::dimmers')
-    <div class="analytics-container">
+    <div class="analytics-container" style="display: none;">
         <?php $google_analytics_client_id = Voyager::setting("admin.google_analytics_client_id"); ?>
         @if (isset($google_analytics_client_id) && !empty($google_analytics_client_id))
         {{-- Google Analytics Embed --}}
