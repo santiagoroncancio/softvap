@@ -2,7 +2,10 @@
 
 namespace App\Http\Requests;
 
+use App\Models\Estudiante;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Validation\Rule;
 
 class EstudianteEditRequest extends FormRequest
 {
@@ -24,13 +27,25 @@ class EstudianteEditRequest extends FormRequest
      */
     public function rules()
     {
+        $idEstudiante = $this->route('estudiante');
+        $user = Estudiante::find($idEstudiante);
+
         return [
             'tidentification' => 'required',
-            'identification' => 'required|unique:users,identification',
+            'identification' => [
+                'required',
+                Rule::unique('users', 'identification')->ignore($user->usuario_id)
+            ],
             'name' => 'required',
             'surname' => 'required',
-            'email' => 'required|unique:users,email',
-            'codigoEstudiante' => 'required|unique:estudiantes,codigo_estudiante',
+            'email' => [
+                'required',
+                Rule::unique('users', 'email')->ignore($user->usuario_id)
+            ],
+            'codigoEstudiante' => [
+                'required',
+                Rule::unique('estudiantes', 'codigo_estudiante')->ignore($idEstudiante)
+            ],
             'grupo' => 'required'
         ];
     }

@@ -2,7 +2,9 @@
 
 namespace App\Http\Requests;
 
+use App\Models\Profesor;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class ProfesorEditRequest extends FormRequest
 {
@@ -24,12 +26,21 @@ class ProfesorEditRequest extends FormRequest
      */
     public function rules()
     {
+        $idProfesor = $this->route('profesore');
+        $user = Profesor::find($idProfesor);
+        
         return [
             'tidentification' => 'required',
-            'identification' => 'required|unique:users,identification',
+            'identification' => [
+                'required',
+                Rule::unique('users', 'identification')->ignore($user->usuario_id),
+            ],
             'name' => 'required',
             'surname' => 'required',
-            'email' => 'required|unique:users,email',
+            'email' => [
+                'required',
+                Rule::unique('users', 'email')->ignore($idProfesor),
+            ],
         ];
     }
 
