@@ -77,9 +77,6 @@ class VoyagerUserController extends VoyagerBaseController
             }
         }
 
-        Log::debug("Santiagoi");
-
-
         Estudiante::where('usuario_id', $id)
         ->delete(); 
         
